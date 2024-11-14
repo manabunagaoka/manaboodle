@@ -1,17 +1,16 @@
 "use client";
 
 import { useState } from 'react';
-import { Menu, LogOut } from 'lucide-react'; // Add LogOut import
-import { useRouter } from 'next/navigation'; // Add this import
+import { Menu, LogOut } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Dashboard() {
-  const router = useRouter(); // Add this
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState('experiences');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Add logout function
   const handleLogout = () => {
-    router.push('/'); // This will redirect to the login page
+    router.push('/');
   };
 
   const tabs = [
@@ -71,4 +70,62 @@ export default function Dashboard() {
       {/* Mobile navigation menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden border-b border-gray-200">
-          <nav className="flex flex-c
+          <nav className="flex flex-col">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`${
+                  activeTab === tab.id
+                    ? 'bg-blue-50 text-blue-600'
+                    : 'text-gray-500'
+                } px-4 py-3 text-left hover:bg-gray-50`}
+              >
+                {tab.name}
+              </button>
+            ))}
+            {/* Logout button in mobile menu */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 px-4 py-3 text-left text-gray-500 hover:bg-gray-50"
+            >
+              <LogOut size={18} />
+              <span>Logout</span>
+            </button>
+          </nav>
+        </div>
+      )}
+
+      {/* Content area */}
+      <div className="p-4 md:p-8 max-w-4xl mx-auto">
+        {activeTab === 'experiences' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Experience Mapper</h2>
+            <p>Record and reflect on your journey</p>
+          </div>
+        )}
+        {activeTab === 'analysis' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Analysis</h2>
+            <p>Discover patterns in your experiences</p>
+          </div>
+        )}
+        {activeTab === 'connections' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Connections</h2>
+            <p>Connect with others on similar paths</p>
+          </div>
+        )}
+        {activeTab === 'vault' && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold">Vault</h2>
+            <p>Securely store your experiences</p>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+}
