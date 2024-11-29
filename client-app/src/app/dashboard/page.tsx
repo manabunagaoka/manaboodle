@@ -5,10 +5,14 @@ import {
   LogOut,
   Pill,
   Rocket, 
-  Settings
+  Settings,
+  Filter,
+  Search
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import TextEditor from '../components/TextEditor';
+import TimeFilters from '../components/TimeFilters';
+import StoryManagement from '../components/StoryManagement';
 
 interface MediaItem {
   type: 'image' | 'video' | 'audio';
@@ -22,11 +26,25 @@ interface Story {
   date: Date;
 }
 
+interface Filters {
+  startDate: string;
+  endDate: string;
+  contentType: string;
+  searchQuery: string;
+}
+
 export default function Dashboard() {
+  const [showFilters, setShowFilters] = useState(false);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('capsule');
   const [isWriting, setIsWriting] = useState(false);
   const [stories, setStories] = useState<Story[]>([]);
+  const [filters, setFilters] = useState<Filters>({
+    startDate: '',
+    endDate: '',
+    contentType: 'all',
+    searchQuery: ''
+  });
 
   const tabs = [
     { 
@@ -62,6 +80,35 @@ export default function Dashboard() {
     };
     setStories([newStory, ...stories]);
     setIsWriting(false);
+  };
+
+  const getFilteredStories = (stories: Story[]) => {
+    return stories.filter(story => {
+      // Date filter
+      if (filters.startDate && new Date(story.date) < new Date(filters.startDate)) {
+        return false;
+      }
+      if (filters.endDate && new Date(story.date) > new Date(filters.endDate)) {
+        return false;
+      }
+
+      // Content type filter
+      if (filters.contentType !== 'all') {
+        if (filters.contentType === 'media' && (!story.media || story.media.length === 0)) {
+          return false;
+        }
+        if (filters.contentType === 'text' && story.media && story.media.length > 0) {
+          return false;
+        }
+      }
+
+      // Search query filter
+      if (filters.searchQuery && !story.content.toLowerCase().includes(filters.searchQuery.toLowerCase())) {
+        return false;
+      }
+
+      return true;
+    });
   };
 
   return (
@@ -106,125 +153,117 @@ export default function Dashboard() {
           {tabs.map((tab) => (
             activeTab === tab.id && (
               <div key={tab.id} className="space-y-4">
-               // Replace the content area with this updated version:
-<div className="bg-[#252526] rounded-lg border border-[#3e3e42] min-h-[400px] text-gray-300">
-  {tab.id === 'capsule' ? (
-    <>
-      {isWriting && (
-        <TextEditor
-          onClose={() => setIsWriting(false)}
-          onSave={handleSaveStory}
-        />
-      )}
-      
-      {/* Fixed Header Section */}
-      <div className="sticky top-14 bg-[#252526] border-b border-[#3e3e42] z-10">
-        {/* Description Block */}
-        <div className="p-6">
-          <div className="flex items-center gap-2">
-            {tab.icon}
-            <h2 className="text-xl font-semibold text-white">
-              {tab.name}
-            </h2>
-          </div>
-          <p className="text-gray-300 mt-2">{tab.description}</p>
-        </div>
-        
-        {/* Action Buttons */}
-        <div className="px-6 pb-4">
-          <div className="bg-[#2d2d2d] rounded-lg p-4">
-            <div className="flex gap-4">
-              <button 
-                onClick={() => setIsWriting(true)}
-                className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
-              >
-                Write
-              </button>
-              <button 
-                className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
-              >
-                Record
-              </button>
-              <button 
-                className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
-              >
-                Upload
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+                <div className="bg-[#252526] rounded-lg border border-[#3e3e42] min-h-[400px] text-gray-300">
+                  {tab.id === 'capsule' ? (
+                    <>
+                      {isWriting && (
+                        <TextEditor
+                          onClose={() => setIsWriting(false)}
+                          onSave={handleSaveStory}
+                        />
+                      )}
+                      
+                      {/* Fixed Header Section */}
+                      <div className="sticky top-14 bg-[#252526] border-b border-[#3e3e42] z-10">
+                        {/* Description Block */}
+                        <div className="p-6">
+                          <div className="flex items-center gap-2">
+                            {tab.icon}
+                            <h2 className="text-xl font-semibold text-white">
+                              {tab.name}
+                            </h2>
+                          </div>
+                          <p className="text-gray-300 mt-2">{tab.description}</p>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="px-6 pb-4">
+                          <div className="bg-[#2d2d2d] rounded-lg p-4">
+                            <div className="flex justify-between items-center">
+                              <div className="flex gap-4 items-center">
+                                <button 
+                                  onClick={() => setIsWriting(true)}
+                                  className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
+                                >
+                                  Write
+                                </button>
+                                <button 
+                                  className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
+                                >
+                                  Record
+                                </button>
+                                <button 
+                                  className="px-4 py-2 rounded-md text-white hover:bg-[#37373d] transition-colors"
+                                >
+                                  Upload
+                                </button>
+                                <div className="relative">
+                                  <input
+                                    type="text"
+                                    placeholder="Search stories..."
+                                    value={filters.searchQuery}
+                                    onChange={(e) => setFilters({
+                                      ...filters,
+                                      searchQuery: e.target.value
+                                    })}
+                                    className="w-[200px] bg-[#37373d] text-gray-300 rounded-md pl-8 pr-3 py-2 border border-[#3e3e42] focus:outline-none focus:border-blue-500"
+                                  />
+                                  <Search className="absolute left-2 top-2.5 h-5 w-5 text-gray-400" />
+                                </div>
+                              </div>
+                              
+                              <button
+                                onClick={() => setShowFilters(!showFilters)}
+                                className="p-2 hover:bg-[#37373d] rounded-md transition-colors"
+                                aria-label="Toggle filters"
+                              >
+                                <Filter className="w-6 h-6 text-white" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
 
-      {/* Stories Display with padding for fixed header */}
-      <div className="p-6">
-        <div className="space-y-6">
-          {stories.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">
-              No stories yet. Start by writing one!
-            </div>
-          ) : (
-            stories.map((story) => (
-              <div key={story.id} className="border border-[#3e3e42] rounded-lg overflow-hidden">
-                {/* Media Section */}
-                {story.media && story.media.length > 0 && (
-                  <div className="border-b border-[#3e3e42]">
-                    {story.media.map((media, index) => (
-                      <div key={index} className="w-full">
-                        {media.type === 'image' && (
-                          <img 
-                            src={media.url} 
-                            alt="Story media" 
-                            className="w-full h-auto max-h-96 object-cover"
-                          />
-                        )}
-                        {media.type === 'video' && (
-                          <video 
-                            controls 
-                            src={media.url} 
-                            className="w-full"
-                          />
-                        )}
-                        {media.type === 'audio' && (
-                          <div className="bg-[#2d2d2d] p-4">
-                            <audio 
-                              controls 
-                              src={media.url} 
-                              className="w-full"
+                        {/* TimeFilters */}
+                        {showFilters && (
+                          <div className="px-6 pb-4">
+                            <TimeFilters 
+                              onFilterChange={(newFilters) => setFilters(newFilters)}
+                              onClose={() => setShowFilters(false)}  
                             />
                           </div>
                         )}
                       </div>
-                    ))}
-                  </div>
-                )}
-                
-                {/* Content Section */}
-                <div className="p-4">
-                  <div className="flex justify-between items-start mb-3">
-                    <div className="text-sm text-gray-400">
-                      {story.date.toLocaleDateString()} at {story.date.toLocaleTimeString()}
-                    </div>
-                    <div className="text-xs bg-[#37373d] px-2 py-1 rounded">
-                      Private
-                    </div>
-                  </div>
-                  <div 
-                    className="prose prose-invert max-w-none"
-                    dangerouslySetInnerHTML={{ __html: story.content }}
-                  />
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+
+                      {/* Stories Display */}
+<div className="p-6">
+  <div className="space-y-6">
+    {getFilteredStories(stories).length === 0 ? (
+      <div className="text-center text-gray-500 py-8">
+        {stories.length === 0 ? 'No stories yet. Start by writing one!' : 'No stories match your filters.'}
       </div>
-    </>
-  ) : (
-    <div className="text-center text-gray-500 py-8">
-      Coming soon...
-    </div>
-  )}
+    ) : (
+      <StoryManagement 
+        stories={getFilteredStories(stories)}
+        onUpdateStory={(updatedStory) => {
+          const updatedStories = stories.map(story => 
+            story.id === updatedStory.id ? updatedStory : story
+          );
+          setStories(updatedStories);
+        }}
+        onDeleteStory={(id) => {
+          setStories(stories.filter(story => story.id !== id));
+        }}
+      />
+    )}
+  </div>
 </div>
+                    </>
+                  ) : (
+                    <div className="text-center text-gray-500 py-8">
+                      Coming soon...
+                    </div>
+                  )}
+                </div>
               </div>
             )
           ))}
