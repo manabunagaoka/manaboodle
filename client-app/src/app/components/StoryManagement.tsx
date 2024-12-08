@@ -3,23 +3,23 @@ import { Pencil, Trash2, X, Check } from 'lucide-react';
 import { MediaItem } from '../page';
 
 interface Story {
-  id: string;
-  title: string;
-  content: string;
+    id: string;
+    title: string;
+    content: string;
+    media: MediaItem[];
+    date: Date;
 }
 
-interface Story {
-  id: string;
-  title: string;
-  content: string;
-  media: MediaItem[];
-  date: Date;
+interface StoryItemProps {
+    story: Story;
+    onUpdate: (story: Story) => void;
+    onDelete: (id: string) => void;
 }
 
 interface StoryManagementProps {
-  stories?: Story[];
-  onUpdateStory?: (story: Story) => void;
-  onDeleteStory?: (id: string) => void;
+    stories?: Story[];
+    onUpdateStory?: (story: Story) => void;
+    onDeleteStory?: (id: string) => void;
 }
 
 const StoryItem: React.FC<StoryItemProps> = ({ story, onUpdate, onDelete }) => {
