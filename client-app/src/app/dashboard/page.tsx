@@ -74,14 +74,15 @@ export default function Dashboard() {
 
   const handleSaveStory = (content: { media: MediaItem[], text: string }) => {
     const newStory = {
-      id: Date.now().toString(),
-      media: content.media,
-      content: content.text,
-      date: new Date(),
+        id: Date.now().toString(),
+        title: "New Story",     // Add this line
+        media: content.media,
+        content: content.text,
+        date: new Date(),
     };
     setStories([newStory, ...stories]);
     setIsWriting(false);
-  };
+};
 
   const getFilteredStories = (stories: Story[]) => {
     return stories.filter(story => {
