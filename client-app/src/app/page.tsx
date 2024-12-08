@@ -3,6 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+export interface MediaItem {
+  type: 'image' | 'video' | 'audio';
+  url: string;
+}
+
 export default function Home() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
