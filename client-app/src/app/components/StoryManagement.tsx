@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2, X, Check } from 'lucide-react';
-import { MediaItem } from '../../page';
+import { MediaItem } from '../page';
 
 interface Story {
   id: string;
