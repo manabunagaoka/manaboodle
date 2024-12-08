@@ -7,10 +7,12 @@ interface Story {
   content: string;
 }
 
-interface StoryItemProps {
-  story: Story;
-  onUpdate: (story: Story) => void;
-  onDelete: (id: string) => void;
+interface Story {
+  id: string;
+  title: string;
+  content: string;
+  media: MediaItem[];
+  date: Date;
 }
 
 interface StoryManagementProps {
