@@ -21,6 +21,7 @@ interface MediaItem {
 
 interface Story {
   id: string;
+  title: string;  // Adding this line
   media: MediaItem[];
   content: string;
   date: Date;
