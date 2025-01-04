@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 120">
+  <!-- Circle with M -->
+  <circle cx="50" cy="70" r="40" fill="#8DD3E7"/>
+  
+  <!-- M inside circle -->
+  <text x="50" y="85" 
+        text-anchor="middle" 
+        font-family="Arial Rounded MT Bold" 
+        font-size="45" 
+        fill="white">M</text>
+  
+  <!-- Colorful 'anaboodle' text, moved closer -->
+  <text x="100" y="85" 
+        font-family="Arial Rounded MT Bold" 
+        font-size="45">
+    <tspan fill="#FF6B6B">a</tspan>
+    <tspan fill="#FFD93D">n</tspan>
+    <tspan fill="#8DD3E7">a</tspan>
+    <tspan fill="#90D04F">b</tspan>
+    <tspan fill="#FF6B6B">o</tspan>
+    <tspan fill="#8DD3E7">o</tspan>
+    <tspan fill="#FFD93D">d</tspan>
+    <tspan fill="#90D04F">l</tspan>
+    <tspan fill="#FF9ECD">e</tspan>
+  </text>
+</svg>
