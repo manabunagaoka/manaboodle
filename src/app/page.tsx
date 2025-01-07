@@ -1,15 +1,5 @@
-'use client';
-
-import MainLayout from '@/components/layouts/MainLayout';
-import TimeCapsule from '@/components/sections/TimeCapsule';
-// Or try named imports:
-// import { MainLayout } from '@/components/layouts/MainLayout';
-// import { TimeCapsule } from '@/components/sections/TimeCapsule';
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <MainLayout>
-      <TimeCapsule />
-    </MainLayout>
-  );
+  redirect('/time-capsule');
 }

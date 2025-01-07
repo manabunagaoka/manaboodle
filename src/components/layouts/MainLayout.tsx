@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { 
   Clock, 
   Rocket, 
@@ -10,9 +11,9 @@ import {
 } from 'lucide-react';
 
 const navigationItems = [
-  { id: 'timeCapsule', icon: Clock, label: 'Time Capsule' },
-  { id: 'timeMachine', icon: Rocket, label: 'Time Machine' },
-  { id: 'synchronicity', icon: Sparkles, label: 'Synchronicity' }
+  { id: 'time-capsule', icon: Clock, label: 'Time Capsule', path: '/time-capsule' },
+  { id: 'time-machine', icon: Rocket, label: 'Time Machine', path: '/time-machine' },
+  { id: 'synchronicity', icon: Sparkles, label: 'Synchronicity', path: '/synchronicity' }
 ];
 
 interface MainLayoutProps {
@@ -20,7 +21,27 @@ interface MainLayoutProps {
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const [activeSection, setActiveSection] = useState('timeCapsule');
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Function to handle navigation
+  const handleNavigation = (path: string) => {
+    router.push(path);
+  };
+
+  // Function to get current page title
+  const getCurrentPageTitle = () => {
+    switch (pathname) {
+      case '/time-capsule':
+        return 'Time Capsule';
+      case '/time-machine':
+        return 'Time Machine';
+      case '/synchronicity':
+        return 'Synchronicity';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-100">
@@ -53,12 +74,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <nav className="flex-1 px-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
+              const isActive = pathname === item.path;
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => handleNavigation(item.path)}
                   className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg mb-1
-                    ${activeSection === item.id 
+                    ${isActive 
                       ? 'bg-blue-50 text-zinc-800 font-bold' 
                       : 'text-zinc-600 hover:bg-gray-50'}`}
                 >
@@ -80,15 +102,13 @@ const MainLayout = ({ children }: MainLayoutProps) => {
         {/* Main Content Area */}
         <div className="flex-1 overflow-auto scrollbar-hide">
           <div className="p-6 border-b border-zinc-200">
-            <div className="flex items-center">
-              <div className="flex-1 text-center">
-                <h1 className="text-xl font-bold text-zinc-800">
-                  {activeSection === 'timeCapsule' && 'Time Capsule'}
-                  {activeSection === 'timeMachine' && 'Time Machine'}
-                  {activeSection === 'synchronicity' && 'Synchronicity'}
+            <div className="flex items-center relative">
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold text-zinc-800 text-center">
+                  {getCurrentPageTitle()}
                 </h1>
               </div>
-              <button className="p-2 rounded-full bg-gray-100 text-zinc-700 hover:bg-gray-200">
+              <button className="absolute right-0 p-2 rounded-full bg-gray-100 text-zinc-700 hover:bg-gray-200">
                 <Search size={20} />
               </button>
             </div>
@@ -110,17 +130,18 @@ const MainLayout = ({ children }: MainLayoutProps) => {
           <div className="flex justify-around px-4 py-2">
             {navigationItems.map((item) => {
               const Icon = item.icon;
+              const isActive = pathname === item.path;
               return (
                 <button
                   key={item.id}
-                  onClick={() => setActiveSection(item.id)}
+                  onClick={() => handleNavigation(item.path)}
                   className={`flex flex-col items-center px-6 py-2 rounded-full transition-all
-                    ${activeSection === item.id 
+                    ${isActive 
                       ? 'bg-gradient-to-r from-zinc-800 to-zinc-900 text-white' 
                       : 'text-zinc-600'}`}
                 >
-                  <Icon size={activeSection === item.id ? 20 : 18} />
-                  <span className={`text-xs mt-1 ${activeSection === item.id ? 'font-medium' : ''}`}>
+                  <Icon size={isActive ? 20 : 18} />
+                  <span className={`text-xs mt-1 ${isActive ? 'font-medium' : ''}`}>
                     {item.label}
                   </span>
                 </button>
