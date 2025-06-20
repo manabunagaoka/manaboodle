@@ -2,14 +2,10 @@ export interface Article {
   id: string;
   title: string;
   excerpt: string;
-  category: 'concept' | 'project' | 'random' | 'case-study';
-  image: string;
+  category: 'concept' | 'project' | 'random';
   publishedAt: string;
   readTime: number;
   featured: boolean;
-  slug: string;
-  content: string;
-  tags: string[];
 }
 
 export interface NavigationItem {

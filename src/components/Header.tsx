@@ -1,85 +1,34 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import Search from './Search';
+import styles from './Header.module.css';
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMobileMenuOpen(true);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeMenu = () => {
-    setMobileMenuOpen(false);
-    document.body.style.overflow = '';
-  };
-
   return (
-    <>
-      <header className="header">
-        <nav className="nav-container">
-          <div className="logo-container">
-            <Link href="/" className="logo">
-              Manaboodle
-            </Link>
-            <div className="byline">by Manabu Nagaoka</div>
+    <header className={styles.header}>
+      <nav className={styles.navContainer}>
+        <Link href="/" className={styles.logo}>
+          <div className={styles.logoContainer}>
+            <h1 className={styles.logoText}>Manaboodle</h1>
+            <div className={styles.byline}>by Manabu Nagaoka</div>
           </div>
-          
-          <div className="nav-menu">
-            <Link href="/" className="nav-link active">About</Link>
-            <Link href="/concepts" className="nav-link">Concepts</Link>
-            <Link href="/projects" className="nav-link">Projects</Link>
-            <Link href="/random" className="nav-link">Random</Link>
-            <Link href="/archive" className="nav-link">Archive</Link>
-          </div>
-          
-          <div className="nav-actions">
-            <div className="search-container">
-              <input 
-                type="text" 
-                className="search-input" 
-                placeholder="Search articles..."
-              />
-            </div>
-            <Link href="/subscribe" className="subscribe-btn">
-              Subscribe
-            </Link>
-            <button className="menu-btn" onClick={toggleMenu}>
-              ☰
-            </button>
-          </div>
-        </nav>
-      </header>
-
-      {/* Overlay */}
-      <div 
-        className={`overlay ${mobileMenuOpen ? 'active' : ''}`}
-        onClick={closeMenu}
-      />
-
-      {/* Mobile Navigation */}
-      <nav className={`mobile-nav ${mobileMenuOpen ? 'active' : ''}`}>
-        <div className="mobile-nav-header">
-          <div className="mobile-logo-container">
-            <span className="logo">Manaboodle</span>
-            <div className="byline">by Manabu Nagaoka</div>
-          </div>
-          <button className="close-btn" onClick={closeMenu}>×</button>
+        </Link>
+        
+        <div className={styles.navMenu}>
+          <Link href="/about" className={styles.navLink}>About</Link>
+          <Link href="/concepts" className={styles.navLink}>Concepts</Link>
+          <Link href="/projects" className={styles.navLink}>Projects</Link>
+          <Link href="/random" className={styles.navLink}>Random</Link>
+          <Link href="/archive" className={styles.navLink}>Archive</Link>
         </div>
-        <div className="mobile-search">
-          <input type="text" className="search-input" placeholder="Search articles..." />
-        </div>
-        <div className="mobile-nav-links">
-          <Link href="/" className="mobile-nav-link" onClick={closeMenu}>About</Link>
-          <Link href="/concepts" className="mobile-nav-link" onClick={closeMenu}>Concepts</Link>
-          <Link href="/projects" className="mobile-nav-link" onClick={closeMenu}>Projects</Link>
-          <Link href="/random" className="mobile-nav-link" onClick={closeMenu}>Random</Link>
-          <Link href="/archive" className="mobile-nav-link" onClick={closeMenu}>Archive</Link>
-          <Link href="/subscribe" className="mobile-nav-link" onClick={closeMenu}>Subscribe</Link>
+        
+        <div className={styles.navActions}>
+          <Search />
+          <button className={styles.subscribeBtn}>Subscribe</button>
+          <button className={styles.menuBtn}>☰</button>
         </div>
       </nav>
-    </>
+    </header>
   );
 }

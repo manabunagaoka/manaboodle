@@ -1,3 +1,5 @@
 {
-  "/page": "app/page.js"
+  "/page": "app/page.js",
+  "/concepts/ai-nurturing/page": "app/concepts/ai-nurturing/page.js",
+  "/projects/karaokegogo/page": "app/projects/karaokegogo/page.js"
 }

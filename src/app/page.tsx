@@ -1,21 +1,65 @@
 'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
 import { articles } from '../lib/content';
 import { formatDate } from '../lib/utils';
 import styles from './page.module.css';
+import { useEffect, useState } from 'react';
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const getCategoryDisplay = (category: string) => {
     switch (category) {
       case 'concept': return 'Concept';
       case 'project': return 'Project';
       case 'random': return 'Random';
-      case 'case-study': return 'Case Study';
       default: return category.charAt(0).toUpperCase() + category.slice(1);
     }
   };
 
-  const getMediaPlaceholder = (featured: boolean) => {
+  const getArticleUrl = (article: any) => {
+    if (article.id === 'ai-nurturing-surrogate-caregivers') {
+      return '/concepts/ai-nurturing';
+    }
+    if (article.id === 'karaokegogo') {
+      return '/projects/karaokegogo';
+    }
+    return `/${article.category}/${article.id}`;
+  };
+
+  const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'ai-nurturing-surrogate-caregivers' && featured) {
+      return (
+        <Image
+          src="/images/mandela.jpg"
+          alt="Nelson Mandela - inspiration for the AI Nurturing Framework"
+          width={1200}
+          height={400}
+          className={styles.featuredImage}
+          priority
+        />
+      );
+    }
+    
+    if (article.id === 'karaokegogo') {
+      return (
+        <Image
+          src="/images/karaokegogo.jpg"
+          alt="karaokeGoGo - Empowering children through music and creative expression"
+          width={400}
+          height={200}
+          className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      );
+    }
+    
     if (featured) {
       return (
         <div className={styles.mediaPlaceholder}>
@@ -33,45 +77,114 @@ export default function HomePage() {
   };
 
   const featuredArticle = articles.find(article => article.featured);
-  const regularArticles = articles.filter(article => !article.featured).slice(0, 6);
+  const regularArticles = articles.filter(article => !article.featured);
+
+  // Prevent hydration mismatch by not rendering dates until mounted
+  if (!mounted) {
+    return (
+      <main className={styles.mainContent}>
+        {/* Featured Article */}
+        {featuredArticle && (
+          <Link href={getArticleUrl(featuredArticle)} className={styles.cardLink}>
+            <article className={`${styles.contentCard} ${styles.featuredCard}`}>
+              <div className={styles.cardMedia}>
+                {getMediaContent(featuredArticle, true)}
+              </div>
+              <div className={styles.cardContent}>
+                <span className={styles.cardCategory} data-category="featured">Featured</span>
+                <h1 className={styles.cardTitle}>{featuredArticle.title}</h1>
+                <p className={styles.cardExcerpt}>{featuredArticle.excerpt}</p>
+                <div className={styles.cardMeta}>
+                  <span className={styles.cardDate}>Loading...</span>
+                  <span className={styles.cardReadTime}>{featuredArticle.readTime} min read</span>
+                </div>
+                <div className={styles.readButton} data-category="featured">
+                  READ ARTICLE
+                </div>
+              </div>
+            </article>
+          </Link>
+        )}
+
+        {/* Regular Articles Grid */}
+        <div className={styles.regularGrid}>
+          {regularArticles.map((article, index) => (
+            <Link key={article.id} href={getArticleUrl(article)} className={styles.cardLink}>
+              <article className={styles.contentCard}>
+                <div className={styles.cardMedia}>
+                  {getMediaContent(article, false)}
+                </div>
+                <div className={styles.cardContent}>
+                  <span className={styles.cardCategory} data-category={article.category}>
+                    {getCategoryDisplay(article.category)}
+                  </span>
+                  <h3 className={styles.cardTitle}>{article.title}</h3>
+                  <p className={styles.cardExcerpt}>{article.excerpt}</p>
+                  <div className={styles.cardMeta}>
+                    <span className={styles.cardDate}>Loading...</span>
+                    <span className={styles.cardReadTime}>{article.readTime} min read</span>
+                  </div>
+                  <div className={styles.readButton} data-category={article.category}>
+                    READ ARTICLE
+                  </div>
+                </div>
+              </article>
+            </Link>
+          ))}
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.mainContent}>
-      {/* Featured Article - Full Width at Top */}
+      {/* Featured Article */}
       {featuredArticle && (
-        <article className={`${styles.contentCard} ${styles.featuredCard}`}>
-          <div className={styles.cardMedia}>
-            {getMediaPlaceholder(true)}
-          </div>
-          <div className={styles.cardContent}>
-            <span className={styles.cardCategory}>Featured</span>
-            <h1 className={styles.cardTitle}>{featuredArticle.title}</h1>
-            <p className={styles.cardExcerpt}>{featuredArticle.excerpt}</p>
-            <div className={styles.cardMeta}>
-              <span className={styles.cardDate}>{formatDate(featuredArticle.publishedAt)}</span>
-              <span className={styles.cardReadTime}>{featuredArticle.readTime} min read</span>
+        <Link href={getArticleUrl(featuredArticle)} className={styles.cardLink}>
+          <article className={`${styles.contentCard} ${styles.featuredCard}`}>
+            <div className={styles.cardMedia}>
+              {getMediaContent(featuredArticle, true)}
             </div>
-          </div>
-        </article>
+            <div className={styles.cardContent}>
+              <span className={styles.cardCategory} data-category="featured">Featured</span>
+              <h1 className={styles.cardTitle}>{featuredArticle.title}</h1>
+              <p className={styles.cardExcerpt}>{featuredArticle.excerpt}</p>
+              <div className={styles.cardMeta}>
+                <span className={styles.cardDate}>{formatDate(featuredArticle.publishedAt)}</span>
+                <span className={styles.cardReadTime}>{featuredArticle.readTime} min read</span>
+              </div>
+              <div className={styles.readButton} data-category="featured">
+                READ ARTICLE
+              </div>
+            </div>
+          </article>
+        </Link>
       )}
 
       {/* Regular Articles Grid */}
       <div className={styles.regularGrid}>
         {regularArticles.map((article, index) => (
-          <article key={article.id} className={styles.contentCard}>
-            <div className={styles.cardMedia}>
-              {getMediaPlaceholder(false)}
-            </div>
-            <div className={styles.cardContent}>
-              <span className={styles.cardCategory}>{getCategoryDisplay(article.category)}</span>
-              <h3 className={styles.cardTitle}>{article.title}</h3>
-              <p className={styles.cardExcerpt}>{article.excerpt}</p>
-              <div className={styles.cardMeta}>
-                <span className={styles.cardDate}>{formatDate(article.publishedAt)}</span>
-                <span className={styles.cardReadTime}>{article.readTime} min read</span>
+          <Link key={article.id} href={getArticleUrl(article)} className={styles.cardLink}>
+            <article className={styles.contentCard}>
+              <div className={styles.cardMedia}>
+                {getMediaContent(article, false)}
               </div>
-            </div>
-          </article>
+              <div className={styles.cardContent}>
+                <span className={styles.cardCategory} data-category={article.category}>
+                  {getCategoryDisplay(article.category)}
+                </span>
+                <h3 className={styles.cardTitle}>{article.title}</h3>
+                <p className={styles.cardExcerpt}>{article.excerpt}</p>
+                <div className={styles.cardMeta}>
+                  <span className={styles.cardDate}>{formatDate(article.publishedAt)}</span>
+                  <span className={styles.cardReadTime}>{article.readTime} min read</span>
+                </div>
+                <div className={styles.readButton} data-category={article.category}>
+                  READ ARTICLE
+                </div>
+              </div>
+            </article>
+          </Link>
         ))}
       </div>
     </main>

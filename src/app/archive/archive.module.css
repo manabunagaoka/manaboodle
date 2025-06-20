@@ -1,0 +1,122 @@
+.archivePage {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+  min-height: 60vh;
+}
+
+.backLink {
+  color: #374151;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 0;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.backLink:hover {
+  color: #111827;
+  text-decoration: underline;
+}
+
+.pageHeader {
+  margin-bottom: 3rem;
+  text-align: center;
+  border-bottom: 3px solid #6B7280;
+  padding-bottom: 2rem;
+}
+
+.backLink {
+  color: #6B7280;
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.pageTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #6B7280;
+  margin-bottom: 1rem;
+}
+
+.pageDescription {
+  font-size: 1.2rem;
+  color: #6B7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6B7280;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.emptyState h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #374151;
+}
+
+.emptyState p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.backToHome {
+  display: inline-block;
+  background: linear-gradient(135deg, #6B7280, #9CA3AF);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.backToHome:hover {
+  background: linear-gradient(135deg, #4B5563, #6B7280);
+  transform: translateY(-1px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .archivePage {
+    padding: 4rem 1rem 3rem;
+  }
+  
+  .pageTitle {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .archivePage {
+    padding: 3.5rem 0.75rem 2rem;
+  }
+  
+  .pageTitle {
+    font-size: 2rem;
+  }
+}

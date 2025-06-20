@@ -1,0 +1,225 @@
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[7].use[3]!./src/app/concepts/ai-nurturing/article.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/* Article Page Styles */
+.article_articlePage__pyRjf {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+.article_articleHeader__MvVIz {
+    margin-bottom: 3rem;
+}
+
+.article_articleMeta__zuRos {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.article_backLink__efBym {
+    color: #1E40AF;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.article_backLink__efBym:hover {
+    text-decoration: underline;
+}
+
+.article_articleCategory__gMCWq {
+    background: #1E40AF;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.article_articleTitle__J5nHm {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.article_articleInfo__ogYnA {
+    border-bottom: 1px solid #E5E7EB;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.article_authorInfo__ibhiE {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #6B7280;
+}
+
+.article_author__vrlse {
+    font-weight: 600;
+    color: #111827;
+}
+
+.article_publishDate__lcIOS,
+.article_readTime__6rvyt {
+    color: #9CA3AF;
+}
+
+.article_articleImage__LqdkO {
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.article_heroImage__XSGE0 {
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+.article_imageCaption__bvuRN {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #6B7280;
+    font-style: italic;
+}
+
+.article_articleContent__RmZDv {
+    font-size: 1.1rem;
+    color: #374151;
+}
+
+.article_articleIntro__3SGD6 p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.article_articleSection__pfQ_8 {
+    margin: 3rem 0;
+}
+
+.article_sectionHeading__UEQ0t {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #1E40AF;
+    padding-bottom: 0.5rem;
+}
+
+.article_sectionContent__EC1wF p {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.article_importantNote__kRD6X {
+    background: #F9FAFB;
+    border-left: 4px solid #1E40AF;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 6px;
+    font-style: italic;
+}
+
+.article_articleFooter__DJzLp {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid #E5E7EB;
+}
+
+.article_articleTags__12rMI {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.article_tag__0YSDF {
+    background: #F3F4F6;
+    color: #374151;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.article_articleActions__CM1ua {
+    text-align: center;
+}
+
+.article_backHome__jFaYr {
+    color: #1E40AF;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #1E40AF;
+    border-radius: 6px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.article_backHome__jFaYr:hover {
+    background: #1E40AF;
+    color: white;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .article_articlePage__pyRjf {
+        padding: 5rem 1rem 3rem;
+    }
+
+    .article_articleTitle__J5nHm {
+        font-size: 2rem;
+    }
+
+    .article_sectionHeading__UEQ0t {
+        font-size: 1.5rem;
+    }
+
+    .article_authorInfo__ibhiE {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .article_articleMeta__zuRos {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .article_heroImage__XSGE0 {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .article_articlePage__pyRjf {
+        padding: 4rem 0.75rem 2rem;
+    }
+    
+    .article_articleTitle__J5nHm {
+        font-size: 1.75rem;
+    }
+    
+    .article_articleContent__RmZDv {
+        font-size: 1rem;
+    }
+}
+

@@ -12,10 +12,17 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/_not-found/page": [
+    "/concepts/ai-nurturing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/css/app/concepts/ai-nurturing/page.css",
+      "static/chunks/app/concepts/ai-nurturing/page.js"
+    ],
+    "/projects/karaokegogo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/projects/karaokegogo/page.css",
+      "static/chunks/app/projects/karaokegogo/page.js"
     ]
   }
 }
