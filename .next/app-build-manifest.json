@@ -36,6 +36,24 @@
       "static/css/app/random/vibe-coding/page.css",
       "static/chunks/app/random/vibe-coding/page.js"
     ],
+    "/projects/nanny/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/projects/nanny/page.css",
+      "static/chunks/app/projects/nanny/page.js"
+    ],
+    "/projects/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/projects/page.css",
+      "static/chunks/app/projects/page.js"
+    ],
+    "/projects/karaokegogo/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/projects/karaokegogo/page.css",
+      "static/chunks/app/projects/karaokegogo/page.js"
+    ],
     "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

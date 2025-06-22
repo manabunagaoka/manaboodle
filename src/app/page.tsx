@@ -30,6 +30,9 @@ export default function HomePage() {
     if (article.id === 'karaokegogo') {
       return '/projects/karaokegogo';
     }
+    if (article.id === 'nanny') {
+      return '/projects/nanny';
+    }
     if (article.id === 'vibe-coding') {
       return '/random/vibe-coding';
     }
@@ -55,6 +58,19 @@ export default function HomePage() {
         <Image
           src="/images/karaokegogo.jpg"
           alt="karaokeGoGo - Empowering children through music and creative expression"
+          width={400}
+          height={200}
+          className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      );
+    }
+
+    if (article.id === 'nanny') {
+      return (
+        <Image
+          src="/images/nanny.jpg"
+          alt="Nanny training program in Cape Town, South Africa"
           width={400}
           height={200}
           className={styles.cardImage}

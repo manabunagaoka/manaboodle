@@ -19,6 +19,18 @@ export default function ProjectsPage() {
         />
       );
     }
+
+    if (article.id === 'nanny') {
+      return (
+        <Image
+          src="/images/nanny.jpg"
+          alt="Nanny training program in Cape Town, South Africa"
+          width={400}
+          height={220}
+          className={styles.cardImage}
+        />
+      );
+    }
     
     return (
       <div className={styles.mediaPlaceholder}>

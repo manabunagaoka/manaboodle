@@ -10,6 +10,15 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    id: 'nanny',
+    title: 'Super Personalized Learning Model: Nannies vs AI',
+    excerpt: 'From Cape Town to global reach: how we are empowering nannies with AI-powered tools to create super-personalized learning experiences for children everywhere.',
+    category: 'project',
+    publishedAt: '2025-06-22',
+    readTime: 6,
+    featured: false
+  },
+  {
     id: 'vibe-coding',
     title: 'Vibe Coding',
     excerpt: 'Exploring the intersection of music, mood, and programming productivity. How different vibes can unlock creative coding flow states.',
