@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from './article.module.css';
+import styles from '../article.module.css';
 
 export default function AINurturingPage() {
   return (

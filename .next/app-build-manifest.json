@@ -12,17 +12,34 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/random/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/random/page.css",
+      "static/chunks/app/random/page.js"
+    ],
+    "/concepts/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/concepts/page.css",
+      "static/chunks/app/concepts/page.js"
+    ],
     "/concepts/ai-nurturing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/concepts/ai-nurturing/page.css",
       "static/chunks/app/concepts/ai-nurturing/page.js"
     ],
-    "/projects/karaokegogo/page": [
+    "/random/vibe-coding/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/projects/karaokegogo/page.css",
-      "static/chunks/app/projects/karaokegogo/page.js"
+      "static/css/app/random/vibe-coding/page.css",
+      "static/chunks/app/random/vibe-coding/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

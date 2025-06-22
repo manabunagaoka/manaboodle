@@ -10,6 +10,15 @@ export interface Article {
 
 export const articles: Article[] = [
   {
+    id: 'vibe-coding',
+    title: 'Vibe Coding',
+    excerpt: 'Exploring the intersection of music, mood, and programming productivity. How different vibes can unlock creative coding flow states.',
+    category: 'random',
+    publishedAt: '2025-06-22',
+    readTime: 7,
+    featured: false
+  },
+  {
     id: 'karaokegogo',
     title: 'karaokeGoGo',
     excerpt: 'A music-sharing platform designed to empower children globally through joyful, creative singing experiences.',
@@ -21,7 +30,7 @@ export const articles: Article[] = [
   {
     id: 'ai-nurturing-surrogate-caregivers',
     title: 'AI Nurturing and Surrogate Caregivers',
-    excerpt: 'Imagine a dataset capturing emotional nuances and caregiving insights from millions of genuine interactions within a unique triangular relationship: human children, caregivers, and AI siblings.',
+    excerpt: 'Imagine a dataset capturing emotional nuances and caregiving insights from millions of genuine interactions within a unique triangular relationship: human children, caregivers, and A[...]',
     category: 'concept',
     publishedAt: '2025-06-17',
     readTime: 12,

@@ -1,10 +1,32 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { articles } from '../../lib/content';
 import { formatDate } from '../../lib/utils';
 import styles from './random.module.css';
 
 export default function RandomPage() {
   const randomArticles = articles.filter(article => article.category === 'random');
+
+  const getMediaContent = (article: any) => {
+    if (article.id === 'vibe-coding') {
+      return (
+        <Image
+          src="/images/vibe.jpg"
+          alt="Vibe Coding - The intersection of music, mood, and programming"
+          width={400}
+          height={220}
+          className={styles.cardImage}
+        />
+      );
+    }
+    
+    return (
+      <div className={styles.mediaPlaceholder}>
+        Photo/Video Area
+        <div className={styles.mediaRatio}>400×220px</div>
+      </div>
+    );
+  };
 
   return (
     <div className={styles.randomPage}>
@@ -25,10 +47,7 @@ export default function RandomPage() {
             <Link key={article.id} href={`/random/${article.id}`} className={styles.cardLink}>
               <article className={styles.contentCard}>
                 <div className={styles.cardMedia}>
-                  <div className={styles.mediaPlaceholder}>
-                    Photo/Video Area
-                    <div className={styles.mediaRatio}>400×220px</div>
-                  </div>
+                  {getMediaContent(article)}
                 </div>
                 <div className={styles.cardContent}>
                   <span className={styles.cardCategory} data-category="random">
