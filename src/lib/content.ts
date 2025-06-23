@@ -2,13 +2,22 @@ export interface Article {
   id: string;
   title: string;
   excerpt: string;
-  category: 'concept' | 'project' | 'random';
+  category: 'concept' | 'project' | 'casestudy' | 'random';
   publishedAt: string;
   readTime: number;
   featured: boolean;
 }
 
 export const articles: Article[] = [
+  {
+    id: 'mangrove-education',
+    title: 'Mangrove Education',
+    excerpt: 'Exploring resilient education systems inspired by mangrove ecosystems - adaptive, interconnected, and thriving in challenging environments.',
+    category: 'casestudy',
+    publishedAt: '2025-06-23',
+    readTime: 8,
+    featured: false
+  },
   {
     id: 'nanny',
     title: 'Super Personalized Learning Model: Nannies vs AI',

@@ -1,8 +1,7 @@
 {
-  "/random/page": "app/random/page.js",
-  "/random/vibe-coding/page": "app/random/vibe-coding/page.js",
-  "/projects/nanny/page": "app/projects/nanny/page.js",
+  "/concepts/ai-nurturing/page": "app/concepts/ai-nurturing/page.js",
+  "/casestudies/mangrove/page": "app/casestudies/mangrove/page.js",
   "/projects/page": "app/projects/page.js",
-  "/projects/karaokegogo/page": "app/projects/karaokegogo/page.js",
-  "/page": "app/page.js"
+  "/casestudies/page": "app/casestudies/page.js",
+  "/projects/karaokegogo/page": "app/projects/karaokegogo/page.js"
 }

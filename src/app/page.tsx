@@ -18,6 +18,7 @@ export default function HomePage() {
     switch (category) {
       case 'concept': return 'Concept';
       case 'project': return 'Project';
+      case 'casestudy': return 'Case Study';
       case 'random': return 'Random';
       default: return category.charAt(0).toUpperCase() + category.slice(1);
     }
@@ -36,7 +37,17 @@ export default function HomePage() {
     if (article.id === 'vibe-coding') {
       return '/random/vibe-coding';
     }
+    if (article.id === 'mangrove-education') {
+      return '/casestudies/mangrove';
+    }
+    if (article.category === 'casestudy') {
+      return `/casestudies/${article.id}`;
+    }
     return `/${article.category}/${article.id}`;
+  };
+
+  const getCategoryAttribute = (category: string) => {
+    return category === 'casestudy' ? 'case-study' : category;
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
@@ -84,6 +95,19 @@ export default function HomePage() {
         <Image
           src="/images/vibe.jpg"
           alt="Vibe Coding - The intersection of music, mood, and programming"
+          width={400}
+          height={200}
+          className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      );
+    }
+
+    if (article.id === 'mangrove-education') {
+      return (
+        <Image
+          src="/images/mangrove.jpg"
+          alt="Mangrove Education - Resilient education systems inspired by mangrove ecosystems"
           width={400}
           height={200}
           className={styles.cardImage}
@@ -147,7 +171,7 @@ export default function HomePage() {
                   {getMediaContent(article, false)}
                 </div>
                 <div className={styles.cardContent}>
-                  <span className={styles.cardCategory} data-category={article.category}>
+                  <span className={styles.cardCategory} data-category={getCategoryAttribute(article.category)}>
                     {getCategoryDisplay(article.category)}
                   </span>
                   <h3 className={styles.cardTitle}>{article.title}</h3>
@@ -156,7 +180,7 @@ export default function HomePage() {
                     <span className={styles.cardDate}>Loading...</span>
                     <span className={styles.cardReadTime}>{article.readTime} min read</span>
                   </div>
-                  <div className={styles.readButton} data-category={article.category}>
+                  <div className={styles.readButton} data-category={getCategoryAttribute(article.category)}>
                     READ ARTICLE
                   </div>
                 </div>
@@ -202,7 +226,7 @@ export default function HomePage() {
                 {getMediaContent(article, false)}
               </div>
               <div className={styles.cardContent}>
-                <span className={styles.cardCategory} data-category={article.category}>
+                <span className={styles.cardCategory} data-category={getCategoryAttribute(article.category)}>
                   {getCategoryDisplay(article.category)}
                 </span>
                 <h3 className={styles.cardTitle}>{article.title}</h3>
@@ -211,7 +235,7 @@ export default function HomePage() {
                   <span className={styles.cardDate}>{formatDate(article.publishedAt)}</span>
                   <span className={styles.cardReadTime}>{article.readTime} min read</span>
                 </div>
-                <div className={styles.readButton} data-category={article.category}>
+                <div className={styles.readButton} data-category={getCategoryAttribute(article.category)}>
                   READ ARTICLE
                 </div>
               </div>
