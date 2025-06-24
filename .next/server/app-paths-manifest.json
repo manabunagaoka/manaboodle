@@ -2,6 +2,6 @@
   "/page": "app/page.js",
   "/concepts/ai-nurturing/page": "app/concepts/ai-nurturing/page.js",
   "/concepts/page": "app/concepts/page.js",
-  "/projects/page": "app/projects/page.js",
-  "/casestudies/page": "app/casestudies/page.js"
+  "/casestudies/page": "app/casestudies/page.js",
+  "/about/page": "app/about/page.js"
 }

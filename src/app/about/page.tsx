@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './about.module.css';
 
 export default function AboutPage() {
@@ -38,6 +39,26 @@ export default function AboutPage() {
             Welcome to Manaboodle.
           </p>
         </article>
+
+        {/* Author Bio Section */}
+        <div className={styles.authorBio}>
+          <div className={styles.authorImageContainer}>
+            <Image
+              src="/images/manabu-grover.jpg"
+              alt="Manabu Nagaoka with Grover from Sesame Street"
+              width={200}
+              height={200}
+              className={styles.authorImage}
+            />
+          </div>
+          <div className={styles.authorInfo}>
+            <h3 className={styles.authorName}>Manabu Nagaoka</h3>
+            <p className={styles.authorTitle}>Founder & CEO, Manaboodle</p>
+            <p className={styles.authorDescription}>
+              Content producer, educator and lifelong learner exploring the intersection of media, technology, education, and synchronicity in life. Always moving forward.
+            </p>
+          </div>
+        </div>
 
         <div className={styles.aboutFooter}>
           <div className={styles.aboutActions}>

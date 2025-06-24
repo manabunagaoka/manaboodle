@@ -66,6 +66,54 @@
   margin-top: 2.5rem;
 }
 
+/* Author Bio Section */
+.authorBio {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0;
+  padding: 2rem;
+  background: #F8F9FA;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+}
+
+.authorImageContainer {
+  flex-shrink: 0;
+}
+
+.authorImage {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #111827;
+}
+
+.authorInfo {
+  flex: 1;
+}
+
+.authorName {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.authorTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6B7280;
+  margin-bottom: 0.75rem;
+}
+
+.authorDescription {
+  font-size: 0.95rem;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .aboutFooter {
   margin-top: 4rem;
   padding: 2rem 0;
