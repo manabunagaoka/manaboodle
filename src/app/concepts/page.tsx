@@ -8,18 +8,27 @@ export default function ConceptsPage() {
   const conceptArticles = articles.filter(article => article.category === 'concept');
 
   const getArticleUrl = (article: any) => {
-    if (article.id === 'ai-nurturing-surrogate-caregivers') {
-      return '/concepts/ai-nurturing';
-    }
-    return `/concepts/${article.id}`;
+    // Special URL mappings for concepts
+    const urlMap: { [key: string]: string } = {
+      'ai-nurturing-surrogate-caregivers': '/concepts/ai-nurturing'
+      // Add new concept URL mappings here as needed
+    };
+
+    return urlMap[article.id] || `/concepts/${article.id}`;
   };
 
   const getMediaContent = (article: any) => {
-    if (article.id === 'ai-nurturing-surrogate-caregivers') {
+    // Check if image exists, otherwise show placeholder
+    const imageMap: { [key: string]: string } = {
+      'ai-nurturing-surrogate-caregivers': '/images/mandela.jpg'
+      // Add new concept images here as needed
+    };
+
+    if (imageMap[article.id]) {
       return (
         <Image
-          src="/images/mandela.jpg"
-          alt="Nelson Mandela - inspiration for the AI Nurturing Framework"
+          src={imageMap[article.id]}
+          alt={article.title}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className={styles.articleImage}
@@ -38,10 +47,8 @@ export default function ConceptsPage() {
 
   return (
     <div className={styles.conceptsPage}>
-      {/* Back button in upper left */}
       <Link href="/" className={styles.backLink}>← Back to Home</Link>
       
-      {/* Page header without back button */}
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Concepts</h1>
         <p className={styles.pageDescription}>

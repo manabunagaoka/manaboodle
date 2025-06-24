@@ -8,11 +8,17 @@ export default function RandomPage() {
   const randomArticles = articles.filter(article => article.category === 'random');
 
   const getMediaContent = (article: any) => {
-    if (article.id === 'vibe-coding') {
+    // Check if image exists, otherwise show placeholder
+    const imageMap: { [key: string]: string } = {
+      'vibe-coding': '/images/vibe.jpg'
+      // Add new random post images here as needed
+    };
+
+    if (imageMap[article.id]) {
       return (
         <Image
-          src="/images/vibe.jpg"
-          alt="Vibe Coding - The intersection of music, mood, and programming"
+          src={imageMap[article.id]}
+          alt={article.title}
           width={400}
           height={220}
           className={styles.cardImage}
@@ -30,10 +36,8 @@ export default function RandomPage() {
 
   return (
     <div className={styles.randomPage}>
-      {/* Back button in upper left */}
       <Link href="/" className={styles.backLink}>← Back to Home</Link>
       
-      {/* Page header without back button */}
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Random</h1>
         <p className={styles.pageDescription}>

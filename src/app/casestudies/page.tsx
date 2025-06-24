@@ -8,18 +8,27 @@ export default function CaseStudiesPage() {
   const caseStudyArticles = articles.filter(article => article.category === 'casestudy');
 
   const getArticleUrl = (article: any) => {
-    if (article.id === 'mangrove-education') {
-      return '/casestudies/mangrove';
-    }
-    return `/casestudies/${article.id}`;
+    // Special URL mappings for case studies
+    const urlMap: { [key: string]: string } = {
+      'mangrove-education': '/casestudies/mangrove'
+      // Add new case study URL mappings here as needed
+    };
+
+    return urlMap[article.id] || `/casestudies/${article.id}`;
   };
 
   const getMediaContent = (article: any) => {
-    if (article.id === 'mangrove-education') {
+    // Check if image exists, otherwise show placeholder
+    const imageMap: { [key: string]: string } = {
+      'mangrove-education': '/images/mangrove.jpg'
+      // Add new case study images here as needed
+    };
+
+    if (imageMap[article.id]) {
       return (
         <Image
-          src="/images/mangrove.jpg"
-          alt="Mangrove Education - Resilient education systems inspired by mangrove ecosystems"
+          src={imageMap[article.id]}
+          alt={article.title}
           width={400}
           height={220}
           className={styles.cardImage}
@@ -37,10 +46,8 @@ export default function CaseStudiesPage() {
 
   return (
     <div className={styles.caseStudiesPage}>
-      {/* Back button in upper left */}
       <Link href="/" className={styles.backLink}>← Back to Home</Link>
       
-      {/* Page header without back button */}
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Case Studies</h1>
         <p className={styles.pageDescription}>

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { formatDate } from '../../../lib/utils';
-import styles from '../casestudies.module.css';
+import styles from '../article.module.css';
 
 export default function MangroveEducationPage() {
   const article = {
@@ -15,7 +15,7 @@ export default function MangroveEducationPage() {
   };
 
   return (
-    <div className={styles.caseStudiesPage}>
+    <div className={styles.articlePage}>
       <Link href="/casestudies" className={styles.backLink}>← Back to Case Studies</Link>
       
       <article className={styles.articleContent}>

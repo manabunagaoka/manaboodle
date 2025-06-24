@@ -132,8 +132,13 @@ export default function HomePage() {
     );
   };
 
-  const featuredArticle = articles.find(article => article.featured);
-  const regularArticles = articles.filter(article => !article.featured);
+  // Filter articles to only include the ones you want
+  const allowedArticleIds = ['ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo'];
+  const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
+  
+  // Find featured article from the full list first, then check if it's in allowed list
+  const featuredArticle = articles.find(article => article.featured && allowedArticleIds.includes(article.id));
+  const regularArticles = filteredArticles.filter(article => !article.featured);
 
   // Prevent hydration mismatch by not rendering dates until mounted
   if (!mounted) {

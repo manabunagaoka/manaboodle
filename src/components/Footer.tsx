@@ -33,11 +33,11 @@ export default function Footer() {
         
         <div className="footer-section">
           <div className="footer-links">
-            <a href="/">About</a>
+            <a href="/about">About</a>
             <a href="/concepts">Concepts</a>
             <a href="/projects">Projects</a>
+            <a href="/casestudies">Case Studies</a>
             <a href="/random">Random</a>
-            <a href="/archive">Archive</a>
             <a href="/contact">Contact</a>
           </div>
         </div>

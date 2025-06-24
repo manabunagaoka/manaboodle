@@ -12,23 +12,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/casestudies/page": [
+    "/concepts/ai-nurturing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/casestudies/page.css",
-      "static/chunks/app/casestudies/page.js"
-    ],
-    "/random/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/random/page.css",
-      "static/chunks/app/random/page.js"
-    ],
-    "/projects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/projects/page.css",
-      "static/chunks/app/projects/page.js"
+      "static/css/app/concepts/ai-nurturing/page.css",
+      "static/chunks/app/concepts/ai-nurturing/page.js"
     ],
     "/concepts/page": [
       "static/chunks/webpack.js",
@@ -36,29 +24,17 @@
       "static/css/app/concepts/page.css",
       "static/chunks/app/concepts/page.js"
     ],
-    "/casestudies/mangrove/page": [
+    "/projects/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/casestudies/mangrove/page.css",
-      "static/chunks/app/casestudies/mangrove/page.js"
+      "static/css/app/projects/page.css",
+      "static/chunks/app/projects/page.js"
     ],
-    "/projects/nanny/page": [
+    "/casestudies/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/projects/nanny/page.css",
-      "static/chunks/app/projects/nanny/page.js"
-    ],
-    "/concepts/ai-nurturing/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/concepts/ai-nurturing/page.css",
-      "static/chunks/app/concepts/ai-nurturing/page.js"
-    ],
-    "/projects/karaokegogo/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/projects/karaokegogo/page.css",
-      "static/chunks/app/projects/karaokegogo/page.js"
+      "static/css/app/casestudies/page.css",
+      "static/chunks/app/casestudies/page.js"
     ]
   }
 }

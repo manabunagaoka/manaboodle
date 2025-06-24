@@ -8,23 +8,18 @@ export default function ProjectsPage() {
   const projectArticles = articles.filter(article => article.category === 'project');
 
   const getMediaContent = (article: any) => {
-    if (article.id === 'karaokegogo') {
-      return (
-        <Image
-          src="/images/karaokegogo.jpg"
-          alt="KaraokeGoGo - Empowering children through music and creative expression"
-          width={400}
-          height={220}
-          className={styles.cardImage}
-        />
-      );
-    }
+    // Check if image exists, otherwise show placeholder
+    const imageMap: { [key: string]: string } = {
+      'karaokegogo': '/images/karaokegogo.jpg',
+      'nanny': '/images/nanny.jpg'
+      // Add new project images here as needed
+    };
 
-    if (article.id === 'nanny') {
+    if (imageMap[article.id]) {
       return (
         <Image
-          src="/images/nanny.jpg"
-          alt="Nanny training program in Cape Town, South Africa"
+          src={imageMap[article.id]}
+          alt={article.title}
           width={400}
           height={220}
           className={styles.cardImage}
@@ -42,10 +37,8 @@ export default function ProjectsPage() {
 
   return (
     <div className={styles.projectsPage}>
-      {/* Back button in upper left */}
       <Link href="/" className={styles.backLink}>← Back to Home</Link>
       
-      {/* Page header without back button */}
       <header className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Projects</h1>
         <p className={styles.pageDescription}>
