@@ -2,11 +2,11 @@
 .randomPage {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 5rem 2rem 4rem;
+  padding: 6rem 2rem 4rem;
 }
 
 .backLink {
-  color: #374151;
+  color: #7C3AED;
   text-decoration: none;
   font-weight: 500;
   display: inline-flex;
@@ -19,7 +19,7 @@
 }
 
 .backLink:hover {
-  color: #111827;
+  color: #5B21B6;
   text-decoration: underline;
 }
 
@@ -54,21 +54,18 @@
   margin: 0 auto;
 }
 
-/* Force 3 columns on larger screens */
 @media (min-width: 1024px) {
   .articlesGrid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* 2 columns on medium screens */
 @media (min-width: 768px) and (max-width: 1023px) {
   .articlesGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* 1 column on mobile */
 @media (max-width: 767px) {
   .articlesGrid {
     grid-template-columns: 1fr;
@@ -106,6 +103,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .mediaPlaceholder {
@@ -146,7 +149,7 @@
 }
 
 .cardCategory[data-category="random"] {
-  background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
   color: white;
 }
 
@@ -185,15 +188,16 @@
   text-align: center;
   transition: all 0.3s ease;
   margin-top: auto;
+  text-decoration: none;
 }
 
 .readButton[data-category="random"] {
-  background: linear-gradient(135deg, #7C3AED, #8B5CF6);
+  background: linear-gradient(135deg, #7C3AED, #A855F7);
   color: white;
 }
 
 .readButton[data-category="random"]:hover {
-  background: linear-gradient(135deg, #6D28D9, #7C3AED);
+  background: linear-gradient(135deg, #5B21B6, #7C3AED);
   transform: translateY(-1px);
 }
 
@@ -205,10 +209,9 @@
   font-size: 1.1rem;
 }
 
-/* Mobile responsiveness */
 @media (max-width: 768px) {
   .randomPage {
-    padding: 4rem 1rem 3rem;
+    padding: 6rem 1rem 3rem;
   }
   
   .pageTitle {
@@ -216,21 +219,17 @@
   }
   
   .backLink {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
   
   .cardMedia {
     height: 180px;
   }
-  
-  .pageHeader {
-    margin-bottom: 2rem;
-  }
 }
 
 @media (max-width: 480px) {
   .randomPage {
-    padding: 3.5rem 0.75rem 2rem;
+    padding: 5.5rem 0.75rem 2rem;
   }
   
   .pageTitle {
@@ -239,6 +238,5 @@
   
   .backLink {
     font-size: 0.85rem;
-    margin-bottom: 0.75rem;
   }
 }

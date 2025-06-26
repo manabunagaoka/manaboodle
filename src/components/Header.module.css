@@ -18,6 +18,7 @@
   justify-content: space-between;
   padding: 0 2rem;
   height: 100%;
+  position: relative;
 }
 
 .logo {
@@ -126,6 +127,11 @@
   transform: translateY(-1px);
 }
 
+.subscribeBtn a {
+  color: white;
+  text-decoration: none;
+}
+
 .menuBtn {
   display: none;
   background: none;
@@ -134,6 +140,11 @@
   color: #374151;
   cursor: pointer;
   padding: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.menuBtn:hover {
+  color: #111827;
 }
 
 /* Mobile styles */
@@ -152,6 +163,40 @@
   
   .navMenu {
     display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #E5E7EB;
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 0;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .navMenuOpen {
+    display: flex;
+  }
+
+  .navLink {
+    padding: 1rem 2rem;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid #F3F4F6;
+  }
+
+  .navLink:last-child {
+    border-bottom: none;
+  }
+
+  .navLink::after {
+    display: none;
+  }
+
+  .navLink:hover {
+    background: #F9FAFB;
   }
   
   .searchInput {
@@ -187,6 +232,13 @@
 .navLink[data-active="true"]::after {
   width: 100%;
   background: linear-gradient(135deg, #DC2626, #EF4444);
+}
+
+@media (max-width: 768px) {
+  .navLink[data-active="true"] {
+    background: #F3F4F6;
+    color: #DC2626;
+  }
 }
 
 /* Logo hover effect */

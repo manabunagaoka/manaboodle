@@ -2,11 +2,11 @@
 .articlePage {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 5rem 2rem 4rem;
+  padding: 6rem 2rem 4rem;
 }
 
 .backLink {
-  color: #374151;
+  color: #EA580C;
   text-decoration: none;
   font-weight: 500;
   display: inline-flex;
@@ -19,7 +19,7 @@
 }
 
 .backLink:hover {
-  color: #111827;
+  color: #C2410C;
   text-decoration: underline;
 }
 
@@ -159,11 +159,11 @@
   color: #111827;
 }
 
-/* Back to Home button styling - white fill with orange outline */
+/* Back to Home button styling - white fill with gray outline */
 .backHome {
   background-color: white;
-  border: 2px solid #EA580C;
-  color: #EA580C;
+  border: 2px solid #374151;
+  color: #374151;
   padding: 0.75rem 1.5rem;
   text-decoration: none;
   border-radius: 8px;
@@ -174,7 +174,7 @@
 }
 
 .backHome:hover {
-  background-color: #EA580C;
+  background-color: #374151;
   color: white;
   transform: translateY(-1px);
 }
@@ -182,7 +182,7 @@
 /* Mobile responsiveness for article */
 @media (max-width: 768px) {
   .articlePage {
-    padding: 4rem 1rem 3rem;
+    padding: 6rem 1rem 2rem;
   }
   
   .articleContent {
@@ -209,7 +209,7 @@
 
 @media (max-width: 480px) {
   .articlePage {
-    padding: 3.5rem 0.75rem 2rem;
+    padding: 5.5rem 0.75rem 2rem;
   }
   
   .pageTitle {

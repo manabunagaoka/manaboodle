@@ -5,6 +5,8 @@ import styles from './about.module.css';
 export default function AboutPage() {
   return (
     <div className={styles.aboutPage}>
+      <Link href="/" className={styles.backLink}>← Back to Home</Link>
+      
       <div className={styles.aboutContent}>
         <header className={styles.aboutHeader}>
           <h1 className={styles.aboutTitle}>About</h1>

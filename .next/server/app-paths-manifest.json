@@ -1,7 +1,7 @@
 {
-  "/page": "app/page.js",
-  "/concepts/ai-nurturing/page": "app/concepts/ai-nurturing/page.js",
-  "/concepts/page": "app/concepts/page.js",
   "/casestudies/page": "app/casestudies/page.js",
-  "/about/page": "app/about/page.js"
+  "/casestudies/mangrove/page": "app/casestudies/mangrove/page.js",
+  "/about/page": "app/about/page.js",
+  "/concepts/page": "app/concepts/page.js",
+  "/random/page": "app/random/page.js"
 }

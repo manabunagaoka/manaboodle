@@ -2,10 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 import styles from './Header.module.css';
 
 export default function Header() {
   const pathname = usePathname();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header className={styles.header}>
@@ -17,11 +27,12 @@ export default function Header() {
           </div>
         </Link>
 
-        <nav className={styles.navMenu}>
+        <nav className={`${styles.navMenu} ${isMobileMenuOpen ? styles.navMenuOpen : ''}`}>
           <Link 
             href="/about" 
             className={styles.navLink}
             data-active={pathname === '/about'}
+            onClick={closeMobileMenu}
           >
             About
           </Link>
@@ -29,6 +40,7 @@ export default function Header() {
             href="/concepts" 
             className={styles.navLink}
             data-active={pathname === '/concepts'}
+            onClick={closeMobileMenu}
           >
             Concepts
           </Link>
@@ -36,6 +48,7 @@ export default function Header() {
             href="/projects" 
             className={styles.navLink}
             data-active={pathname === '/projects'}
+            onClick={closeMobileMenu}
           >
             Projects
           </Link>
@@ -43,6 +56,7 @@ export default function Header() {
             href="/casestudies" 
             className={styles.navLink}
             data-active={pathname === '/casestudies'}
+            onClick={closeMobileMenu}
           >
             Case Studies
           </Link>
@@ -50,6 +64,7 @@ export default function Header() {
             href="/random" 
             className={styles.navLink}
             data-active={pathname === '/random'}
+            onClick={closeMobileMenu}
           >
             Random
           </Link>
@@ -57,6 +72,7 @@ export default function Header() {
             href="/contact" 
             className={styles.navLink}
             data-active={pathname === '/contact'}
+            onClick={closeMobileMenu}
           >
             Contact
           </Link>
@@ -68,11 +84,15 @@ export default function Header() {
             placeholder="Search..." 
             className={styles.searchInput}
           />
-          <button className={styles.subscribeBtn}>
-            Subscribe
+          <button className={styles.subscribeBtn} onClick={closeMobileMenu}>
+            <Link href="/contact">Subscribe</Link>
           </button>
-          <button className={styles.menuBtn}>
-            ☰
+          <button 
+            className={styles.menuBtn}
+            onClick={toggleMobileMenu}
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? '✕' : '☰'}
           </button>
         </div>
       </div>
