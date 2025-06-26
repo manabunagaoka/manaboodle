@@ -251,3 +251,13 @@
   color: #4B5563;
   transition: color 0.3s ease;
 }
+
+/* Add this to your existing Header.module.css */
+
+.subscribeBtn {
+  text-decoration: none !important;
+}
+
+.subscribeBtn:hover {
+  text-decoration: none !important;
+}

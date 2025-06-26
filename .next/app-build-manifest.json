@@ -12,29 +12,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/about/page": [
+    "/contact/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/about/page.css",
-      "static/chunks/app/about/page.js"
-    ],
-    "/concepts/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/concepts/page.css",
-      "static/chunks/app/concepts/page.js"
-    ],
-    "/projects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/projects/page.css",
-      "static/chunks/app/projects/page.js"
-    ],
-    "/casestudies/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/casestudies/page.css",
-      "static/chunks/app/casestudies/page.js"
+      "static/css/app/contact/page.css",
+      "static/chunks/app/contact/page.js"
     ],
     "/random/page": [
       "static/chunks/webpack.js",
@@ -42,35 +24,35 @@
       "static/css/app/random/page.css",
       "static/chunks/app/random/page.js"
     ],
-    "/random/vibe-coding/page": [
+    "/casestudies/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/random/vibe-coding/page.css",
-      "static/chunks/app/random/vibe-coding/page.js"
+      "static/css/app/casestudies/page.css",
+      "static/chunks/app/casestudies/page.js"
     ],
-    "/casestudies/mangrove/page": [
+    "/subscribe/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/casestudies/mangrove/page.css",
-      "static/chunks/app/casestudies/mangrove/page.js"
+      "static/css/app/subscribe/page.css",
+      "static/chunks/app/subscribe/page.js"
     ],
-    "/projects/nanny/page": [
+    "/projects/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/projects/nanny/page.css",
-      "static/chunks/app/projects/nanny/page.js"
+      "static/css/app/projects/page.css",
+      "static/chunks/app/projects/page.js"
     ],
-    "/projects/karaokegogo/page": [
+    "/concepts/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/projects/karaokegogo/page.css",
-      "static/chunks/app/projects/karaokegogo/page.js"
+      "static/css/app/concepts/page.css",
+      "static/chunks/app/concepts/page.js"
     ],
-    "/concepts/ai-nurturing/page": [
+    "/about/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/concepts/ai-nurturing/page.css",
-      "static/chunks/app/concepts/ai-nurturing/page.js"
+      "static/css/app/about/page.css",
+      "static/chunks/app/about/page.js"
     ]
   }
 }

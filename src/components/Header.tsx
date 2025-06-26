@@ -12,7 +12,7 @@ export default function Header() {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
-
+  
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
@@ -29,7 +29,7 @@ export default function Header() {
 
         <nav className={`${styles.navMenu} ${isMobileMenuOpen ? styles.navMenuOpen : ''}`}>
           <Link 
-            href="/about" 
+            href="/about"
             className={styles.navLink}
             data-active={pathname === '/about'}
             onClick={closeMobileMenu}
@@ -37,7 +37,7 @@ export default function Header() {
             About
           </Link>
           <Link 
-            href="/concepts" 
+            href="/concepts"
             className={styles.navLink}
             data-active={pathname === '/concepts'}
             onClick={closeMobileMenu}
@@ -45,7 +45,7 @@ export default function Header() {
             Concepts
           </Link>
           <Link 
-            href="/projects" 
+            href="/projects"
             className={styles.navLink}
             data-active={pathname === '/projects'}
             onClick={closeMobileMenu}
@@ -53,7 +53,7 @@ export default function Header() {
             Projects
           </Link>
           <Link 
-            href="/casestudies" 
+            href="/casestudies"
             className={styles.navLink}
             data-active={pathname === '/casestudies'}
             onClick={closeMobileMenu}
@@ -61,7 +61,7 @@ export default function Header() {
             Case Studies
           </Link>
           <Link 
-            href="/random" 
+            href="/random"
             className={styles.navLink}
             data-active={pathname === '/random'}
             onClick={closeMobileMenu}
@@ -69,7 +69,7 @@ export default function Header() {
             Random
           </Link>
           <Link 
-            href="/contact" 
+            href="/contact"
             className={styles.navLink}
             data-active={pathname === '/contact'}
             onClick={closeMobileMenu}
@@ -80,13 +80,17 @@ export default function Header() {
 
         <div className={styles.navActions}>
           <input 
-            type="text" 
-            placeholder="Search..." 
+            type="text"
+            placeholder="Search..."
             className={styles.searchInput}
           />
-          <button className={styles.subscribeBtn} onClick={closeMobileMenu}>
-            <Link href="/contact">Subscribe</Link>
-          </button>
+          <Link 
+            href="/subscribe" 
+            className={styles.subscribeBtn}
+            onClick={closeMobileMenu}
+          >
+            Subscribe
+          </Link>
           <button 
             className={styles.menuBtn}
             onClick={toggleMobileMenu}

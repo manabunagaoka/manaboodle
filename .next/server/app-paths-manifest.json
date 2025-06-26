@@ -1,7 +1,7 @@
 {
+  "/contact/page": "app/contact/page.js",
   "/casestudies/page": "app/casestudies/page.js",
-  "/casestudies/mangrove/page": "app/casestudies/mangrove/page.js",
+  "/subscribe/page": "app/subscribe/page.js",
   "/about/page": "app/about/page.js",
-  "/concepts/page": "app/concepts/page.js",
-  "/random/page": "app/random/page.js"
+  "/concepts/page": "app/concepts/page.js"
 }
