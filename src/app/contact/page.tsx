@@ -12,17 +12,35 @@ export default function ContactPage() {
     message: ''
   });
   const [contactStatus, setContactStatus] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleContact = async (e: React.FormEvent) => {
     e.preventDefault();
     setContactStatus('submitting');
-    
-    // TODO: Integrate with form service (Formspree, Netlify Forms, etc.)
-    // Contact form should go to hello@manaboodle.com
-    setTimeout(() => {
-      setContactStatus('success');
-      setContactForm({ name: '', email: '', subject: '', message: '' });
-    }, 1000);
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactForm),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setContactStatus('success');
+        setContactForm({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setContactStatus('error');
+        setErrorMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      setContactStatus('error');
+      setErrorMessage('Network error. Please check your connection and try again.');
+    }
   };
 
   return (
@@ -51,6 +69,7 @@ export default function ContactPage() {
                 onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
                 className={styles.input}
                 required
+                maxLength={100}
                 disabled={contactStatus === 'submitting'}
               />
             </div>
@@ -78,6 +97,7 @@ export default function ContactPage() {
               onChange={(e) => setContactForm({...contactForm, subject: e.target.value})}
               className={styles.input}
               required
+              maxLength={200}
               disabled={contactStatus === 'submitting'}
             />
           </div>
@@ -91,8 +111,12 @@ export default function ContactPage() {
               className={styles.textarea}
               rows={6}
               required
+              maxLength={2000}
               disabled={contactStatus === 'submitting'}
             />
+            <small className={styles.charCount}>
+              {contactForm.message.length}/2000 characters
+            </small>
           </div>
 
           <button 
@@ -105,7 +129,13 @@ export default function ContactPage() {
 
           {contactStatus === 'success' && (
             <div className={styles.successMessage}>
-              ✨ Message sent successfully! I'll get back to you as soon as possible.
+              ✨ Message sent successfully! I'll get back to you as soon as possible. Check your email for a confirmation.
+            </div>
+          )}
+
+          {contactStatus === 'error' && (
+            <div className={styles.errorMessage}>
+              ❌ {errorMessage}
             </div>
           )}
         </form>

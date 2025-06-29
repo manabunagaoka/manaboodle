@@ -17,42 +17,6 @@
       "static/chunks/main-app.js",
       "static/css/app/contact/page.css",
       "static/chunks/app/contact/page.js"
-    ],
-    "/random/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/random/page.css",
-      "static/chunks/app/random/page.js"
-    ],
-    "/casestudies/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/casestudies/page.css",
-      "static/chunks/app/casestudies/page.js"
-    ],
-    "/subscribe/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/subscribe/page.css",
-      "static/chunks/app/subscribe/page.js"
-    ],
-    "/projects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/projects/page.css",
-      "static/chunks/app/projects/page.js"
-    ],
-    "/concepts/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/concepts/page.css",
-      "static/chunks/app/concepts/page.js"
-    ],
-    "/about/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/about/page.css",
-      "static/chunks/app/about/page.js"
     ]
   }
 }
