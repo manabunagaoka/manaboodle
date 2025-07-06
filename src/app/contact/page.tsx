@@ -129,7 +129,7 @@ export default function ContactPage() {
 
           {contactStatus === 'success' && (
             <div className={styles.successMessage}>
-              ✨ Message sent successfully! I'll get back to you as soon as possible. Check your email for a confirmation.
+              ✨ Got your message! We'll get back to you as soon as possible.
             </div>
           )}
 

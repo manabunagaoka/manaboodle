@@ -7,17 +7,36 @@ import styles from './subscribe.module.css';
 export default function SubscribePage() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('submitting');
-    
-    // TODO: Integrate with email service (ConvertKit, Mailchimp, etc.)
-    // Email should go to subscribe@manaboodle.com
-    setTimeout(() => {
-      setStatus('success');
-      setEmail('');
-    }, 1000);
+    setMessage('');
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus('success');
+        setMessage(data.message);
+        setEmail('');
+      } else {
+        setStatus('error');
+        setMessage(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      setStatus('error');
+      setMessage('Network error. Please check your connection and try again.');
+    }
   };
 
   return (
@@ -55,7 +74,13 @@ export default function SubscribePage() {
         
         {status === 'success' && (
           <div className={styles.successMessage}>
-            ✨ Welcome to the Manaboodle community! Check your email to confirm your subscription.
+            ✨ {message}
+          </div>
+        )}
+
+        {status === 'error' && (
+          <div className={styles.errorMessage}>
+            ❌ {message}
           </div>
         )}
 
