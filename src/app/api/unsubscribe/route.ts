@@ -16,16 +16,23 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    let query = supabase.from('subscribers');
-    
     // Find subscriber by token or email
+    let subscriberQuery;
     if (token) {
-      query = query.select('*').eq('unsubscribe_token', token);
+      subscriberQuery = supabase
+        .from('subscribers')
+        .select('*')
+        .eq('unsubscribe_token', token)
+        .single();
     } else {
-      query = query.select('*').eq('email', email.toLowerCase().trim());
+      subscriberQuery = supabase
+        .from('subscribers')
+        .select('*')
+        .eq('email', email.toLowerCase().trim())
+        .single();
     }
     
-    const { data: subscriber, error: findError } = await query.single();
+    const { data: subscriber, error: findError } = await subscriberQuery;
     
     if (findError || !subscriber) {
       return NextResponse.json(
