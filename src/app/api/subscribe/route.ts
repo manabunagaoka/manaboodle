@@ -29,36 +29,73 @@ export async function POST(request: NextRequest) {
     
     console.log('Adding subscriber:', email);
     
-    // Insert subscriber into database
-    const { data, error } = await supabase
+    // Check if email already exists
+    const { data: existingSubscriber } = await supabase
       .from('subscribers')
-      .insert([
-        { email: email.toLowerCase().trim() }
-      ])
-      .select();
+      .select('*')
+      .eq('email', email.toLowerCase().trim())
+      .single();
     
-    if (error) {
-      // Check if it's a duplicate email error
-      if (error.code === '23505') {
-        return NextResponse.json(
-          { error: 'This email is already subscribed.' },
-          { status: 400 }
-        );
-      }
-      
-      console.error('Supabase error:', error);
+    // If subscriber exists and is active, return message
+    if (existingSubscriber && existingSubscriber.status === 'active') {
       return NextResponse.json(
-        { error: 'Failed to subscribe. Please try again.' },
-        { status: 500 }
+        { error: 'This email is already subscribed.' },
+        { status: 400 }
       );
     }
     
-    console.log('Subscriber added successfully:', data);
+    // If subscriber exists but unsubscribed, reactivate them
+    if (existingSubscriber && existingSubscriber.status === 'unsubscribed') {
+      const { error: updateError } = await supabase
+        .from('subscribers')
+        .update({ 
+          status: 'active',
+          subscribed_at: new Date().toISOString(),
+          unsubscribed_at: null
+        })
+        .eq('id', existingSubscriber.id);
+        
+      if (updateError) {
+        console.error('Supabase reactivation error:', updateError);
+        return NextResponse.json(
+          { error: 'Failed to resubscribe. Please try again.' },
+          { status: 500 }
+        );
+      }
+      
+      console.log('Reactivated subscriber:', email);
+      // Use existing subscriber data for welcome email
+      var subscriber = { ...existingSubscriber, status: 'active' };
+    } else {
+      // Insert new subscriber
+      const { data, error } = await supabase
+        .from('subscribers')
+        .insert([
+          { email: email.toLowerCase().trim() }
+        ])
+        .select();
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        return NextResponse.json(
+          { error: 'Failed to subscribe. Please try again.' },
+          { status: 500 }
+        );
+      }
+      
+      console.log('New subscriber added:', data);
+      var subscriber = data[0];
+    }
     
-    // Send welcome email
-    if (process.env.RESEND_API_KEY) {
+    // Send welcome email with proper unsubscribe links
+    if (process.env.RESEND_API_KEY && subscriber) {
       try {
         console.log('Sending welcome email...');
+        
+        // Get the base URL for unsubscribe links
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://manaboodle.com';
+        const unsubscribeUrl = `${baseUrl}/unsubscribe/${subscriber.unsubscribe_token}`;
+        
         await resend.emails.send({
           from: 'onboarding@resend.dev',
           to: [email],
@@ -87,8 +124,10 @@ export async function POST(request: NextRequest) {
               </p>
               
               <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-              <p style="color: #999; font-size: 12px;">
-                You can unsubscribe at any time by replying to any email from manaboodle.com
+              <p style="color: #999; font-size: 12px; text-align: center;">
+                You're receiving this because you subscribed to Manaboodle updates.<br>
+                <a href="${unsubscribeUrl}" style="color: #0066cc;">Unsubscribe instantly</a> | 
+                <a href="${baseUrl}/unsubscribe" style="color: #0066cc;">Manage preferences</a>
               </p>
             </div>
           `,
@@ -106,7 +145,8 @@ Best regards,
 Manabu Nagaoka
 manaboodle.com
 
-You can unsubscribe at any time by replying to any email from manaboodle.com
+To unsubscribe: ${unsubscribeUrl}
+Or visit: ${baseUrl}/unsubscribe
           `
         });
         console.log('Welcome email sent successfully');
