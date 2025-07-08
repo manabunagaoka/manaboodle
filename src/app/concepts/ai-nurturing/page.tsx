@@ -22,7 +22,7 @@ export default function AINurturingPage() {
           <span className={styles.articleCategory}>Concept</span>
         </div>
         
-        <h1 className={styles.articleTitle}>AI Nurturing and Surrogate Caregivers</h1>
+        <h1 className={styles.articleTitle}>AI Nurturing and Surrogate Caregivers ( TEST EDIT )</h1>
         
         <div className={styles.articleInfo}>
           <div className={styles.authorInfo}>
