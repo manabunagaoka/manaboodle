@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendContactNotification } from '@/lib/aws-ses';
 
 export async function POST(request: NextRequest) {
   console.log('Contact API POST request received!');
@@ -36,74 +34,60 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Check if API key exists
-    if (!process.env.RESEND_API_KEY) {
-      console.error('RESEND_API_KEY is not set!');
+    // Check if AWS credentials exist
+    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+      console.error('AWS SES credentials not configured!');
       return NextResponse.json(
         { error: 'Email service not configured' },
         { status: 500 }
       );
     }
     
-    console.log('Attempting to send notification email...');
+    console.log('Attempting to send notification email via AWS SES...');
     
-    // Send notification email to you
-    const { data, error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: ['manabunagaoka@gmail.com'], // Your notification email
-      subject: `Contact Form: ${subject}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #333; margin-bottom: 20px;">📬 New Contact Form Submission</h2>
-          
-          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <p style="margin: 8px 0;"><strong>From:</strong> ${name}</p>
-            <p style="margin: 8px 0;"><strong>Email:</strong> ${email}</p>
-            <p style="margin: 8px 0;"><strong>Subject:</strong> ${subject}</p>
-          </div>
-          
-          <div style="background-color: #ffffff; padding: 20px; border: 1px solid #e9ecef; border-radius: 8px;">
-            <h3 style="color: #333; margin-top: 0;">Message:</h3>
-            <p style="white-space: pre-wrap; line-height: 1.6; color: #555;">${message}</p>
-          </div>
-          
-          <hr style="border: none; border-top: 1px solid #e9ecef; margin: 30px 0;">
-          <p style="color: #6c757d; font-size: 12px; text-align: center;">
-            This message was sent from the Manaboodle contact form.<br>
-            Submitted at: ${new Date().toLocaleString()}
-          </p>
-        </div>
-      `,
-      text: `
-New contact form submission from ${name} (${email})
-
-Subject: ${subject}
-
-Message:
-${message}
-
-Submitted at: ${new Date().toLocaleString()}
-      `,
-    });
-    
-    if (error) {
-      console.error('Resend error:', error);
+    try {
+      // Send notification email using AWS SES
+      const result = await sendContactNotification({
+        name,
+        email,
+        subject,
+        message,
+      });
+      
+      console.log('Email sent successfully:', result);
+      
+      return NextResponse.json(
+        { 
+          success: true, 
+          message: 'Message sent successfully! I\'ll get back to you as soon as possible.',
+          messageId: result.messageId 
+        },
+        { status: 200 }
+      );
+    } catch (sesError: any) {
+      console.error('SES error details:', sesError);
+      
+      // Handle specific SES errors
+      if (sesError.name === 'MessageRejected') {
+        return NextResponse.json(
+          { error: 'Email address verification required. Please try again later.' },
+          { status: 400 }
+        );
+      }
+      
+      if (sesError.name === 'ConfigurationSetDoesNotExist') {
+        return NextResponse.json(
+          { error: 'Email service configuration error. Please contact support.' },
+          { status: 500 }
+        );
+      }
+      
+      // Generic error
       return NextResponse.json(
         { error: 'Failed to send message. Please try again.' },
         { status: 500 }
       );
     }
-    
-    console.log('Email sent successfully:', data);
-    
-    return NextResponse.json(
-      { 
-        success: true, 
-        message: 'Message sent successfully! I\'ll get back to you as soon as possible.',
-        emailId: data?.id 
-      },
-      { status: 200 }
-    );
     
   } catch (error) {
     console.error('Contact form error:', error);
@@ -120,6 +104,7 @@ Submitted at: ${new Date().toLocaleString()}
 export async function GET() {
   return NextResponse.json({ 
     message: 'Contact API is working!',
-    hasApiKey: !!process.env.RESEND_API_KEY 
+    hasAwsCredentials: !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY),
+    region: process.env.AWS_REGION || 'us-east-1'
   });
 }

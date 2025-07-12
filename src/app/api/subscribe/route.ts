@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendWelcomeEmail } from '@/lib/aws-ses';
 
 export async function POST(request: NextRequest) {
   console.log('Subscribe API POST request received!');
@@ -87,72 +85,29 @@ export async function POST(request: NextRequest) {
       var subscriber = data[0];
     }
     
-    // Send welcome email with proper unsubscribe links
-    if (process.env.RESEND_API_KEY && subscriber) {
+    // Send welcome email with AWS SES
+    if (subscriber && process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
       try {
-        console.log('Sending welcome email...');
+        console.log('Sending welcome email via AWS SES...');
         
-        // Get the base URL for unsubscribe links
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://manaboodle.com';
-        const unsubscribeUrl = `${baseUrl}/unsubscribe/${subscriber.unsubscribe_token}`;
-        
-        await resend.emails.send({
-          from: 'onboarding@resend.dev',
-          to: [email],
-          subject: 'Welcome to Manaboodle Updates!',
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-              <h2 style="color: #333; margin-bottom: 20px;">🎉 Welcome to Manaboodle!</h2>
-              
-              <p style="color: #666; line-height: 1.6; font-size: 16px;">
-                Thanks for subscribing to article notifications! You'll now receive an email whenever I publish new content.
-              </p>
-              
-              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #555; margin: 0; font-size: 14px;">
-                  <strong>What to expect:</strong><br>
-                  • Notifications for new articles and insights<br>
-                  • No spam, just quality content<br>
-                  • Easy unsubscribe anytime
-                </p>
-              </div>
-              
-              <p style="color: #666; line-height: 1.6;">
-                Best regards,<br>
-                Manabu Nagaoka<br>
-                <a href="https://manaboodle.com" style="color: #0066cc;">manaboodle.com</a>
-              </p>
-              
-              <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;">
-              <p style="color: #999; font-size: 12px; text-align: center;">
-                You're receiving this because you subscribed to Manaboodle updates.<br>
-                <a href="${unsubscribeUrl}" style="color: #0066cc;">Unsubscribe instantly</a> | 
-                <a href="${baseUrl}/unsubscribe" style="color: #0066cc;">Manage preferences</a>
-              </p>
-            </div>
-          `,
-          text: `
-Welcome to Manaboodle!
-
-Thanks for subscribing to article notifications! You'll now receive an email whenever I publish new content.
-
-What to expect:
-• Notifications for new articles and insights  
-• No spam, just quality content
-• Easy unsubscribe anytime
-
-Best regards,
-Manabu Nagaoka
-manaboodle.com
-
-To unsubscribe: ${unsubscribeUrl}
-Or visit: ${baseUrl}/unsubscribe
-          `
+        await sendWelcomeEmail({
+          email: subscriber.email,
+          unsubscribeToken: subscriber.unsubscribe_token,
         });
+        
         console.log('Welcome email sent successfully');
-      } catch (emailError) {
+      } catch (emailError: any) {
         console.error('Failed to send welcome email:', emailError);
+        
+        // Log specific SES errors but don't fail the subscription
+        if (emailError.name === 'MessageRejected') {
+          console.error('SES: Email address not verified or in sandbox mode');
+        } else if (emailError.Code === 'Throttling') {
+          console.error('SES: Rate limit exceeded');
+        }
+        
         // Don't fail the subscription if email fails
+        // User is still subscribed even if welcome email doesn't send
       }
     }
     
@@ -178,5 +133,7 @@ Or visit: ${baseUrl}/unsubscribe
 export async function GET() {
   return NextResponse.json({ 
     message: 'Subscribe API is working!',
+    hasAwsCredentials: !!(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY),
+    region: process.env.AWS_REGION || 'us-east-1'
   });
 }
