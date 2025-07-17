@@ -1,6 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/unsubscribe/[token]/page": "app/unsubscribe/[token]/page.js",
-  "/subscribe/page": "app/subscribe/page.js",
-  "/api/subscribe/route": "app/api/subscribe/route.js"
-}

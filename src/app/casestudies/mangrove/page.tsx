@@ -9,7 +9,7 @@ export default function MangroveEducationPage() {
     title: 'Mangrove Education',
     excerpt: 'Exploring resilient education systems inspired by mangrove ecosystems - adaptive, interconnected, and thriving in challenging environments.',
     category: 'casestudy',
-    publishedAt: '2025-06-23',
+    publishedAt: '2025-07-15',
     readTime: 8,
     featured: false
   };
