@@ -1,0 +1,131 @@
+/* Privacy Page Styles */
+.privacyPage {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    line-height: 1.7;
+    min-height: 100vh;
+}
+
+.pageHeader {
+    margin-bottom: 3rem;
+    border-bottom: 2px solid #059669;
+    padding-bottom: 2rem;
+}
+
+.pageTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #000;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.lastUpdated {
+    font-size: 0.9rem;
+    color: #6B7280;
+    font-style: italic;
+}
+
+.content {
+    font-size: 1.1rem;
+    color: #374151;
+}
+
+.section {
+    margin: 3rem 0;
+}
+
+.sectionTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #059669;
+    padding-bottom: 0.5rem;
+}
+
+.subsectionTitle {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
+
+.paragraph {
+    margin-bottom: 1.5rem;
+    text-align: justify;
+    line-height: 1.8;
+}
+
+.list {
+    list-style: disc;
+    padding-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.listItem {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+    color: #4B5563;
+}
+
+.contactInfo {
+    background: #F9FAFB;
+    border-left: 4px solid #059669;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 6px;
+}
+
+.link {
+    color: #059669;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.link:hover {
+    border-bottom: 1px solid #059669;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .privacyPage {
+        padding: 6rem 1rem 3rem;
+    }
+
+    .pageTitle {
+        font-size: 2rem;
+    }
+
+    .sectionTitle {
+        font-size: 1.5rem;
+    }
+
+    .content {
+        font-size: 1rem;
+    }
+
+    .paragraph {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .privacyPage {
+        padding: 4rem 0.75rem 2rem;
+    }
+    
+    .pageTitle {
+        font-size: 1.75rem;
+    }
+    
+    .subsectionTitle {
+        font-size: 1.1rem;
+    }
+}

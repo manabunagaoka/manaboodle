@@ -318,6 +318,107 @@ body {
     font-size: 0.85rem;
 }
 
+/* Footer logo and byline styles - match header spacing */
+.footer-logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-logo-container h4 {
+    margin-bottom: 0.125rem;
+    line-height: 1.2;
+}
+
+.footer-byline {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    font-weight: 400;
+    font-style: normal;
+    margin-top: 0.125rem;
+}
+
+/* Footer legal links styling */
+.footer-legal-links {
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Force white color for footer legal links - more specific selectors */
+.footer-bottom .footer-legal-links a,
+.footer-bottom .footer-legal-links a:link,
+.footer-bottom .footer-legal-links a:visited,
+.footer-bottom .footer-legal-links a:hover,
+.footer-bottom .footer-legal-links a:active,
+.footer-bottom .footer-legal-links a:focus {
+    color: var(--white) !important;
+    opacity: 0.9;
+    text-decoration: none;
+}
+
+.footer-bottom .footer-legal-links a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.footer-separator {
+    color: var(--gray-500);
+}
+
+.footer-bottom p {
+    color: var(--gray-400);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Read Button Styling */
+.read-button {
+    display: inline-block;
+    background: var(--primary-blue);
+    color: var(--white);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.read-button:hover {
+    background: var(--dark-blue);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.featured-card .read-button {
+    background: var(--red);
+}
+
+.featured-card .read-button:hover {
+    background: var(--red-dark);
+}
+
+/* Fix card content layout */
+.card-content {
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-meta {
+    margin-top: auto;
+    margin-bottom: 0;
+}
+
 /* Responsive Design */
 @media (min-width: 640px) {
     .search-container {
@@ -396,6 +497,10 @@ body {
     .mobile-logo-container {
         min-width: 200px;
     }
+
+    .footer-byline {
+        font-size: 0.8rem;
+    }
 }
 
 @media (min-width: 1024px) {
@@ -410,81 +515,20 @@ body {
     .byline {
         font-size: 0.85rem;
     }
-}
 
-/* Footer logo and byline styles - match header spacing */
-.footer-logo-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.footer-logo-container h4 {
-    margin-bottom: 0.125rem;
-    line-height: 1.2;
-}
-
-.footer-byline {
-    font-size: 0.75rem;
-    color: var(--gray-400);
-    font-weight: 400;
-    font-style: normal;
-    margin-top: 0.125rem;
-}
-
-/* Responsive adjustments for footer */
-@media (min-width: 768px) {
-    .footer-byline {
-        font-size: 0.8rem;
-    }
-}
-
-@media (min-width: 1024px) {
     .footer-byline {
         font-size: 0.85rem;
     }
 }
 
-/* Read Button Styling */
-.read-button {
-    display: inline-block;
-    background: var(--primary-blue);
-    color: var(--white);
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 1rem;
-    transition: all 0.3s ease;
-    text-align: center;
-}
-
-.read-button:hover {
-    background: var(--dark-blue);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
-
-.featured-card .read-button {
-    background: var(--red);
-}
-
-.featured-card .read-button:hover {
-    background: var(--red-dark);
-}
-
-/* Fix card content layout */
-.card-content {
-    padding: 1.5rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-meta {
-    margin-top: auto;
-    margin-bottom: 0;
+/* Mobile specific footer fixes */
+@media (max-width: 768px) {
+    .footer-legal-links {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .footer-bottom .footer-legal-links a {
+        color: var(--white) !important;
+    }
 }

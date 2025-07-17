@@ -9,6 +9,7 @@ export default function Footer() {
             <h4>Manaboodle</h4>
             <div className="footer-byline">by Manabu Nagaoka</div>
           </div>
+          {/* Social links commented out until service launch
           <div className="social-links">
             <a href="#" className="social-link" aria-label="Instagram">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -31,6 +32,7 @@ export default function Footer() {
               </svg>
             </a>
           </div>
+          */}
         </div>
         
         <div className="footer-section">
@@ -47,6 +49,11 @@ export default function Footer() {
       </div>
       
       <div className="footer-bottom">
+        <div className="footer-legal-links">
+          <Link href="/privacy">Privacy Policy</Link>
+          <span className="footer-separator">•</span>
+          <Link href="/terms">Terms of Service</Link>
+        </div>
         <p>&copy; 2025 Manaboodle by Manabu Nagaoka. All rights reserved.</p>
       </div>
     </footer>
