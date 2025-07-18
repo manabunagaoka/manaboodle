@@ -1,12 +1,6 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
-
 export function formatDate(dateString: string): string {
-  const date = new Date(dateString);
+  // Add time to ensure it's interpreted as noon local time
+  const date = new Date(dateString + 'T12:00:00');
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -16,4 +10,10 @@ export function formatDate(dateString: string): string {
 
 export function formatReadTime(minutes: number): string {
   return `${minutes} min read`;
+}
+
+export function calculateReadingTime(content: string): number {
+  const wordsPerMinute = 225;
+  const words = content.trim().split(/\s+/).length;
+  return Math.ceil(words / wordsPerMinute);
 }
