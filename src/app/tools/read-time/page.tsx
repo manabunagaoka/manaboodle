@@ -369,7 +369,6 @@ export default function ReadTimeCalculatorPage() {
       </div>
 
       <footer className={styles.toolFooter}>
-        <Link href="/tools" className={styles.backToTools}>← Back to Tools</Link>
         <Link href="/" className={styles.backHome}>← Back to Home</Link>
       </footer>
 
