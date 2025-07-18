@@ -227,7 +227,7 @@ export async function processNotificationJob(jobId: string): Promise<void> {
       .from('notification_jobs')
       .update({ 
         status: 'failed',
-        error: error.message,
+        error: error instanceof Error ? error.message : 'Unknown error',
       })
       .eq('id', jobId);
   }
