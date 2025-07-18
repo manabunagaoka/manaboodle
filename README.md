@@ -2,23 +2,31 @@
 
 A Next.js-powered blog and content platform featuring curated articles across multiple categories with a focus on education, technology, and creative projects.
 
-## 🚀 Features
+## 🚀 Live Site
 
-### Current Features
+Visit: [www.manaboodle.com](https://www.manaboodle.com)
+
+## ✅ Current Status
+
+### Working Features
 - **Multi-Category Content**: Case Studies, Concepts, Projects, and Random thoughts
 - **Responsive Design**: Mobile-first approach with category-specific styling and theming
 - **SEO Optimized**: Dynamic metadata generation for all pages
-- **Consistent Article Layout**: Unified design pattern across all categories
-- **Email Preferences**: Subscriber preference management system
-- **Legal Compliance**: Privacy Policy, Terms of Service, and Email Preferences pages
-- **Simple Content Management**: Easy-to-maintain article structure
-
-### Article System
-- **Simplified Architecture**: Each article is a self-contained Next.js page
+- **Article System**: Simple, maintainable structure with consistent layouts
+- **Legal Pages**: Privacy Policy and Terms of Service
 - **Category Theming**: Color-coded categories (Blue for Concepts, Orange for Case Studies, Green for Projects, Purple for Random)
-- **Consistent Styling**: Shared article layout with category-specific accents
-- **Reading Time**: Display estimated reading time for each article
-- **Professional Attribution**: Support for academic citations and references
+
+### Recent Articles
+- **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
+- **Mangrove Education** (Case Studies) - Building resilient teacher communities in Indonesia
+- **karaokeGoGo** (Projects) - Music-sharing platform for children
+- **Nanny Project** (Projects) - AI-powered tools for personalized learning
+- **Vibe Coding** (Random) - Music and programming productivity
+
+### In Development
+- **Email Subscription System**: Supabase database ready, awaiting AWS SES production approval
+- **Contact Form**: Frontend complete, backend awaiting email service
+- **Email Preferences**: UI complete at `/preferences`, functionality pending
 
 ## 📁 Project Structure
 
@@ -53,9 +61,26 @@ manaboodle/
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
-- **Database**: Supabase (PostgreSQL)
+- **Database**: Supabase (PostgreSQL) - configured, awaiting email service
+- **Email Service**: AWS SES (pending production approval)
 - **Styling**: CSS Modules with category theming
 - **Deployment**: Vercel
+- **Domain**: Custom domain (www.manaboodle.com)
+
+## 🚧 Pending Setup
+
+### AWS SES Production Access
+Currently in sandbox mode. Production access required for:
+- Newsletter subscriptions
+- Contact form submissions
+- Email preference management
+- Automated notifications
+
+### Steps to Complete:
+1. Reapply for AWS SES production access
+2. Configure domain verification and DKIM
+3. Enable email sending functionality
+4. Test subscription and contact systems
 
 ## 🚀 Getting Started
 
