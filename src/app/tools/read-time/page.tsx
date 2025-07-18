@@ -14,36 +14,71 @@ export default function ReadTimeCalculatorPage() {
     paragraphs: 0,
     readTime: 0
   });
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const calculateStats = (content: string) => {
-    if (!content.trim()) {
+  const calculateStats = async () => {
+    if (!text.trim()) {
       setStats({ words: 0, characters: 0, paragraphs: 0, readTime: 0 });
+      setShowResults(false);
       return;
     }
 
-    const words = content.trim().split(/\s+/).filter(word => word.length > 0).length;
-    const characters = content.length;
-    const paragraphs = content.split(/\n\n+/).filter(para => para.trim().length > 0).length;
+    // Start the calculation animation
+    setIsCalculating(true);
+    setShowResults(false);
+    setProgress(0);
+
+    // Simulate progress steps
+    const steps = [
+      { progress: 20, label: "Analyzing text structure..." },
+      { progress: 40, label: "Counting words and paragraphs..." },
+      { progress: 60, label: "Calculating complexity..." },
+      { progress: 80, label: "Determining reading speed..." },
+      { progress: 100, label: "Finalizing results..." }
+    ];
+
+    for (let step of steps) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+      setProgress(step.progress);
+    }
+
+    // Do the actual calculation
+    const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    const characters = text.length;
+    const paragraphs = text.split(/\n\n+/).filter(para => para.trim().length > 0).length;
     const readTime = Math.ceil(words / wpm);
 
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
     setStats({ words, characters, paragraphs, readTime });
+    setIsCalculating(false);
+    setShowResults(true);
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
     setText(newText);
-    calculateStats(newText);
+    setShowResults(false); // Hide results when text changes
   };
 
   const handleWpmChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newWpm = parseInt(e.target.value);
     setWpm(newWpm);
-    calculateStats(text);
+    if (showResults && text.trim()) {
+      // Recalculate if results are showing
+      const words = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+      const newReadTime = Math.ceil(words / newWpm);
+      setStats(prev => ({ ...prev, readTime: newReadTime }));
+    }
   };
 
   const handleClear = () => {
     setText('');
     setStats({ words: 0, characters: 0, paragraphs: 0, readTime: 0 });
+    setShowResults(false);
+    setProgress(0);
   };
 
   return (
@@ -88,7 +123,7 @@ export default function ReadTimeCalculatorPage() {
                 fontFamily: 'inherit',
                 transition: 'border-color 0.3s ease'
               }}
-              onFocus={(e) => e.target.style.borderColor = '#7C3AED'}
+              onFocus={(e) => e.target.style.borderColor = '#0F766E'}
               onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
             />
           </div>
@@ -102,22 +137,24 @@ export default function ReadTimeCalculatorPage() {
             marginBottom: '2rem'
           }}>
             <button
-              onClick={() => calculateStats(text)}
+              onClick={calculateStats}
+              disabled={isCalculating || !text.trim()}
               style={{
-                background: '#7C3AED',
+                background: isCalculating ? '#6B7280' : '#0F766E',
                 color: 'white',
                 border: 'none',
                 padding: '0.75rem 2rem',
                 borderRadius: '8px',
                 fontWeight: 600,
                 fontSize: '1rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                cursor: isCalculating || !text.trim() ? 'not-allowed' : 'pointer',
+                transition: 'all 0.3s ease',
+                opacity: !text.trim() ? 0.5 : 1
               }}
-              onMouseOver={(e) => e.currentTarget.style.background = '#6D28D9'}
-              onMouseOut={(e) => e.currentTarget.style.background = '#7C3AED'}
+              onMouseOver={(e) => !isCalculating && text.trim() && (e.currentTarget.style.background = '#0D685D')}
+              onMouseOut={(e) => !isCalculating && (e.currentTarget.style.background = '#0F766E')}
             >
-              Calculate
+              {isCalculating ? 'Calculating...' : 'Calculate'}
             </button>
             
             <button
@@ -169,17 +206,60 @@ export default function ReadTimeCalculatorPage() {
             </div>
           </div>
 
-          {/* Results */}
-          {(stats.words > 0 || text.length > 0) && (
+          {/* Progress Bar */}
+          {isCalculating && (
             <div style={{
+              marginBottom: '2rem',
               background: '#F9FAFB',
               borderRadius: '8px',
               padding: '1.5rem'
             }}>
+              <div style={{
+                fontSize: '0.875rem',
+                color: '#6B7280',
+                marginBottom: '0.75rem',
+                textAlign: 'center'
+              }}>
+                Analyzing your content...
+              </div>
+              <div style={{
+                width: '100%',
+                height: '8px',
+                background: '#E5E7EB',
+                borderRadius: '4px',
+                overflow: 'hidden'
+              }}>
+                <div style={{
+                  width: `${progress}%`,
+                  height: '100%',
+                  background: '#0F766E',
+                  borderRadius: '4px',
+                  transition: 'width 0.3s ease'
+                }} />
+              </div>
+              <div style={{
+                fontSize: '0.75rem',
+                color: '#9CA3AF',
+                marginTop: '0.5rem',
+                textAlign: 'center'
+              }}>
+                {progress}% complete
+              </div>
+            </div>
+          )}
+
+          {/* Results */}
+          {showResults && (
+            <div style={{
+              background: '#F9FAFB',
+              borderRadius: '8px',
+              padding: '1.5rem',
+              animation: 'fadeIn 0.5s ease-in'
+            }}>
               {/* Primary Result */}
               <div style={{
                 background: 'white',
-                border: '2px solid #7C3AED',
+                border: '2px solid #0F766E',
                 borderRadius: '8px',
                 padding: '1rem',
                 marginBottom: '1rem',
@@ -188,7 +268,7 @@ export default function ReadTimeCalculatorPage() {
                 <div style={{ fontSize: '0.875rem', color: '#6B7280', marginBottom: '0.25rem' }}>
                   Reading Time
                 </div>
-                <div style={{ fontSize: '2rem', fontWeight: 700, color: '#7C3AED' }}>
+                <div style={{ fontSize: '2rem', fontWeight: 700, color: '#0F766E' }}>
                   {stats.readTime} min
                 </div>
               </div>
@@ -246,6 +326,19 @@ export default function ReadTimeCalculatorPage() {
         <Link href="/tools" className={styles.backToTools}>← Back to Tools</Link>
         <Link href="/" className={styles.backHome}>← Back to Home</Link>
       </footer>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
