@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import styles from './page.module.css'
 
@@ -13,7 +13,7 @@ interface EmailPreferences {
   frequency: 'weekly' | 'monthly' | 'immediate'
 }
 
-function EmailPreferencesContent() {
+export default function EmailPreferencesPage() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
   const token = searchParams.get('token')
@@ -248,13 +248,5 @@ function EmailPreferencesContent() {
         </div>
       </form>
     </div>
-  )
-}
-
-export default function EmailPreferencesPage() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <EmailPreferencesContent />
-    </Suspense>
   )
 }
