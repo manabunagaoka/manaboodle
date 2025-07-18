@@ -1,16 +1,12 @@
 'use client'
 
-export const dynamic = "force-dynamic";
-
-import { useState, useEffect } from 'react'
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function PreferencesPage() {
+function PreferencesContent() {
   const searchParams = useSearchParams()
   const email = searchParams.get('email')
   const token = searchParams.get('token')
-  
-  const [loading, setLoading] = useState(false)
 
   if (!email || !token) {
     return (
@@ -27,5 +23,13 @@ export default function PreferencesPage() {
       <p>Managing preferences for: {email}</p>
       <p>Feature coming soon...</p>
     </div>
+  )
+}
+
+export default function PreferencesPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: '2rem' }}>Loading...</div>}>
+      <PreferencesContent />
+    </Suspense>
   )
 }
