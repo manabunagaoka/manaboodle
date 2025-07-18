@@ -16,7 +16,7 @@ export const articles: Article[] = [
     title: 'AI Nurturing and Surrogate Caregivers',
     excerpt: 'Imagine a dataset capturing emotional nuances and caregiving insights from millions of genuine interactions within a unique triangular relationship: human children, caregivers, and AI.',
     category: 'concept',
-    publishedAt: '2025-07-15',
+    publishedAt: '2025-07-20',
     readTime: 12, // Will be calculated dynamically in the article page
     featured: true,
     slug: 'ai-nurturing'
@@ -26,8 +26,8 @@ export const articles: Article[] = [
     title: 'Mangrove Education',
     excerpt: 'Exploring resilient education systems inspired by mangrove ecosystems - adaptive, interconnected, and thriving in challenging environments.',
     category: 'casestudy',
-    publishedAt: '2025-07-15',
-    readTime: 8,
+    publishedAt: '2025-07-20',
+    readTime: 5,
     featured: false,
     slug: 'mangrove-education'
   },
@@ -36,7 +36,7 @@ export const articles: Article[] = [
     title: 'Super Personalized Learning Model: Nannies vs AI',
     excerpt: 'From Cape Town to global reach: how we are empowering nannies with AI-powered tools to create super-personalized learning experiences for children everywhere.',
     category: 'project',
-    publishedAt: '2025-07-15',
+    publishedAt: '2025-07-20',
     readTime: 6,
     featured: false,
     slug: 'nanny'
@@ -46,7 +46,7 @@ export const articles: Article[] = [
     title: 'Vibe Coding',
     excerpt: 'Exploring the intersection of music, mood, and programming productivity. How different vibes can unlock creative coding flow states.',
     category: 'random',
-    publishedAt: '2025-07-15',
+    publishedAt: '2025-07-20',
     readTime: 7,
     featured: false,
     slug: 'vibe-coding'
@@ -56,7 +56,7 @@ export const articles: Article[] = [
     title: 'karaokeGoGo',
     excerpt: 'A music-sharing platform designed to empower children globally through joyful, creative singing experiences.',
     category: 'project',
-    publishedAt: '2025-07-15',
+    publishedAt: '2025-07-20',
     readTime: 8,
     featured: false,
     slug: 'karaokegogo'

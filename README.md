@@ -1,170 +1,220 @@
-# Manaboodle CSS Architecture Guide
+# Manaboodle - Modern Blog & Content Platform
 
-## Overview
+A Next.js-powered blog and content platform featuring curated articles across multiple categories with a focus on education, technology, and creative projects.
 
-This project uses a **modular CSS approach** with CSS Modules, where each page type has its own dedicated stylesheet. This allows for maximum flexibility and unique styling for individual articles while maintaining consistency where needed.
+## 🚀 Features
 
-## CSS File Structure
-src/app/
-├── [category]/
-│   ├── page.tsx                    # Category listing page
-│   ├── [category].module.css       # Styles for category listing
-│   └── [article-slug]/
-│       ├── page.tsx                # Individual article page
-│       └── article.module.css      # Article-specific styles
+### Current Features
+- **Multi-Category Content**: Case Studies, Concepts, Projects, and Random thoughts
+- **Responsive Design**: Mobile-first approach with category-specific styling and theming
+- **SEO Optimized**: Dynamic metadata generation for all pages
+- **Consistent Article Layout**: Unified design pattern across all categories
+- **Email Preferences**: Subscriber preference management system
+- **Legal Compliance**: Privacy Policy, Terms of Service, and Email Preferences pages
+- **Simple Content Management**: Easy-to-maintain article structure
 
-## CSS Organization Pattern
+### Article System
+- **Simplified Architecture**: Each article is a self-contained Next.js page
+- **Category Theming**: Color-coded categories (Blue for Concepts, Orange for Case Studies, Green for Projects, Purple for Random)
+- **Consistent Styling**: Shared article layout with category-specific accents
+- **Reading Time**: Display estimated reading time for each article
+- **Professional Attribution**: Support for academic citations and references
 
-### 1. Category Listing Pages
-Each category has its own listing page with dedicated styling:
+## 📁 Project Structure
 
-- **Location**: `app/[category]/[category].module.css`
-- **Examples**: 
-  - `projects/projects.module.css` (Green theme)
-  - `concepts/concepts.module.css` (Blue theme)
-  - `random/random.module.css` (Purple theme)
-  - `casestudies/casestudies.module.css` (Red theme)
-- **Purpose**: Styles the grid layout, cards, and category-specific theming
+```
+manaboodle/
+├── app/
+│   ├── casestudies/
+│   │   ├── article.module.css    # Orange theme styling
+│   │   └── mangrove/
+│   │       └── page.tsx          # Mangrove Education article
+│   ├── concepts/
+│   │   ├── article.module.css    # Blue theme styling
+│   │   └── ai-nurturing/
+│   │       └── page.tsx          # AI Nurturing article
+│   ├── projects/
+│   │   ├── article.module.css    # Green theme styling
+│   │   └── [project-articles]/
+│   ├── random/
+│   │   ├── article.module.css    # Purple theme styling
+│   │   └── [random-articles]/
+│   ├── privacy/                  # Privacy policy
+│   ├── terms/                    # Terms of service
+│   ├── preferences/              # Email preferences
+│   └── api/
+│       └── preferences/          # Preferences API
+└── lib/
+    ├── content.ts                # Article index and metadata
+    └── utils.ts                  # Utility functions
+```
 
-### 2. Individual Article Pages
-Each article can have its own unique styling:
+## 🛠 Tech Stack
 
-- **Location**: `app/[category]/[article-slug]/article.module.css`
-- **Examples**:
-  - `projects/karaokegogo/article.module.css`
-  - `concepts/ai-nurturing/article.module.css`
-  - `random/vibe-coding/article.module.css`
-- **Purpose**: Allows complete customization per article
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Database**: Supabase (PostgreSQL)
+- **Styling**: CSS Modules with category theming
+- **Deployment**: Vercel
 
-### 3. Static Pages
-Standard pages follow the same pattern:
+## 🚀 Getting Started
 
-- **Location**: `app/[page-name]/page.module.css`
-- **Examples**:
-  - `contact/contact.module.css`
-  - `privacy/page.module.css` (to be created)
-  - `terms/page.module.css` (to be created)
+### Prerequisites
+- Node.js 18.x or higher
+- npm or yarn
+- Supabase account (for subscriber features)
 
-## Color Themes by Category
+### Installation
 
-Each category has its own color theme that's consistently used:
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/manaboodle.git
+cd manaboodle
+```
 
-| Category | Primary Color | Color Code | Used In |
-|----------|--------------|------------|---------|
-| Projects | Green | `#059669` | Links, borders, buttons, category badges |
-| Concepts | Blue | `#2563EB` | Links, borders, buttons, category badges |
-| Random | Purple | `#7C3AED` | Links, borders, buttons, category badges |
-| Case Studies | Red | `#DC2626` | Links, borders, buttons, category badges |
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-## Common CSS Classes and Patterns
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-### Article Pages (`article.module.css`)
+Update `.env.local` with your credentials:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-```css
-.articlePage        /* Main container */
-.articleHeader      /* Article header section */
-.articleTitle       /* Main article title */
-.articleCategory    /* Category badge */
-.backLink          /* Back navigation link */
-.sectionHeading    /* Section headers within article */
-.articleContent    /* Main content wrapper */
-.importantNote     /* Highlighted note boxes */
-.comparisonTable   /* Styled comparison tables */
-Category Pages ([category].module.css)
-css.projectsPage      /* Main container (named per category) */
-.pageHeader        /* Category page header */
-.pageTitle         /* Category title */
-.articlesGrid      /* Grid layout for article cards */
-.contentCard       /* Individual article card */
-.cardCategory      /* Category badge on card */
-.readButton        /* Read more button */
-Why This Approach?
-Advantages:
+4. Run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-Maximum Flexibility: Each article can have completely unique styling
+Visit [http://localhost:3000](http://localhost:3000) to see your site.
 
-Custom layouts for special content
-Article-specific animations or effects
-Unique typography or spacing needs
+## 📝 Creating New Articles
 
+### Quick Start
+1. Create a new folder in the appropriate category directory
+2. Add a `page.tsx` file with your article content
+3. Update `lib/content.ts` with article metadata
 
-Category Consistency: Shared patterns within categories while allowing variations
-Easy to Understand: Clear file structure where styles live with their content
-No Conflicts: CSS Modules prevent style leakage between pages
-Performance: Only loads CSS needed for the current page
+### Example Article Structure
+```typescript
+// app/[category]/[article-name]/page.tsx
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import styles from '../article.module.css';
 
-Trade-offs:
+export const metadata: Metadata = {
+  title: 'Your Article Title',
+  description: 'Brief description for SEO',
+};
 
-Some code duplication across article CSS files
-Need to update multiple files for global style changes
-Larger overall CSS footprint
+export default function ArticlePage() {
+  return (
+    <div className={styles.articlePage}>
+      <header className={styles.articleHeader}>
+        <div className={styles.articleMeta}>
+          <Link href="/[category]" className={styles.backLink}>← Back to [Category]</Link>
+          <span className={styles.articleCategory}>[Category]</span>
+        </div>
+        
+        <h1 className={styles.articleTitle}>Your Article Title</h1>
+        
+        <div className={styles.articleInfo}>
+          <div className={styles.authorInfo}>
+            <span className={styles.author}>by Your Name</span>
+            <span className={styles.publishDate}>July 20, 2025</span>
+            <span className={styles.readTime}>X min read</span>
+          </div>
+        </div>
+      </header>
 
-Creating New Content
-New Article
+      <article className={styles.articleContent}>
+        {/* Your content here */}
+      </article>
 
-Create folder: app/[category]/[article-slug]/
-Add page.tsx for content
-Copy article.module.css from another article in the same category
-Modify styles as needed for unique requirements
-
-New Category
-
-Create folder: app/[new-category]/
-Add page.tsx for category listing
-Create [new-category].module.css with category color theme
-Define new color in the CSS file
-
-New Static Page
-
-Create folder: app/[page-name]/
-Add page.tsx for content
-Create page.module.css for styling
-
-Best Practices
-
-Start with a Copy: When creating new articles, copy an existing article.module.css from the same category to maintain consistency
-Document Unique Styles: If an article has special styling needs, add comments explaining why
-Maintain Category Colors: Keep color themes consistent within categories unless there's a specific design reason
-Mobile-First: Ensure all custom styles include mobile responsive breakpoints
-Test Across Categories: When updating shared patterns, check multiple articles
-
-Example: Custom Article Styling
-css/* article.module.css for a special interactive article */
-
-/* Standard styles inherited from category... */
-
-/* Custom styles for this article only */
-.interactiveDemo {
-    position: relative;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 2rem;
-    border-radius: 12px;
-    margin: 2rem 0;
+      <footer className={styles.articleFooter}>
+        <div className={styles.articleTags}>
+          <span className={styles.tag}>#YourTag</span>
+        </div>
+        
+        <div className={styles.articleActions}>
+          <Link href="/" className={styles.backHome}>← Back to Home</Link>
+        </div>
+      </footer>
+    </div>
+  );
 }
+```
 
-.animatedElement {
-    animation: float 3s ease-in-out infinite;
+### Updating Content Index
+Add your article to `lib/content.ts`:
+```typescript
+{
+  id: 'your-article-id',
+  title: 'Your Article Title',
+  excerpt: 'Brief description',
+  category: 'concept', // or 'project', 'casestudy', 'random'
+  publishedAt: '2025-07-20',
+  readTime: 5, // in minutes
+  featured: false,
+  slug: 'your-article-url'
 }
+```
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-Maintenance Guidelines
-When making style updates:
+## 🎨 Styling Guide
 
-Global Changes: Update each relevant CSS file individually
-Category-wide Changes: Update all article.module.css files in that category
-Testing: Always test in multiple articles and screen sizes
-Documentation: Update this README if adding new patterns
+Each category has its own theme color:
+- **Concepts**: Blue (#2563EB)
+- **Case Studies**: Orange (#EA580C)
+- **Projects**: Green (#059669)
+- **Random**: Purple (#7C3AED)
 
-Future Considerations
-While the current approach prioritizes flexibility, consider these options if maintenance becomes challenging:
+Articles use consistent layout with category-specific accents for:
+- Links and navigation
+- Category badges
+- Section underlines
+- Hover states
 
-Extract truly common styles to a shared CSS file
-Use CSS custom properties for repeated values
-Create a style guide page showing all variations
-Consider a hybrid approach for new categories
+## 📊 Featured Articles
 
+### Recent Additions
+- **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
+- **Mangrove Education** (Case Studies) - Building resilient teacher communities in Indonesia
 
-Remember: The goal is to balance flexibility with maintainability. This architecture allows for creative freedom while maintaining enough structure for consistency.
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Supabase for backend infrastructure
+- All contributors and readers
+
+## 📞 Contact
+
+For inquiries, collaboration, or access to full case studies, please use the contact form on the website.
+
+---
+
+Built with ❤️ by Manabu Nagaoka

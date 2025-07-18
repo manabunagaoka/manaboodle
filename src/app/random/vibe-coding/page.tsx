@@ -16,7 +16,7 @@ export default function VibeCodingPage() {
         <div className={styles.articleInfo}>
           <div className={styles.authorInfo}>
             <span className={styles.author}>by Manabu Nagaoka</span>
-            <span className={styles.publishDate}>July 15, 2025</span>
+            <span className={styles.publishDate}>July 20, 2025</span>
             <span className={styles.readTime}>7 min read</span>
           </div>
         </div>
