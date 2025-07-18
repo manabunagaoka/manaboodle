@@ -258,7 +258,6 @@ export async function onArticleUpdated(
     const significantChange = 
       article.title !== previousVersion.title ||
       article.excerpt !== previousVersion.excerpt ||
-      article.content !== previousVersion.content;
     
     if (significantChange) {
       const job = await queueArticleNotifications(article, 'updated');
