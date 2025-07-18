@@ -10,11 +10,26 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 
 ### Working Features
 - **Multi-Category Content**: Case Studies, Concepts, Projects, and Random thoughts
+- **Tools Section**: Interactive tools with Read Time Calculator (live)
 - **Responsive Design**: Mobile-first approach with category-specific styling and theming
 - **SEO Optimized**: Dynamic metadata generation for all pages
 - **Article System**: Simple, maintainable structure with consistent layouts
-- **Legal Pages**: Privacy Policy and Terms of Service
-- **Category Theming**: Color-coded categories (Blue for Concepts, Orange for Case Studies, Green for Projects, Purple for Random)
+- **Legal Pages**: Privacy Policy and Terms of Service with proper navigation
+- **Category Theming**: 
+  - Blue (Concepts)
+  - Orange (Case Studies)
+  - Green (Projects)
+  - Purple (Random)
+  - Teal (Tools)
+  - Black (About/Legal)
+
+### Recent Updates
+- **Tools Section Added** (July 2025)
+  - Read Time Calculator - Calculate reading time for any text
+  - Upcoming: Jobs-To-Be-Done Interview, Emerging Markets Analyzer, Executive Prioritizer
+  - Free/Pro tier structure in place
+- **Navigation Updates**: Tools added to header and footer
+- **Legal Pages Fixed**: Added back navigation and mobile-friendly padding
 
 ### Recent Articles
 - **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
@@ -24,9 +39,10 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 - **Vibe Coding** (Random) - Music and programming productivity
 
 ### In Development
-- **Email Subscription System**: Supabase database ready, awaiting AWS SES production approval
+- **Email Subscription System**: Database ready, awaiting AWS SES production approval
 - **Contact Form**: Frontend complete, backend awaiting email service
 - **Email Preferences**: UI complete at `/preferences`, functionality pending
+- **Additional Tools**: Business strategy and research tools planned
 
 ## 📁 Project Structure
 
@@ -69,18 +85,23 @@ manaboodle/
 
 ## 🚧 Pending Setup
 
-### AWS SES Production Access
+### AWS SES Production Access (Critical Priority)
 Currently in sandbox mode. Production access required for:
 - Newsletter subscriptions
 - Contact form submissions
 - Email preference management
 - Automated notifications
 
-### Steps to Complete:
-1. Reapply for AWS SES production access
+### Next Steps:
+1. **Reapply for AWS SES production access** (immediate priority)
+   - Review previous denial reason
+   - Update application with live site URL
+   - Emphasize educational content and compliance features
 2. Configure domain verification and DKIM
 3. Enable email sending functionality
 4. Test subscription and contact systems
+5. Build additional tools for Tools section
+6. Write Mini Business Apps article linking to tools
 
 ## 🚀 Getting Started
 

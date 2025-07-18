@@ -1,3 +1,4 @@
+// components/Header.tsx
 'use client';
 
 import Link from 'next/link';
@@ -67,6 +68,14 @@ export default function Header() {
             onClick={closeMobileMenu}
           >
             Random
+          </Link>
+          <Link 
+            href="/tools"
+            className={styles.navLink}
+            data-active={pathname === '/tools' || pathname.startsWith('/tools/')}
+            onClick={closeMobileMenu}
+          >
+            Tools
           </Link>
           <Link 
             href="/contact"
