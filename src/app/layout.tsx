@@ -4,6 +4,7 @@ import './globals.css'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { SearchProvider } from '../contexts/SearchContext'
+import GoogleAnalytics from '../components/GoogleAnalytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Google Analytics - only loads in production */}
+        {process.env.NODE_ENV === 'production' && (
+          <GoogleAnalytics GA_MEASUREMENT_ID="G-014RS0SVMJ" />
+        )}
         <SearchProvider>
           <Header />
           {children}
