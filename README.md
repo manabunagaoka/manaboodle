@@ -15,6 +15,10 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 - **SEO Optimized**: Dynamic metadata generation for all pages
 - **Article System**: Simple, maintainable structure with consistent layouts
 - **Legal Pages**: Privacy Policy and Terms of Service with proper navigation
+- **Email System**: Professional email infrastructure with SendGrid
+  - Contact form with auto-reply functionality
+  - Newsletter subscription with welcome emails
+  - Unsubscribe functionality
 - **Category Theming**: 
   - Blue (Concepts)
   - Orange (Case Studies)
@@ -24,6 +28,10 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
   - Black (About/Legal)
 
 ### Recent Updates
+- **Email System Migration** (July 2025)
+  - Migrated from AWS SES to SendGrid for reliable email delivery
+  - Professional sender addresses: hello@, subscription@, noreply@manaboodle.com
+  - Domain authentication in progress for improved deliverability
 - **Tools Section Added** (July 2025)
   - Read Time Calculator - Calculate reading time for any text
   - Upcoming: Jobs-To-Be-Done Interview, Emerging Markets Analyzer, Executive Prioritizer
@@ -39,10 +47,10 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 - **Vibe Coding** (Random) - Music and programming productivity
 
 ### In Development
-- **Email Subscription System**: Database ready, awaiting AWS SES production approval
-- **Contact Form**: Frontend complete, backend awaiting email service
-- **Email Preferences**: UI complete at `/preferences`, functionality pending
+- **Email Preferences Page**: UI complete at `/preferences`, functionality pending
+- **Article Notification System**: Notify subscribers of new content
 - **Additional Tools**: Business strategy and research tools planned
+- **Community Features**: Future plans for interactive elements
 
 ## 📁 Project Structure
 
@@ -66,8 +74,12 @@ manaboodle/
 │   ├── privacy/                  # Privacy policy
 │   ├── terms/                    # Terms of service
 │   ├── preferences/              # Email preferences
-│   └── api/
-│       └── preferences/          # Preferences API
+│   ├── api/
+│   │   ├── contact/              # Contact form API (SendGrid)
+│   │   ├── subscribe/            # Newsletter API (SendGrid)
+│   │   └── preferences/          # Preferences API
+│   └── tools/
+│       └── read-time-calculator/ # Reading time tool
 └── lib/
     ├── content.ts                # Article index and metadata
     └── utils.ts                  # Utility functions
@@ -77,38 +89,19 @@ manaboodle/
 
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
-- **Database**: Supabase (PostgreSQL) - configured, awaiting email service
-- **Email Service**: AWS SES (pending production approval)
+- **Database**: Supabase (PostgreSQL)
+- **Email Service**: SendGrid
 - **Styling**: CSS Modules with category theming
 - **Deployment**: Vercel
 - **Domain**: Custom domain (www.manaboodle.com)
-
-## 🚧 Pending Setup
-
-### AWS SES Production Access (Critical Priority)
-Currently in sandbox mode. Production access required for:
-- Newsletter subscriptions
-- Contact form submissions
-- Email preference management
-- Automated notifications
-
-### Next Steps:
-1. **Reapply for AWS SES production access** (immediate priority)
-   - Review previous denial reason
-   - Update application with live site URL
-   - Emphasize educational content and compliance features
-2. Configure domain verification and DKIM
-3. Enable email sending functionality
-4. Test subscription and contact systems
-5. Build additional tools for Tools section
-6. Write Mini Business Apps article linking to tools
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18.x or higher
 - npm or yarn
-- Supabase account (for subscriber features)
+- Supabase account
+- SendGrid account (for email features)
 
 ### Installation
 
@@ -121,8 +114,6 @@ cd manaboodle
 2. Install dependencies:
 ```bash
 npm install
-# or
-yarn install
 ```
 
 3. Set up environment variables:
@@ -132,18 +123,37 @@ cp .env.example .env.local
 
 Update `.env.local` with your credentials:
 ```env
+# Supabase
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# SendGrid
+SENDGRID_API_KEY=your_sendgrid_api_key
+
+# App URL
+NEXT_PUBLIC_APP_URL=http://localhost:3000  # or https://manaboodle.com in production
 ```
 
 4. Run the development server:
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) to see your site.
+
+## 📧 Email Configuration
+
+The platform uses SendGrid for all email communications:
+
+### Sender Addresses
+- `hello@manaboodle.com` - Contact form and direct communication
+- `subscription@manaboodle.com` - Newsletter and welcome emails
+- `noreply@manaboodle.com` - System notifications (future)
+
+### Features
+- **Contact Form**: Auto-reply to visitors, notification to admin
+- **Newsletter**: Welcome emails, unsubscribe functionality
+- **Domain Authentication**: DKIM, SPF, and DMARC configured for deliverability
 
 ## 📝 Creating New Articles
 
@@ -224,6 +234,7 @@ Each category has its own theme color:
 - **Case Studies**: Orange (#EA580C)
 - **Projects**: Green (#059669)
 - **Random**: Purple (#7C3AED)
+- **Tools**: Teal (#14B8A6)
 
 Articles use consistent layout with category-specific accents for:
 - Links and navigation
@@ -231,11 +242,25 @@ Articles use consistent layout with category-specific accents for:
 - Section underlines
 - Hover states
 
-## 📊 Featured Articles
+## 🔮 Future Roadmap
 
-### Recent Additions
-- **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
-- **Mangrove Education** (Case Studies) - Building resilient teacher communities in Indonesia
+### Phase 1 (Current)
+- ✅ Core blog functionality
+- ✅ Email system with SendGrid
+- ✅ Newsletter subscriptions
+- 🔄 Email preferences management
+
+### Phase 2 (Upcoming)
+- Article notification system
+- RSS feed
+- Search functionality
+- More interactive tools
+
+### Phase 3 (Future)
+- Community features
+- User accounts
+- Article comments/discussions
+- Collaborative tools
 
 ## 🤝 Contributing
 
@@ -255,11 +280,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Next.js team for the amazing framework
 - Supabase for backend infrastructure
+- SendGrid for reliable email delivery
 - All contributors and readers
 
 ## 📞 Contact
 
-For inquiries, collaboration, or access to full case studies, please use the contact form on the website.
+For inquiries, collaboration, or feedback, please use the contact form on the website or email hello@manaboodle.com.
 
 ---
 
