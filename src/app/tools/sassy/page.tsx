@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import styles from '../tools.module.css';
 import sassyStyles from './sassy.module.css';
-import { analyzeVibe } from './lib/newsletter-detector';
+import { analyzeVibe, type VibeAnalysis } from './lib/newsletter-detector';
 
 // Components
 import SassyCharacter from './components/SassyCharacter';
@@ -14,11 +14,11 @@ import { TrashIcon, CopyIcon } from './components/SassyIcons';
 export default function SassyPage() {
   const [content, setContent] = useState('');
   const [copied, setCopied] = useState(false);
-  const [vibeAnalysis, setVibeAnalysis] = useState({
-    vibe: 'personal' as const,
+  const [vibeAnalysis, setVibeAnalysis] = useState<VibeAnalysis>({
+    vibe: 'personal',
     score: 0,
-    warnings: [] as string[],
-    mood: 'happy' as const,
+    warnings: [],
+    mood: 'happy',
     botMessage: "Start typing to see what I think!"
   });
   
