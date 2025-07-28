@@ -1,0 +1,82 @@
+/* app/tools/sassy/components/SassyCharacter.module.css */
+
+.sassyCharacter {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  transition: all 0.3s ease;
+}
+
+/* Mood-specific animations */
+.sassyCharacter.happy {
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.sassyCharacter.neutral {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.sassyCharacter.thinking {
+  animation: tilt 4s ease-in-out infinite;
+}
+
+@keyframes tilt {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.sassyCharacter.sassy {
+  animation: sass 2s ease-in-out infinite;
+}
+
+@keyframes sass {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-3px) rotate(-2deg); }
+  75% { transform: translateX(3px) rotate(2deg); }
+}
+
+.sassyCharacter.shocked {
+  animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+
+/* Score Badge */
+.scoreBadge {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  font-size: 0.875rem;
+  font-weight: 900;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .sassyCharacter {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .scoreBadge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+}

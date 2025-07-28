@@ -13,6 +13,14 @@ interface Tool {
 
 const tools: Tool[] = [
   {
+    id: 'sassy',
+    title: 'Sassy',
+    description: 'Write personal updates that feel like conversations, not newsletters. Turn boring announcements into engaging messages.',
+    status: 'free',
+    category: 'Communication',
+    available: true
+  },
+  {
     id: 'read-time',
     title: 'Read Time Calculator',
     description: 'Calculate the estimated reading time for any text. Perfect for bloggers, writers, and content creators.',

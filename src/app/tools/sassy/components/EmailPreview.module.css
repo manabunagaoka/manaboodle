@@ -1,0 +1,187 @@
+/* app/tools/sassy/components/EmailPreview.module.css */
+
+.previewContainer {
+  margin-top: 2rem;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.previewTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0;
+}
+
+.previewHint {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.emailFrame {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.emailHeader {
+  background: #f9fafb;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.emailMeta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.emailFrom,
+.emailTo {
+  display: block;
+}
+
+.emailSubject {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.emailBody {
+  padding: 2rem;
+}
+
+.emailContent {
+  min-height: 100px;
+}
+
+.emailParagraph {
+  margin: 0 0 1rem 0;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.emailParagraph:last-of-type {
+  margin-bottom: 0;
+}
+
+.emailPlaceholder {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.emailLink {
+  margin-top: 1.5rem;
+}
+
+.emailLink a {
+  color: #ff6ec7;
+  text-decoration: none;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.emailLink a:hover {
+  color: #ff9472;
+  text-decoration: underline;
+}
+
+.emailFooter {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.sassyBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, rgba(255, 110, 199, 0.05), rgba(255, 148, 114, 0.05));
+  border-radius: 10px;
+  border: 1px solid rgba(255, 110, 199, 0.15);
+}
+
+.badgeIcon {
+  font-size: 2rem;
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.badgeText strong {
+  font-size: 1rem;
+  color: #374151;
+}
+
+.badgeText span {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.sassyLink {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.sassyLink a {
+  color: #ff6ec7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.sassyLink a:hover {
+  color: #ff9472;
+  text-decoration: underline;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .emailFrame {
+    border-radius: 8px;
+  }
+  
+  .emailHeader,
+  .emailBody {
+    padding: 1.25rem;
+  }
+  
+  .emailSubject {
+    font-size: 1.1rem;
+  }
+  
+  .sassyBadge {
+    padding: 0.75rem;
+  }
+  
+  .badgeIcon {
+    font-size: 1.5rem;
+  }
+}

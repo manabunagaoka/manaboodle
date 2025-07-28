@@ -1,0 +1,74 @@
+/* app/tools/sassy/components/PersonalVibeScore.module.css */
+
+.vibeScoreSection {
+  margin-top: 1rem;
+}
+
+/* Feedback Box - Flat Looney Tunes Style */
+.feedbackBox {
+  background: #FFFBF5;
+  border: 3px solid;
+  border-radius: 15px;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.feedbackHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.feedbackTitle {
+  font-size: 0.875rem;
+  font-weight: 900;
+  color: #E85D30;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  font-size: 1rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.feedbackText {
+  font-size: 1rem;
+  color: #704030;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* Warnings List */
+.warningsList {
+  margin-top: 0.75rem;
+  border-top: 2px solid #FFB347;
+  padding-top: 0.75rem;
+}
+
+.warningItem {
+  font-size: 0.875rem;
+  color: #E85D30;
+  margin: 0.25rem 0;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .feedbackBox {
+    padding: 1rem;
+    box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+  }
+  
+  .feedbackText {
+    font-size: 0.875rem;
+  }
+  
+  .warningItem {
+    font-size: 0.75rem;
+  }
+}
