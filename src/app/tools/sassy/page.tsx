@@ -62,6 +62,15 @@ export default function SassyPage() {
     setVibeAnalysis(analysis);
   }, [content]);
 
+  // Auto-resize textarea on content change
+  useEffect(() => {
+    const textarea = document.getElementById('content') as HTMLTextAreaElement;
+    if (textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+  }, [content]);
+
   // Word count
   const wordCount = content.split(/\s+/).filter(word => word.length > 0).length;
 
@@ -72,6 +81,11 @@ export default function SassyPage() {
     // Enforce 200 word limit
     if (words.length <= 200) {
       setContent(text);
+      
+      // Auto-resize textarea
+      const textarea = e.target;
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
     }
   };
 
