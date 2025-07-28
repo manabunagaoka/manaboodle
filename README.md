@@ -10,7 +10,9 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 
 ### Working Features
 - **Multi-Category Content**: Case Studies, Concepts, Projects, and Random thoughts
-- **Tools Section**: Interactive tools with Read Time Calculator (live)
+- **Tools Section**: Interactive tools for writers and creators
+  - Read Time Calculator - Calculate reading time for any text
+  - **Sassy (NEW)** - The Anti-Newsletter Companion that helps newsletter authors write personal emails
 - **Responsive Design**: Mobile-first approach with category-specific styling and theming
 - **SEO Optimized**: Dynamic metadata generation for all pages
 - **Article System**: Simple, maintainable structure with consistent layouts
@@ -28,12 +30,19 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
   - Black (About/Legal)
 
 ### Recent Updates
+- **Sassy Tool Launch** (July 2025)
+  - Interactive character that analyzes writing for corporate speak
+  - Vibe Meter tracks how human vs. robotic your writing sounds
+  - Draggable character with touch support for mobile
+  - Humorous feedback to help newsletter authors sound more personal
+  - Part of the Manaboodle ecosystem for authentic human connection
 - **Email System Migration** (July 2025)
   - Migrated from AWS SES to SendGrid for reliable email delivery
   - Professional sender addresses: hello@, subscription@, noreply@manaboodle.com
   - Domain authentication in progress for improved deliverability
 - **Tools Section Added** (July 2025)
   - Read Time Calculator - Calculate reading time for any text
+  - Sassy - Making newsletter updates personal again
   - Upcoming: Jobs-To-Be-Done Interview, Emerging Markets Analyzer, Executive Prioritizer
   - Free/Pro tier structure in place
 - **Navigation Updates**: Tools added to header and footer
@@ -79,7 +88,12 @@ manaboodle/
 │   │   ├── subscribe/            # Newsletter API (SendGrid)
 │   │   └── preferences/          # Preferences API
 │   └── tools/
-│       └── read-time-calculator/ # Reading time tool
+│       ├── read-time-calculator/ # Reading time tool
+│       └── sassy/                # Anti-newsletter writing assistant
+│           ├── page.tsx          # Main Sassy interface
+│           ├── sassy.module.css  # Sassy-specific styles
+│           ├── components/       # Character and UI components
+│           └── lib/              # Newsletter detection logic
 └── lib/
     ├── content.ts                # Article index and metadata
     └── utils.ts                  # Utility functions
@@ -154,6 +168,22 @@ The platform uses SendGrid for all email communications:
 - **Contact Form**: Auto-reply to visitors, notification to admin
 - **Newsletter**: Welcome emails, unsubscribe functionality
 - **Domain Authentication**: DKIM, SPF, and DMARC configured for deliverability
+
+## 🛠️ Tools Section
+
+### Sassy - The Anti-Newsletter Companion
+Helps newsletter authors write emails that actually sound human:
+- **Vibe Meter**: Real-time scoring of how personal vs. corporate your writing sounds
+- **Corporate Speak Detection**: Identifies buzzwords and newsletter clichés
+- **Interactive Character**: Draggable buddy that provides humorous feedback
+- **Mobile Optimized**: Touch-enabled dragging and auto-expanding textarea
+- **Copy & Share**: Easy sharing of your "human score" with your writing
+
+### Read Time Calculator
+- Calculates reading time for any text
+- Supports multiple languages including CJK characters
+- Shows word count, character count, and paragraphs
+- Adjustable reading speed settings
 
 ## 📝 Creating New Articles
 
@@ -248,13 +278,14 @@ Articles use consistent layout with category-specific accents for:
 - ✅ Core blog functionality
 - ✅ Email system with SendGrid
 - ✅ Newsletter subscriptions
+- ✅ Sassy - Anti-newsletter tool
 - 🔄 Email preferences management
 
 ### Phase 2 (Upcoming)
 - Article notification system
 - RSS feed
 - Search functionality
-- More interactive tools
+- More interactive tools (Jobs-To-Be-Done Interview, Market Analyzer)
 
 ### Phase 3 (Future)
 - Community features
