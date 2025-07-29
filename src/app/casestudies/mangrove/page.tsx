@@ -1,6 +1,7 @@
 // app/casestudies/mangrove/page.tsx
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from '../article.module.css';
 
 // Article metadata for Next.js
@@ -27,6 +28,20 @@ export default function MangroveEducationPage() {
             <span className={styles.publishDate}>July 20, 2025</span>
             <span className={styles.readTime}>5 min read</span>
           </div>
+        </div>
+
+        <div className={styles.articleImage}>
+          <Image
+            src="/images/mangrove.jpg"
+            alt="Mangrove Education - Building resilient teacher communities in Indonesia"
+            width={800}
+            height={400}
+            className={styles.heroImage}
+            priority
+          />
+          <p className={styles.imageCaption}>
+            Nurturing and protecting the educational ecosystem through community-driven teacher development
+          </p>
         </div>
       </header>
 

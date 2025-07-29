@@ -9,8 +9,8 @@ import GoogleAnalytics from '../components/GoogleAnalytics'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Manaboodle - AI Insights & Innovation Magazine',
-  description: 'A modern magazine platform for AI concepts, project updates, and innovative thoughts',
+  title: 'Manaboodle',
+  description: 'Cultivating synchronicity through creative vibes and authentic human stories',
 }
 
 export default function RootLayout({
