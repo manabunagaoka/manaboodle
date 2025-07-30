@@ -30,23 +30,57 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
   - Black (About/Legal)
 
 ### Recent Updates
+
+#### Sassy GIF Animation Integration (July 29, 2025)
+- **Created animated GIF** for Sassy character featuring three expressions:
+  - Happy Face
+  - Thinking Face  
+  - Shocked Face
+- **Animation Workflow**:
+  1. **Video Capture**: Recorded screen video of Sassy character expressions (.mov format)
+  2. **Video Processing**: 
+     - Used Adobe Premiere Pro to resize video to 400x400px
+     - Exported as MP4 with optimized settings
+  3. **GIF Creation in Photoshop**:
+     - Imported MP4 using "Video Frames to Layers"
+     - Selected 3 key frames showing each expression
+     - Set frame delay to 0.5 seconds per frame
+     - Applied "Forever" loop setting
+     - Used Image → Trim to remove excess whitespace
+     - Exported with Save for Web (Legacy):
+       - Format: GIF 256 colors
+       - Size: 400px width
+       - Final file: ~150KB
+  4. **Implementation**:
+     - Stored GIF in `public/animations/sassy-loop.gif`
+     - Added to Tools list page with horizontal layout (GIF + Title)
+     - Implemented hover animations (bounce effect)
+     - Used Next.js Image component with `unoptimized` prop for GIF support
+
 - **Sassy Tool Launch** (July 2025)
   - Interactive character that analyzes writing for corporate speak
   - Vibe Meter tracks how human vs. robotic your writing sounds
   - Draggable character with touch support for mobile
   - Humorous feedback to help newsletter authors sound more personal
   - Part of the Manaboodle ecosystem for authentic human connection
+
 - **Email System Migration** (July 2025)
   - Migrated from AWS SES to SendGrid for reliable email delivery
   - Professional sender addresses: hello@, subscription@, noreply@manaboodle.com
   - Domain authentication in progress for improved deliverability
+
 - **Tools Section Added** (July 2025)
   - Read Time Calculator - Calculate reading time for any text
   - Sassy - Making newsletter updates personal again
   - Upcoming: Jobs-To-Be-Done Interview, Emerging Markets Analyzer, Executive Prioritizer
   - Free/Pro tier structure in place
-- **Navigation Updates**: Tools added to header and footer
-- **Legal Pages Fixed**: Added back navigation and mobile-friendly padding
+
+### To-Do / Next Steps
+- **Write Article about Tools Section**: Create a comprehensive article showcasing all tools, with special focus on Sassy
+- **Update Home Page**: Add Sassy GIF to the home page to highlight the new tool
+- **Article Notification System**: Notify subscribers of new content
+- **Additional Tools**: Business strategy and research tools planned
+- **Community Features**: Future plans for interactive elements
 
 ### Recent Articles
 - **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
@@ -94,6 +128,10 @@ manaboodle/
 │           ├── sassy.module.css  # Sassy-specific styles
 │           ├── components/       # Character and UI components
 │           └── lib/              # Newsletter detection logic
+├── public/
+│   ├── images/                   # Static images for articles
+│   └── animations/               # Animated content
+│       └── sassy-loop.gif        # Sassy character animation
 └── lib/
     ├── content.ts                # Article index and metadata
     └── utils.ts                  # Utility functions
@@ -108,6 +146,7 @@ manaboodle/
 - **Styling**: CSS Modules with category theming
 - **Deployment**: Vercel
 - **Domain**: Custom domain (www.manaboodle.com)
+- **Design Tools**: Adobe Premiere Pro, Adobe Photoshop (for GIF creation)
 
 ## 🚀 Getting Started
 
@@ -178,12 +217,35 @@ Helps newsletter authors write emails that actually sound human:
 - **Interactive Character**: Draggable buddy that provides humorous feedback
 - **Mobile Optimized**: Touch-enabled dragging and auto-expanding textarea
 - **Copy & Share**: Easy sharing of your "human score" with your writing
+- **Animated GIF**: Fun looping animation showing Sassy's personality on the Tools page
 
 ### Read Time Calculator
 - Calculates reading time for any text
 - Supports multiple languages including CJK characters
 - Shows word count, character count, and paragraphs
 - Adjustable reading speed settings
+
+## 🎨 Creating Animated GIFs for Tools
+
+### Sassy GIF Creation Process
+1. **Screen Recording**: Capture character animations using screen recording software
+2. **Video Processing (Premiere Pro)**:
+   - Import .mov file
+   - Set sequence to 400x400px
+   - Export as MP4 (H.264, 30fps)
+3. **GIF Creation (Photoshop)**:
+   - File → Import → Video Frames to Layers
+   - Select key frames for animation
+   - Timeline → Create Frame Animation
+   - Set frame delay (0.5s for Sassy)
+   - Set loop to "Forever"
+   - Image → Trim to remove whitespace
+   - Export → Save for Web (Legacy)
+   - Settings: GIF, 256 colors, 400px width
+4. **Implementation**:
+   - Save to `public/animations/`
+   - Use Next.js Image component with `unoptimized` prop
+   - Add hover animations in CSS
 
 ## 📝 Creating New Articles
 
@@ -272,6 +334,14 @@ Articles use consistent layout with category-specific accents for:
 - Section underlines
 - Hover states
 
+### Tool Card Styling (Sassy Example)
+- **Layout**: Horizontal arrangement with GIF + Title
+- **Hover Effects**: 
+  - Card lifts with shadow
+  - GIF bounces playfully
+  - Border color changes to theme color
+- **Responsive**: Stacks vertically on mobile
+
 ## 🔮 Future Roadmap
 
 ### Phase 1 (Current)
@@ -279,7 +349,10 @@ Articles use consistent layout with category-specific accents for:
 - ✅ Email system with SendGrid
 - ✅ Newsletter subscriptions
 - ✅ Sassy - Anti-newsletter tool
+- ✅ Sassy GIF animation
 - 🔄 Email preferences management
+- 🔄 Write Tools article
+- 🔄 Update home page with Sassy
 
 ### Phase 2 (Upcoming)
 - Article notification system
@@ -312,6 +385,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Next.js team for the amazing framework
 - Supabase for backend infrastructure
 - SendGrid for reliable email delivery
+- Adobe Creative Suite for design tools
 - All contributors and readers
 
 ## 📞 Contact

@@ -1,5 +1,6 @@
 // app/tools/page.tsx
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './tools.module.css';
 
 interface Tool {
@@ -9,6 +10,8 @@ interface Tool {
   status: 'free' | 'pro';
   category: string;
   available: boolean;
+  image?: string; // Add optional image property
+  imageAlt?: string;
 }
 
 const tools: Tool[] = [
@@ -18,7 +21,9 @@ const tools: Tool[] = [
     description: 'Write personal updates that feel like conversations, not newsletters. Turn boring announcements into engaging messages.',
     status: 'free',
     category: 'Communication',
-    available: true
+    available: true,
+    image: '/animations/sassy-loop.gif',
+    imageAlt: 'Sassy character animation'
   },
   {
     id: 'read-time',
@@ -83,7 +88,21 @@ export default function ToolsPage() {
           <div className={styles.toolsGrid}>
             {availableTools.map((tool) => (
               <Link key={tool.id} href={`/tools/${tool.id}`} className={styles.toolCard}>
-                <h3 className={styles.toolTitle}>{tool.title}</h3>
+                {tool.image ? (
+                  <div className={styles.toolHeaderWithImage}>
+                    <Image 
+                      src={tool.image}
+                      alt={tool.imageAlt || `${tool.title} preview`}
+                      width={80}
+                      height={80}
+                      unoptimized // Important for GIFs
+                      className={styles.toolImage}
+                    />
+                    <h3 className={styles.toolTitle}>{tool.title}</h3>
+                  </div>
+                ) : (
+                  <h3 className={styles.toolTitle}>{tool.title}</h3>
+                )}
                 <p className={styles.toolDescription}>{tool.description}</p>
                 <div className={styles.toolMeta}>
                   <span className={styles.toolStatus}>
