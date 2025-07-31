@@ -12,13 +12,23 @@ export interface Article {
 // Static article data with manual dates for now
 export const articles: Article[] = [
   {
+    id: 'tools',
+    title: 'Building Tools That Actually Matter',
+    excerpt: 'Introducing Manaboodle\'s Tools category and Sassy, the anti-newsletter companion that keeps your writing human.',
+    category: 'project',
+    publishedAt: '2025-08-01',
+    readTime: 4,
+    featured: true,
+    slug: 'tools'
+  },
+  {
     id: 'ai-nurturing-surrogate-caregivers',
     title: 'AI Nurturing and Surrogate Caregivers',
     excerpt: 'Imagine a dataset capturing emotional nuances and caregiving insights from millions of genuine interactions within a unique triangular relationship: human children, caregivers, and AI.',
     category: 'concept',
     publishedAt: '2025-07-20',
-    readTime: 12, // Will be calculated dynamically in the article page
-    featured: true,
+    readTime: 12,
+    featured: false,
     slug: 'ai-nurturing'
   },
   {

@@ -40,6 +40,9 @@ export default function HomePage() {
     if (article.id === 'mangrove-education') {
       return '/casestudies/mangrove';
     }
+    if (article.id === 'tools') {
+      return '/projects/tools';
+    }
     if (article.category === 'casestudy') {
       return `/casestudies/${article.id}`;
     }
@@ -51,14 +54,29 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
-    if (article.id === 'ai-nurturing-surrogate-caregivers' && featured) {
+    if (article.id === 'tools') {
+      return (
+        <Image
+          src="/images/sassy.jpg"
+          alt="Sassy - Anti-Newsletter Companion"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+    
+    if (article.id === 'ai-nurturing-surrogate-caregivers') {
       return (
         <Image
           src="/images/mandela.jpg"
           alt="Nelson Mandela - inspiration for the AI Nurturing Framework"
-          width={1200}
-          height={400}
-          className={styles.featuredImage}
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority
         />
       );
@@ -133,7 +151,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo'];
+  const allowedArticleIds = ['ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list

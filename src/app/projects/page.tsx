@@ -8,11 +8,23 @@ export default function ProjectsPage() {
   const projectArticles = articles.filter(article => article.category === 'project');
 
   const getMediaContent = (article: any) => {
+    if (article.id === 'tools') {
+      return (
+        <Image
+          src="/images/sassy.jpg"
+          alt="Sassy - Anti-Newsletter Companion"
+          width={400}
+          height={220}
+          className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      );
+    }
+
     // Check if image exists, otherwise show placeholder
     const imageMap: { [key: string]: string } = {
       'karaokegogo': '/images/karaokegogo.jpg',
       'nanny': '/images/nanny.jpg'
-      // Add new project images here as needed
     };
 
     if (imageMap[article.id]) {
@@ -23,6 +35,7 @@ export default function ProjectsPage() {
           width={400}
           height={220}
           className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       );
     }

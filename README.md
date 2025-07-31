@@ -31,6 +31,26 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 
 ### Recent Updates
 
+#### Tools Article & Featured Content Update (August 1, 2025)
+- **Created "Building Tools That Actually Matter" article**
+  - New article showcasing the Tools category and Sassy
+  - Personal story about the evolution of Manaboodle
+  - Located at `/projects/tools`
+  - Set as featured article on home page
+- **Updated content management**:
+  - Added tools article to `lib/content.ts`
+  - Updated home page to display tools as featured
+  - Added tools to projects list page
+  - Created custom hero image design for the article
+- **Image handling improvements**:
+  - Created `/images/sassy.jpg` for card displays
+  - Article page uses custom styled card with GIF
+  - Home and projects pages use standard image format
+- **Fixed display issues**:
+  - Resolved GIF squishing in project cards
+  - Maintained proper aspect ratios across all views
+  - Added consistent styling for all article cards
+
 #### Sassy GIF Animation Integration (July 29, 2025)
 - **Created animated GIF** for Sassy character featuring three expressions:
   - Happy Face
@@ -76,13 +96,14 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
   - Free/Pro tier structure in place
 
 ### To-Do / Next Steps
-- **Write Article about Tools Section**: Create a comprehensive article showcasing all tools, with special focus on Sassy
-- **Update Home Page**: Add Sassy GIF to the home page to highlight the new tool
+- ~~**Write Article about Tools Section**: Create a comprehensive article showcasing all tools, with special focus on Sassy~~ ✅ DONE
+- ~~**Update Home Page**: Add Sassy GIF to the home page to highlight the new tool~~ ✅ DONE (using sassy.jpg)
 - **Article Notification System**: Notify subscribers of new content
 - **Additional Tools**: Business strategy and research tools planned
 - **Community Features**: Future plans for interactive elements
 
 ### Recent Articles
+- **Building Tools That Actually Matter** (Projects) - NEW! Introducing the Tools category and Sassy
 - **AI Nurturing and Surrogate Caregivers** (Concepts) - Exploring AI's role in caregiving through Ubuntu philosophy
 - **Mangrove Education** (Case Studies) - Building resilient teacher communities in Indonesia
 - **karaokeGoGo** (Projects) - Music-sharing platform for children
@@ -110,10 +131,16 @@ manaboodle/
 │   │       └── page.tsx          # AI Nurturing article
 │   ├── projects/
 │   │   ├── article.module.css    # Green theme styling
-│   │   └── [project-articles]/
+│   │   ├── karaokegogo/
+│   │   │   └── page.tsx
+│   │   ├── nanny/
+│   │   │   └── page.tsx
+│   │   └── tools/                # NEW! Tools article
+│   │       └── page.tsx          
 │   ├── random/
 │   │   ├── article.module.css    # Purple theme styling
-│   │   └── [random-articles]/
+│   │   └── vibe-coding/
+│   │       └── page.tsx
 │   ├── privacy/                  # Privacy policy
 │   ├── terms/                    # Terms of service
 │   ├── preferences/              # Email preferences
@@ -130,10 +157,16 @@ manaboodle/
 │           └── lib/              # Newsletter detection logic
 ├── public/
 │   ├── images/                   # Static images for articles
+│   │   ├── mandela.jpg
+│   │   ├── karaokegogo.jpg
+│   │   ├── nanny.jpg
+│   │   ├── vibe.jpg
+│   │   ├── mangrove.jpg
+│   │   └── sassy.jpg            # NEW! Sassy image for cards
 │   └── animations/               # Animated content
 │       └── sassy-loop.gif        # Sassy character animation
 └── lib/
-    ├── content.ts                # Article index and metadata
+    ├── content.ts                # Article index and metadata (UPDATED)
     └── utils.ts                  # Utility functions
 ```
 
@@ -350,9 +383,9 @@ Articles use consistent layout with category-specific accents for:
 - ✅ Newsletter subscriptions
 - ✅ Sassy - Anti-newsletter tool
 - ✅ Sassy GIF animation
+- ✅ Write Tools article
+- ✅ Update home page with Sassy
 - 🔄 Email preferences management
-- 🔄 Write Tools article
-- 🔄 Update home page with Sassy
 
 ### Phase 2 (Upcoming)
 - Article notification system
@@ -394,4 +427,4 @@ For inquiries, collaboration, or feedback, please use the contact form on the we
 
 ---
 
-Built with ❤️ by Manabu Nagaoka
+Built with ❤️ by Manabu
