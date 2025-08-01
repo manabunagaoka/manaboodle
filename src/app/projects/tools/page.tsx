@@ -106,6 +106,24 @@ export default function ToolsArticlePage() {
             <p>I read my friends' newsletters—the ones written by actual humans. But those templated, robotic notifications? Never.</p>
 
             <p>Sassy exists to fix this. Write "pleased to announce" and watch Sassy's shocked face appear. Try starting with "In this issue" and see the reaction. Sassy is your writing companion who keeps you human, who ensures your words sound like they came from you, not a newsletter template.</p>
+
+            <p style={{
+              marginTop: '2rem',
+              fontSize: '1.125rem',
+              fontWeight: '600'
+            }}>
+              <Link href="https://www.manaboodle.com/tools/sassy" style={{
+                color: '#059669',
+                textDecoration: 'underline'
+              }}>
+                → Try Sassy right now
+              </Link> or <Link href="https://www.manaboodle.com/tools" style={{
+                color: '#059669',
+                textDecoration: 'underline'
+              }}>
+                explore other tools
+              </Link>
+            </p>
           </div>
         </div>
 
