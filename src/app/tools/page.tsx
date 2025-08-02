@@ -7,14 +7,16 @@ interface Tool {
   id: string;
   title: string;
   description: string;
-  status: 'free' | 'pro';
+  status: 'free' | 'pro' | 'coming-soon';
   category: string;
   available: boolean;
-  image?: string; // Add optional image property
+  image?: string;
   imageAlt?: string;
+  isNew?: boolean;
 }
 
 const tools: Tool[] = [
+  // Free Tools (Always Available)
   {
     id: 'sassy',
     title: 'Sassy',
@@ -33,6 +35,44 @@ const tools: Tool[] = [
     category: 'Writing',
     available: true
   },
+  // Fun Pattern Recognition Tools (Coming Soon - Will be Free)
+  {
+    id: 'resume-analyzer',
+    title: 'Resume Cluster Analyzer',
+    description: 'Find your career tribe! Discover what type of professional you are and see others with similar backgrounds and skills.',
+    status: 'coming-soon',
+    category: 'Career Insights',
+    available: false,
+    isNew: true
+  },
+  {
+    id: 'dating-optimizer',
+    title: 'Dating Profile Optimizer',
+    description: 'See what type you attract! Analyze your dating profile to understand your appeal and find your compatibility cluster.',
+    status: 'coming-soon',
+    category: 'Personal Insights',
+    available: false,
+    isNew: true
+  },
+  {
+    id: 'synchronicity-tracker',
+    title: 'Synchronicity Pattern Tracker',
+    description: 'Track meaningful coincidences in your life. Discover recurring patterns and timing in your personal synchronicities.',
+    status: 'coming-soon',
+    category: 'Life Patterns',
+    available: false,
+    isNew: true
+  },
+  {
+    id: 'content-theme-finder',
+    title: 'Content Theme Finder',
+    description: 'Discover your writing patterns! Analyze your content to understand your unique voice and recurring themes.',
+    status: 'coming-soon',
+    category: 'Writing',
+    available: false,
+    isNew: true
+  },
+  // Pro Tools (Future) - Original tools from your list
   {
     id: 'jobs-to-be-done',
     title: 'Jobs-To-Be-Done Interview',
@@ -56,17 +96,26 @@ const tools: Tool[] = [
     status: 'pro',
     category: 'Strategy',
     available: false
+  },
+  {
+    id: 'synchronicity-engine-api',
+    title: 'Synchronicity Engine API',
+    description: 'Developer access to our pattern recognition engine. Build your own apps with our clustering and synchronicity detection algorithms.',
+    status: 'pro',
+    category: 'Developer Tools',
+    available: false
   }
 ];
 
 export const metadata = {
   title: 'Tools - Manaboodle',
-  description: 'Free tools for writers, creators, and developers. Calculate reading time, count words, and more.',
+  description: 'Free tools for writers, creators, and developers. Pattern recognition powered by the Synchronicity Engine.',
 };
 
 export default function ToolsPage() {
   const availableTools = tools.filter(tool => tool.available);
-  const comingSoonTools = tools.filter(tool => !tool.available);
+  const comingSoonTools = tools.filter(tool => !tool.available && tool.status === 'coming-soon');
+  const proTools = tools.filter(tool => tool.status === 'pro');
 
   return (
     <div className={styles.toolsPage}>
@@ -76,10 +125,11 @@ export default function ToolsPage() {
         <h1 className={styles.pageTitle}>Tools</h1>
         <p className={styles.pageDescription}>
           Practical tools that transform concepts, projects, and insights into actionable solutions. 
-          Each tool is designed to help you implement the ideas and methodologies discussed throughout Manaboodle.
+          From writing helpers to our new <strong>Synchronicity Engine</strong> - AI pattern recognition system for discovering meaningful connections in data and experiences.
         </p>
       </header>
 
+      {/* Available Tools Section */}
       {availableTools.length > 0 && (
         <>
           <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem', color: '#111827' }}>
@@ -118,13 +168,63 @@ export default function ToolsPage() {
         </>
       )}
 
+      {/* Synchronicity Engine Powered Tools Section */}
       {comingSoonTools.length > 0 && (
         <>
-          <h2 style={{ fontSize: '1.5rem', marginTop: '3rem', marginBottom: '1.5rem', color: '#6B7280' }}>
-            Coming Soon
-          </h2>
-          <div className={styles.toolsGrid} style={{ opacity: 0.6 }}>
+          <div className={styles.engineSection}>
+            <h2 className={styles.engineTitle}>
+              Synchronicity Engine Powered Tools
+              <span className={styles.newBadge}>NEW!</span>
+            </h2>
+            <p className={styles.engineDescription}>
+              Our AI pattern recognition system that finds meaningful connections in data. 
+              These fun tools will help you discover patterns in your career, relationships, and life experiences. 
+              <strong> Coming very soon!</strong>
+            </p>
+          </div>
+          
+          <div className={styles.toolsGrid} style={{ opacity: 0.8 }}>
             {comingSoonTools.map((tool) => (
+              <div key={tool.id} className={`${styles.toolCard} ${styles.comingSoonCard}`}>
+                <div className={styles.toolHeader}>
+                  <h3 className={styles.toolTitle}>
+                    {tool.title}
+                    {tool.isNew && <span className={styles.newIndicator}>NEW</span>}
+                  </h3>
+                  <div className={styles.comingSoonOverlay}>
+                    <span className={styles.comingSoonText}>Coming Soon</span>
+                  </div>
+                </div>
+                <p className={styles.toolDescription}>{tool.description}</p>
+                <div className={styles.toolMeta}>
+                  <span className={styles.toolStatus}>
+                    <span className={`${styles.statusBadge} ${styles.comingSoon}`}>
+                      Free Soon
+                    </span>
+                  </span>
+                  <span className={styles.toolCategory}>{tool.category}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Pro Tools Section */}
+      {proTools.length > 0 && (
+        <>
+          <div className={styles.proSection}>
+            <h2 className={styles.proTitle}>
+              Professional Tools
+            </h2>
+            <p className={styles.proDescription}>
+              Advanced business and research tools for teams and enterprises. 
+              <em>Available when we launch our member program.</em>
+            </p>
+          </div>
+          
+          <div className={styles.toolsGrid} style={{ opacity: 0.6 }}>
+            {proTools.map((tool) => (
               <div key={tool.id} className={styles.toolCard} style={{ cursor: 'not-allowed' }}>
                 <h3 className={styles.toolTitle}>{tool.title}</h3>
                 <p className={styles.toolDescription}>{tool.description}</p>
@@ -141,6 +241,17 @@ export default function ToolsPage() {
           </div>
         </>
       )}
+
+      {/* Call to Action */}
+      <div className={styles.ctaSection}>
+        <h3 className={styles.ctaTitle}>Want to be notified when new tools launch?</h3>
+        <p className={styles.ctaDescription}>
+          Subscribe to get early access to new pattern recognition tools and insights.
+        </p>
+        <Link href="https://www.manaboodle.com/subscribe" className={styles.ctaButton}>
+          Subscribe
+        </Link>
+      </div>
 
       <footer className={styles.toolFooter}>
         <Link href="/" className={styles.backHome}>← Back to Home</Link>
