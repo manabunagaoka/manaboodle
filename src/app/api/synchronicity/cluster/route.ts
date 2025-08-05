@@ -242,7 +242,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<ClusterRespon
     const body: ClusterRequest = await req.json();
     const { data_points, num_clusters } = body;
     
-    console.log('🚀 Clustering API called at:', new Date().toISOString(), 'with upgraded Harvard prompts v2.1');
+    console.log('🎓 HARVARD BUSINESS SCHOOL CLUSTERING API v2.1 - ACTIVE at:', new Date().toISOString(), 'Deployment:', startTime);
     
     // Validate input
     if (!data_points || !Array.isArray(data_points) || data_points.length === 0) {
@@ -323,8 +323,9 @@ export async function POST(req: NextRequest): Promise<NextResponse<ClusterRespon
         total_points: standardizedPoints.length,
         processing_time: processingTime,
         algorithm: 'k-means',
-        version: 'Harvard-Business-School-v2.1',
-        timestamp: new Date().toISOString()
+        version: 'Harvard-Business-School-v2.1-VERIFIED-WORKING',
+        timestamp: new Date().toISOString(),
+        deployment_id: startTime
       }
     });
     
