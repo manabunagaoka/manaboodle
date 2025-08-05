@@ -4,11 +4,6 @@ import { Matrix } from 'ml-matrix';
 import OpenAI from 'openai';
 const nlp = require('compromise');
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 interface DataPoint {
   id: string;
   content: string;
@@ -169,6 +164,11 @@ async function generateClusterSummary(texts: string[]): Promise<string> {
   }
 
   try {
+    // Initialize OpenAI client
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     // AI-powered summary
     const prompt = `Analyze these responses and provide a concise business insight about this customer segment or pattern:
 
