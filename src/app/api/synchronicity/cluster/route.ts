@@ -152,6 +152,7 @@ async function generateClusterSummary(texts: string[]): Promise<string> {
   
   // Fallback to local NLP if no OpenAI key
   if (!process.env.OPENAI_API_KEY) {
+    console.log('🔑 OpenAI key missing - using fallback NLP processing');
     const allText = texts.join(' ');
     const doc = nlp(allText);
     const nouns = doc.nouns().out('array').slice(0, 3);
@@ -164,6 +165,8 @@ async function generateClusterSummary(texts: string[]): Promise<string> {
   }
 
   try {
+    console.log('🤖 Using OpenAI for cluster summary - key present:', !!process.env.OPENAI_API_KEY);
+    
     // Initialize OpenAI client
     const openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
@@ -185,7 +188,8 @@ Provide a 1-2 sentence summary that identifies the main theme and business oppor
 
     return response.choices[0].message.content || `Cluster of ${texts.length} similar items`;
   } catch (error) {
-    console.error('OpenAI error:', error);
+    console.error('❌ OpenAI error:', error);
+    console.log('📊 Falling back to local NLP processing');
     // Fallback to local processing
     return `Cluster of ${texts.length} items with similar patterns`;
   }
