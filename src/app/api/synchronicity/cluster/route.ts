@@ -1,4 +1,4 @@
-// app/api/synchronicity/cluster/route.ts
+// app/api/synchronicity/cluster/route.ts - Harvard Business School v2.1
 import { NextRequest, NextResponse } from 'next/server';
 import { Matrix } from 'ml-matrix';
 import OpenAI from 'openai';
