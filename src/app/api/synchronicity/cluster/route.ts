@@ -166,6 +166,7 @@ async function generateClusterSummary(texts: string[]): Promise<string> {
 
   try {
     console.log('🤖 Using OpenAI for cluster summary - key present:', !!process.env.OPENAI_API_KEY);
+    console.log('🔍 OpenAI key first 8 chars:', process.env.OPENAI_API_KEY?.substring(0, 8));
     
     // Initialize OpenAI client
     const openai = new OpenAI({
@@ -179,6 +180,7 @@ ${texts.join('\n\n')}
 
 Provide a 1-2 sentence summary that identifies the main theme and business opportunity. Be specific and actionable.`;
 
+    console.log('📤 Sending request to OpenAI...');
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ role: "user", content: prompt }],
@@ -186,11 +188,30 @@ Provide a 1-2 sentence summary that identifies the main theme and business oppor
       temperature: 0.7
     });
 
-    return response.choices[0].message.content || `Cluster of ${texts.length} similar items`;
+    console.log('✅ OpenAI response received successfully');
+    const result = response.choices[0].message.content || `Cluster of ${texts.length} similar items`;
+    console.log('📝 AI Summary length:', result.length, 'chars');
+    
+    return result;
   } catch (error) {
-    console.error('❌ OpenAI error:', error);
+    console.error('❌ OpenAI error details:');
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error instanceof Error ? error.message : String(error));
+    console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
+    if (error instanceof Error && 'status' in error) {
+      console.error('HTTP status:', (error as any).status);
+    }
     console.log('📊 Falling back to local NLP processing');
-    // Fallback to local processing
+    
+    // Enhanced fallback processing
+    const allText = texts.join(' ');
+    const doc = nlp(allText);
+    const nouns = doc.nouns().out('array').slice(0, 3);
+    const adjectives = doc.adjectives().out('array').slice(0, 2);
+    
+    if (nouns.length > 0) {
+      return `Cluster focused on ${nouns.join(', ')}${adjectives.length > 0 ? ` with ${adjectives.join(', ')} characteristics` : ''}`;
+    }
     return `Cluster of ${texts.length} items with similar patterns`;
   }
 }
