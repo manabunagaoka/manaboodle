@@ -168,17 +168,29 @@ async function generateClusterSummary(texts: string[]): Promise<string> {
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const prompt = `Analyze these customer responses and provide a concise business insight about this customer segment:
+    const prompt = `You are a Harvard Business School consultant analyzing customer research for an entrepreneurship team. 
 
+CUSTOMER FEEDBACK:
 ${texts.join('\n\n')}
 
-Provide a 1-2 sentence summary that identifies the main theme and business opportunity. Be specific and actionable.`;
+ANALYSIS FRAMEWORK:
+Identify the core pain point, quantify the market opportunity, and propose a specific business solution.
+
+OUTPUT FORMAT:
+Provide exactly 2 sentences:
+1. First sentence: Identify the primary customer pain point and its business impact
+2. Second sentence: Propose a specific, actionable business opportunity with clear value proposition
+
+Be specific about WHO would pay, WHAT solution they need, and WHY it's valuable. Think like a startup founder pitching to investors.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
-      messages: [{ role: "user", content: prompt }],
-      max_tokens: 100,
-      temperature: 0.7
+      messages: [
+        { role: "system", content: "You are a Harvard Business School entrepreneurship consultant helping students identify market opportunities from customer research. Focus on actionable business insights with clear value propositions." },
+        { role: "user", content: prompt }
+      ],
+      max_tokens: 120,
+      temperature: 0.6
     });
 
     return response.choices[0].message.content || `Advanced AI analysis of ${texts.length} customer responses`;
