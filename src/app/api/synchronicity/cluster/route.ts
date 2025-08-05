@@ -93,10 +93,19 @@ function kmeansClustering(vectors: number[][], k: number, maxIterations = 100): 
     return vectors.map((_, i) => i);
   }
   
-  // Initialize centroids randomly
+  // Use deterministic initialization for consistent results
+  // Sort vectors by their first dimension to ensure reproducible centroids
+  const sortedIndices = vectors
+    .map((vector, index) => ({ vector, index }))
+    .sort((a, b) => a.vector[0] - b.vector[0])
+    .map(item => item.index);
+  
+  // Initialize centroids deterministically
   const centroids: number[][] = [];
   for (let i = 0; i < k; i++) {
-    centroids.push(vectors[Math.floor(Math.random() * numPoints)].slice());
+    const centroidIndex = Math.floor((i * numPoints) / k);
+    const sourceIndex = sortedIndices[centroidIndex];
+    centroids.push(vectors[sourceIndex].slice());
   }
   
   let assignments = new Array(numPoints).fill(0);
@@ -150,27 +159,19 @@ function euclideanDistance(a: number[], b: number[]): number {
 async function generateClusterSummary(texts: string[]): Promise<string> {
   if (texts.length === 0) return "Empty cluster";
   
-  // Fallback to local NLP if no OpenAI key
-  if (!process.env.OPENAI_API_KEY) {
-    console.log('🔑 OpenAI key missing - using fallback NLP processing');
-    const allText = texts.join(' ');
-    const doc = nlp(allText);
-    const nouns = doc.nouns().out('array').slice(0, 3);
-    const adjectives = doc.adjectives().out('array').slice(0, 2);
-    
-    if (nouns.length > 0) {
-      return `Cluster focused on ${nouns.join(', ')}${adjectives.length > 0 ? ` with ${adjectives.join(', ')} characteristics` : ''}`;
-    }
-    return `Cluster of ${texts.length} similar items`;
-  }
+  // Force OpenAI usage - bypass the key check for debugging
+  console.log('🔍 Environment check:', {
+    hasKey: !!process.env.OPENAI_API_KEY,
+    keyLength: process.env.OPENAI_API_KEY?.length || 0,
+    keyStart: process.env.OPENAI_API_KEY?.substring(0, 12) || 'MISSING'
+  });
 
   try {
-    console.log('🤖 Using OpenAI for cluster summary - key present:', !!process.env.OPENAI_API_KEY);
-    console.log('🔍 OpenAI key first 8 chars:', process.env.OPENAI_API_KEY?.substring(0, 8));
+    console.log('🤖 Attempting OpenAI connection...');
     
     // Initialize OpenAI client
     const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
+      apiKey: process.env.OPENAI_API_KEY || 'sk-test',
     });
 
     // AI-powered summary
