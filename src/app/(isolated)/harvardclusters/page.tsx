@@ -44,6 +44,12 @@ export default function HarvardClustersPage() {
   const [selectedSegment, setSelectedSegment] = useState<Segment | null>(null);
   const [insights, setInsights] = useState<string[]>([]);
   const [error, setError] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure client-side only rendering for dynamic content
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -216,26 +222,33 @@ export default function HarvardClustersPage() {
 
   // Update visualization when segments change
   useEffect(() => {
-    if (segments.length > 0) {
+    if (mounted && segments.length > 0) {
       setTimeout(updateClusterVisualization, 100);
     }
-  }, [segments]);
+  }, [segments, mounted]);
 
   // Window resize handler
   useEffect(() => {
+    if (!mounted) return;
+    
     const handleResize = () => {
       if (segments.length > 0) {
         updateClusterVisualization();
       }
       // Close sidebar on desktop
-      if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
+      if (window.innerWidth >= 1024) {
         closeSidebar();
       }
     };
 
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [segments]);
+  }, [segments, mounted]);
+
+  // Don't render until mounted to prevent hydration issues
+  if (!mounted) {
+    return <div className="app-container">Loading...</div>;
+  }
 
   return (
     <div className="app-container">

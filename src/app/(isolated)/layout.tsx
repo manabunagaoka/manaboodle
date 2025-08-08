@@ -1,11 +1,12 @@
-import './globals.css';
+import { Metadata } from 'next';
+import './harvardclusters/globals.css';
 
-export const metadata = {
-  title: 'Clusters - JTBD Analysis Tool',
+export const metadata: Metadata = {
+  title: 'Harvard Clusters - JTBD Analysis Tool',
   description: 'Customer interview analysis with AI-powered insights',
 };
 
-export default function HarvardClustersLayout({
+export default function IsolatedLayout({
   children,
 }: {
   children: React.ReactNode;

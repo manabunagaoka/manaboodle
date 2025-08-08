@@ -1,15 +1,26 @@
 /* Harvard Clusters - Complete Isolation CSS */
+/* Force override any global styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background: #f8f9fa;
-  color: #1f2937;
-  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif !important;
+  background: #f8f9fa !important;
+  color: #1f2937 !important;
+  overflow-x: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Hide any main site elements that might leak through */
+.header,
+.footer,
+nav,
+.nav-container {
+  display: none !important;
 }
 
 /* Mobile-First Layout */
