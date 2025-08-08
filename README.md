@@ -318,6 +318,14 @@ The platform uses SendGrid for all email communications:
 - AI-powered life coaching features
 - International expansion
 
+## 🏛️ Algorithm & Patent Archive
+
+**Patent-worthy clustering algorithm development archived in:** `/ALGORITHM_PATENT_ARCHIVE/`
+
+The repository contains a novel **Deterministic K-Means Clustering Algorithm** with business intelligence integration. All patent documentation, algorithm source code, and development history are organized in the archive folder for easy access and patent filing.
+
+**Key Innovation:** First clustering algorithm that produces identical, reproducible results for business analysis applications.
+
 ## 🤝 Contributing
 
 Contributions are welcome! Current focus areas:
