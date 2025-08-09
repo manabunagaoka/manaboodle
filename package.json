@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.50.3",
     "clsx": "^2.1.1",
     "compromise": "^14.14.4",
+    "lucide-react": "^0.539.0",
     "ml-matrix": "^6.12.1",
     "next": "^14.2.0",
     "openai": "^5.11.0",

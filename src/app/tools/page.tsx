@@ -35,6 +35,16 @@ const tools: Tool[] = [
     category: 'Writing',
     available: true
   },
+  // Pro Tools (Available)
+  {
+    id: 'clusters',
+    title: 'Clusters (MVP)',
+    description: 'Advanced AI-powered clustering tool for analyzing JTBD interview responses, survey data, and qualitative research. Perfect for discovering patterns in customer feedback and research insights.',
+    status: 'pro',
+    category: 'Research',
+    available: true, // Now available through university access
+    isNew: true
+  },
   // Fun Pattern Recognition Tools (Coming Soon - Will be Free)
   {
     id: 'resume-analyzer',
@@ -72,7 +82,6 @@ const tools: Tool[] = [
     available: false,
     isNew: true
   },
-  // Pro Tools (Future) - Original tools from your list
   {
     id: 'jobs-to-be-done',
     title: 'Jobs-To-Be-Done Interview',
@@ -115,7 +124,8 @@ export const metadata = {
 export default function ToolsPage() {
   const availableTools = tools.filter(tool => tool.available);
   const comingSoonTools = tools.filter(tool => !tool.available && tool.status === 'coming-soon');
-  const proTools = tools.filter(tool => tool.status === 'pro');
+  const proTools = tools.filter(tool => tool.status === 'pro' && !tool.available);
+  const availableProTools = tools.filter(tool => tool.status === 'pro' && tool.available);
 
   return (
     <div className={styles.toolsPage}>
@@ -137,7 +147,7 @@ export default function ToolsPage() {
           </h2>
           <div className={styles.toolsGrid}>
             {availableTools.map((tool) => (
-              <Link key={tool.id} href={`/tools/${tool.id}`} className={styles.toolCard}>
+              <Link key={tool.id} href={tool.id === 'clusters' ? '/tools/promarketplace/clusters' : `/tools/${tool.id}`} className={styles.toolCard}>
                 {tool.image ? (
                   <div className={styles.toolHeaderWithImage}>
                     <Image 
@@ -210,12 +220,50 @@ export default function ToolsPage() {
         </>
       )}
 
+      {/* Available Pro Tools Section */}
+      {availableProTools.length > 0 && (
+        <>
+          <div className={styles.proSection}>
+            <h2 className={styles.proTitle}>
+              University Research Tools
+              <span className={styles.newBadge}>BETA</span>
+            </h2>
+            <p className={styles.proDescription}>
+              Professional research and analysis tools available to university researchers. 
+              <strong> Now available for direct MVP testing!</strong>
+            </p>
+          </div>
+          
+          <div className={styles.toolsGrid}>
+            {availableProTools.map((tool) => (
+              <Link key={tool.id} href={`/tools/promarketplace/${tool.id}`} className={styles.toolCard}>
+                <div className={styles.toolHeader}>
+                  <h3 className={styles.toolTitle}>
+                    {tool.title}
+                    {tool.isNew && <span className={styles.newIndicator}>NEW</span>}
+                  </h3>
+                </div>
+                <p className={styles.toolDescription}>{tool.description}</p>
+                <div className={styles.toolMeta}>
+                  <span className={styles.toolStatus}>
+                    <span className={`${styles.statusBadge} ${styles.pro}`}>
+                      MVP Access
+                    </span>
+                  </span>
+                  <span className={styles.toolCategory}>{tool.category}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </>
+      )}
+
       {/* Pro Tools Section */}
       {proTools.length > 0 && (
         <>
           <div className={styles.proSection}>
             <h2 className={styles.proTitle}>
-              Professional Tools
+              Enterprise Tools
             </h2>
             <p className={styles.proDescription}>
               Advanced business and research tools for teams and enterprises. 

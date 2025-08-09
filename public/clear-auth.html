@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Auth - Manaboodle Test</title>
+</head>
+<body>
+    <h1>Clear University Access</h1>
+    <p>Click the button below to clear stored university access credentials for testing:</p>
+    
+    <button onclick="clearAuth()" style="
+        background: #dc2626; 
+        color: white; 
+        padding: 10px 20px; 
+        border: none; 
+        border-radius: 5px; 
+        cursor: pointer;
+        font-size: 16px;
+    ">
+        Clear Auth Data
+    </button>
+    
+    <div id="result" style="margin-top: 20px;"></div>
+    
+    <div style="margin-top: 30px;">
+        <a href="/tools" style="color: #0066cc;">← Back to Tools</a>
+    </div>
+
+    <script>
+        function clearAuth() {
+            localStorage.removeItem('manaboodle_edu_access');
+            localStorage.removeItem('manaboodle_edu_email');
+            
+            document.getElementById('result').innerHTML = 
+                '<p style="color: green; font-weight: bold;">✅ Auth data cleared! You can now test the flow again.</p>';
+        }
+        
+        // Show current auth status
+        window.onload = function() {
+            const hasAccess = localStorage.getItem('manaboodle_edu_access');
+            const email = localStorage.getItem('manaboodle_edu_email');
+            
+            if (hasAccess && email) {
+                document.getElementById('result').innerHTML = 
+                    '<p><strong>Current Auth:</strong> ' + email + ' (' + hasAccess + ')</p>';
+            } else {
+                document.getElementById('result').innerHTML = 
+                    '<p style="color: #666;">No auth data stored</p>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear All Cache - Manaboodle</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: 50px auto; 
+            padding: 20px; 
+        }
+        .button { 
+            background: #dc2626; 
+            color: white; 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin: 10px 10px 10px 0;
+        }
+        .button:hover { background: #b91c1c; }
+        .success { color: #059669; font-weight: bold; }
+        .info { background: #f3f4f6; padding: 15px; border-radius: 6px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>🧹 Clear Cache & Reset Auth</h1>
+    <p>Use these buttons to clear different types of cache and reset authentication:</p>
+    
+    <div>
+        <button onclick="clearAuth()" class="button">Clear Auth Data</button>
+        <button onclick="clearServerAuth()" class="button">Clear Server Auth</button>
+        <button onclick="clearAllStorage()" class="button">Clear All LocalStorage</button>
+        <button onclick="clearBrowserCache()" class="button">Clear Browser Cache</button>
+        <button onclick="hardRefresh()" class="button">Hard Refresh Page</button>
+    </div>
+    
+    <div id="result"></div>
+    
+    <div class="info">
+        <h3>Current Status:</h3>
+        <div id="status"></div>
+    </div>
+    
+    <div class="info">
+        <h3>Test the Flow:</h3>
+        <p>After clearing:</p>
+        <ol>
+            <li><a href="/tools">Go to Tools</a></li>
+            <li>Click "Research Clusters Analysis"</li>
+            <li>Should show "University Access Required"</li>
+            <li>Click "Get University Access"</li>
+            <li>Fill form with harvard.edu email</li>
+            <li>Test the flow</li>
+        </ol>
+    </div>
+
+    <script>
+        function clearAuth() {
+            localStorage.removeItem('manaboodle_edu_access');
+            localStorage.removeItem('manaboodle_edu_email');
+            showResult('✅ Auth data cleared!');
+            updateStatus();
+        }
+        
+        function clearServerAuth() {
+            fetch('/api/clear-auth', {
+                method: 'POST'
+            }).then(response => response.json())
+            .then(data => {
+                showResult('✅ Server auth cleared: ' + data.message);
+                clearAuth(); // Also clear client-side
+            }).catch(error => {
+                showResult('❌ Server auth clear failed: ' + error.message);
+            });
+        }
+        
+        function clearAllStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            showResult('✅ All storage cleared!');
+            updateStatus();
+        }
+        
+        function clearBrowserCache() {
+            // This will reload and clear cache
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                    });
+                });
+            }
+            showResult('✅ Browser cache cleared! Reloading page...');
+            setTimeout(() => {
+                window.location.reload(true);
+            }, 1000);
+        }
+        
+        function hardRefresh() {
+            showResult('🔄 Hard refreshing...');
+            setTimeout(() => {
+                // Force hard refresh
+                window.location.reload(true);
+            }, 500);
+        }
+        
+        function showResult(message) {
+            document.getElementById('result').innerHTML = 
+                '<div class="success" style="margin: 20px 0;">' + message + '</div>';
+        }
+        
+        function updateStatus() {
+            const hasAccess = localStorage.getItem('manaboodle_edu_access');
+            const email = localStorage.getItem('manaboodle_edu_email');
+            const storageCount = localStorage.length;
+            
+            let status = '<strong>LocalStorage:</strong> ' + storageCount + ' items<br>';
+            
+            if (hasAccess && email) {
+                status += '<strong>Auth Status:</strong> ✅ Logged in as ' + email + '<br>';
+                status += '<strong>Access Level:</strong> ' + hasAccess;
+            } else {
+                status += '<strong>Auth Status:</strong> ❌ Not logged in';
+            }
+            
+            document.getElementById('status').innerHTML = status;
+        }
+        
+        // Update status on load
+        window.onload = updateStatus;
+    </script>
+</body>
+</html>

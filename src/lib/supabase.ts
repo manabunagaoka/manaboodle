@@ -11,4 +11,11 @@ export interface Subscriber {
   subscribed_at: string
   status: 'active' | 'unsubscribed'
   unsubscribe_token: string
+  // University access fields
+  full_name?: string
+  organization?: string
+  research_focus?: string
+  feedback_consent?: boolean
+  beta_interest?: boolean
+  subscription_type?: 'newsletter' | 'edu_access'
 }
