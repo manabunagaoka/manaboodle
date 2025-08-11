@@ -75,9 +75,9 @@ export default function ClustersPage() {
   const [horizontalDragStart, setHorizontalDragStart] = useState({ x: 0, width: 350 }); // Better approach like vertical
   
   // Vertical splitter state (within sidebar)
-  const [textAreaHeight, setTextAreaHeight] = useState(300); // Default height for text area section
+  const [textAreaHeight, setTextAreaHeight] = useState(250); // Increased default to ensure buttons visible
   const [isVerticalDragging, setIsVerticalDragging] = useState(false);
-  const [verticalDragStart, setVerticalDragStart] = useState({ y: 0, height: 300 });
+  const [verticalDragStart, setVerticalDragStart] = useState({ y: 0, height: 250 }); // Updated to match
   
   // Cluster visualization state
   const [hoveredCluster, setHoveredCluster] = useState<number | null>(null);
@@ -292,7 +292,7 @@ export default function ClustersPage() {
         // Calculate delta from start position
         const deltaY = e.clientY - verticalDragStart.y;
         // Dragging UP (negative deltaY) should INCREASE height, dragging DOWN should DECREASE height
-        const newHeight = Math.max(200, Math.min(500, verticalDragStart.height - deltaY));
+        const newHeight = Math.max(250, Math.min(500, verticalDragStart.height - deltaY)); // Increased min to 250px
         setTextAreaHeight(newHeight);
       }
     };
@@ -683,6 +683,16 @@ export default function ClustersPage() {
             </div>
           )}
 
+          {/* Desktop Splitter - only show when sidebar is open */}
+          {isDesktop && sidebarOpen && (
+            <div 
+              className="desktop-splitter"
+              onMouseDown={handleSplitterMouseDown}
+            >
+              <div className="splitter-handle"></div>
+            </div>
+          )}
+
           {/* Desktop Content Wrapper */}
           <div className="desktop-content-wrapper">
             {/* Sidebar Panel */}
@@ -856,65 +866,82 @@ export default function ClustersPage() {
             </div>
           </div>
 
-          {/* Desktop Draggable Splitter - Only on desktop */}
-          {isDesktop && (
-            <div 
-              className="desktop-splitter"
-              onMouseDown={handleSplitterMouseDown}
-              style={{ cursor: isDragging ? 'ew-resize' : 'ew-resize' }}
-            >
-              <div className="splitter-handle"></div>
-            </div>
-          )}
-
           {/* Main Content Area */}
           <div className="main-content">
-            {/* ABAC Metrics Dashboard - Always show if patterns exist */}
-            {patterns && patterns.length > 0 && (
-              <div className="abac-metrics-dashboard">
-                <div className="metrics-title">🧬 Synchronicity Engine Quality Metrics</div>
-                <div className="metrics-grid">
-                  <div className="metric-card">
-                    <div className="metric-icon">🎯</div>
-                    <div className="metric-content">
-                      <div className="metric-label">Fit Score</div>
-                      <div className="metric-value confidence">
-                        {Math.round((patterns.reduce((acc, p) => acc + (p.similarity_score || 0.75), 0) / patterns.length) * 100)}%
-                      </div>
-                      <div className="metric-description">How well items fit their assigned clusters</div>
+            {/* 1. Subscribed Clusters Block - Always visible */}
+            <div className="feed-section">
+              <div className="feed-title">Subscribed Clusters</div>
+              <div className="feed-cards">
+                {["Harvard '26 GTM", "Boston Startup Funding", "YC W25 Batch"].map((name, index) => (
+                  <div key={index} className="feed-card">
+                    <div className="feed-card-header">
+                      <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#6b7280' }}>{name}</div>
+                      <div className="subscription-badge coming-soon">Coming Soon</div>
                     </div>
+                    <div style={{ fontSize: '1.125rem', fontWeight: 700, color: '#9ca3af' }}>---</div>
+                    <div style={{ fontSize: '0.7rem', color: '#9ca3af' }}>Not available</div>
                   </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">🔍</div>
-                    <div className="metric-content">
-                      <div className="metric-label">Separation</div>
-                      <div className="metric-value confidence">
-                        {Math.round((patterns.reduce((acc, p) => acc + (p.separation || 0.82), 0) / patterns.length) * 100)}%
-                      </div>
-                      <div className="metric-description">How distinct clusters are from each other</div>
+                ))}
+              </div>
+            </div>
+
+            {/* 2. Key Cluster Metrics - Always visible with pre-data state */}
+            <div className="key-metrics-dashboard">
+              <div className="metrics-title">Key Cluster Metrics</div>
+              <div className="metrics-grid">
+                <div className="metric-card">
+                  <div className="metric-content">
+                    <div className="metric-label">Purpose Alignment</div>
+                    <div className="metric-value confidence">
+                      {patterns.length > 0 ? 
+                        Math.round((patterns.reduce((acc, p) => acc + (p.similarity_score || 0.75), 0) / patterns.length) * 100) + '%' 
+                        : 'Ready'
+                      }
                     </div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">⚠️</div>
-                    <div className="metric-content">
-                      <div className="metric-label">Overlap Risk</div>
-                      <div className="metric-value risk">
-                        {Math.round((patterns.reduce((acc, p) => acc + (p.overlap_risk || 0.15), 0) / patterns.length) * 100)}%
-                      </div>
-                      <div className="metric-description">Risk of themes mixing between clusters</div>
-                    </div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">📊</div>
-                    <div className="metric-content">
-                      <div className="metric-label">Confidence</div>
-                      <div className="metric-value confidence">
-                        {Math.round((patterns[0]?.confidence || 0.89) * 100)}%
-                      </div>
-                      <div className="metric-description">Overall clustering confidence level</div>
-                    </div>
+                    <div className="metric-description">How well clusters align with intended purpose</div>
                   </div>
                 </div>
+                <div className="metric-card">
+                  <div className="metric-icon">�</div>
+                  <div className="metric-content">
+                    <div className="metric-label">Adaptiveness</div>
+                    <div className="metric-value confidence">
+                      {patterns.length > 0 ? 
+                        Math.round((patterns.reduce((acc, p) => acc + (p.separation || 0.82), 0) / patterns.length) * 100) + '%'
+                        : 'Ready'
+                      }
+                    </div>
+                    <div className="metric-description">Ability to adapt to new data patterns</div>
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-icon">⚡</div>
+                  <div className="metric-content">
+                    <div className="metric-label">Pattern Clarity</div>
+                    <div className="metric-value risk">
+                      {patterns.length > 0 ? 
+                        (100 - Math.round((patterns.reduce((acc, p) => acc + (p.overlap_risk || 0.15), 0) / patterns.length) * 100)) + '%'
+                        : 'Ready'
+                      }
+                    </div>
+                    <div className="metric-description">Clarity of identified patterns</div>
+                  </div>
+                </div>
+                <div className="metric-card">
+                  <div className="metric-icon">🎯</div>
+                  <div className="metric-content">
+                    <div className="metric-label">Cluster Quality</div>
+                    <div className="metric-value confidence">
+                      {patterns.length > 0 ? 
+                        Math.round((patterns[0]?.confidence || 0.89) * 100) + '%'
+                        : 'Ready'
+                      }
+                    </div>
+                    <div className="metric-description">Overall clustering quality score</div>
+                  </div>
+                </div>
+              </div>
+              {patterns.length > 0 && (
                 <div className="metrics-legend">
                   <div className="legend-item">
                     <div className="legend-indicator quality-ring"></div>
@@ -926,25 +953,10 @@ export default function ClustersPage() {
                   </div>
                   <div className="legend-item">
                     <div className="legend-indicator overlap-dot"></div>
-                    <span>Overlap Warning</span>
+                    <span>Pattern Overlap</span>
                   </div>
                 </div>
-              </div>
-            )}
-
-            {/* Subscribed Feeds */}
-            <div className="feed-section">
-              <div className="feed-title">Subscribed Clusters</div>
-              <span className="feed-coming-soon">Coming Soon</span>
-              <div className="feed-cards">
-                {["Harvard '26", "Funding", "YC W25"].map((name, index) => (
-                  <div key={index} className="feed-card">
-                    <div style={{ fontSize: '0.875rem', fontWeight: 600, color: '#9ca3af' }}>{name}</div>
-                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#9ca3af' }}>---</div>
-                    <div style={{ fontSize: '0.7rem', color: '#9ca3af' }}>Not available</div>
-                  </div>
-                ))}
-              </div>
+              )}
             </div>
 
             {/* Enhanced Cluster Visualization */}
@@ -953,16 +965,16 @@ export default function ClustersPage() {
                 <div className="viz-title">Cluster Map</div>
                 <div className="viz-actions">
                   <button className="viz-btn primary">Export</button>
-                  <button className="viz-btn secondary">Share</button>
+                  <button className="viz-btn secondary disabled" disabled>Share</button>
                 </div>
               </div>
               <div className="viz-canvas" style={{ minHeight: '400px', position: 'relative' }}>
                 {patterns.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon">🧬</div>
+                    <div className="empty-icon"></div>
                     <div className="empty-title">No Analysis Yet</div>
                     <div className="empty-description">
-                      Load sample data or paste your own content to see intelligent clustering patterns with ABAC quality metrics
+                      Load sample data or paste your own content to see intelligent clustering patterns with quality metrics
                     </div>
                   </div>
                 ) : (
@@ -1067,7 +1079,7 @@ export default function ClustersPage() {
                     </div>
                     <div className="cluster-info-content">
                       <div className="cluster-section">
-                        <h4>ABAC Quality Metrics</h4>
+                        <h4>Quality Metrics</h4>
                         <div className="quality-metrics">
                           <div className="metric-item">
                             <div className="metric-label">Fit Score</div>
