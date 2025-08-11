@@ -671,8 +671,10 @@ export default function ClustersPage() {
             </div>
           )}
 
-          {/* Sidebar Panel */}
-          <div className={`sidebar-panel ${sidebarOpen ? 'open' : ''}`}>
+          {/* Desktop Content Wrapper */}
+          <div className="desktop-content-wrapper">
+            {/* Sidebar Panel */}
+            <div className={`sidebar-panel ${sidebarOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
               <div>
                 <div className="logo-text">Clusters</div>
@@ -841,6 +843,17 @@ export default function ClustersPage() {
               </button>
             </div>
           </div>
+
+          {/* Desktop Draggable Splitter - Only on desktop */}
+          {isDesktop && (
+            <div 
+              className="desktop-splitter"
+              onMouseDown={handleSplitterMouseDown}
+              style={{ cursor: isDragging ? 'ew-resize' : 'ew-resize' }}
+            >
+              <div className="splitter-handle"></div>
+            </div>
+          )}
 
           {/* Main Content Area */}
           <div className="main-content">
@@ -1252,6 +1265,7 @@ export default function ClustersPage() {
               </div>
             )}
           </div>
+          </div> {/* End desktop-content-wrapper */}
         </div>
       </div>
   );

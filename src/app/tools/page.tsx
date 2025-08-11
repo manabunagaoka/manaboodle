@@ -18,6 +18,15 @@ interface Tool {
 const tools: Tool[] = [
   // Free Tools (Always Available)
   {
+    id: 'clusters',
+    title: 'Clusters',
+    description: 'Advanced customer interview analysis powered by our Synchronicity Engine. Discover hidden patterns and segments in your data with ABAC metrics.',
+    status: 'free',
+    category: 'Business Intelligence',
+    available: true,
+    isNew: true
+  },
+  {
     id: 'sassy',
     title: 'Sassy',
     description: 'Write personal updates that feel like conversations, not newsletters. Turn boring announcements into engaging messages.',
