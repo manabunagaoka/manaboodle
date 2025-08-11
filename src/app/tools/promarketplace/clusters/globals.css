@@ -171,7 +171,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     border-right: 1px solid #e5e7eb;  /* Border on right (ORIGINAL) */
     display: flex;
     flex-direction: column;
-    transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);  /* Much more dramatic mobile animation */
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);  /* Faster, more responsive mobile animation */
     z-index: 999;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);  /* Shadow on right */
 }
@@ -1083,7 +1083,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0.25rem; /* Further reduced padding */
+    padding: 0.125rem; /* Very tight spacing under header */
 }
 
 /* Subscription Feed Section */
@@ -1091,8 +1091,9 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     background: white;
     border-radius: 8px;
     border: 1px solid #e5e7eb;
-    padding: 1rem;
-    margin-bottom: 1rem; /* Reduced for tighter spacing */
+    padding: 0.75rem; /* Reduced padding to match tighter design */
+    margin-bottom: 0.5rem; /* Further reduced margins */
+    margin-top: 0; /* Explicitly no top margin */
     position: relative;
 }
 
@@ -1168,11 +1169,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     border-radius: 8px;
     border: 1px solid #e5e7eb;
     overflow: hidden;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem; /* Reduced excessive margin */
 }
 
 .viz-header {
-    padding: 1rem;
+    padding: 0.5rem; /* Much reduced padding */
     background: #fafafa;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
@@ -1580,7 +1581,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     .desktop-content-wrapper {
         display: flex;
         flex: 1;
-        height: calc(100vh - 48px);
+        height: calc(100vh - 44px); /* Updated to match smaller header */
     }
     
     /* Desktop sidebar with smooth transitions */
@@ -1589,11 +1590,12 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         left: unset;
         width: var(--sidebar-width, 350px);
         min-width: var(--sidebar-width, 350px);
+        max-width: var(--sidebar-width, 350px);
         height: 100%;
         overflow-y: auto;
         border-right: 1px solid #e5e7eb;
         box-shadow: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Faster, more responsive */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Simplified transition */
         opacity: 1;
         transform: translateX(0);
     }
@@ -1602,11 +1604,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     .app-container.sidebar-hidden .sidebar-panel {
         width: 0 !important;
         min-width: 0 !important;
+        max-width: 0 !important;
         overflow: hidden;
         border-right: none;
         opacity: 0;
-        transform: translateX(-30px); /* Subtle slide effect */
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Match opening animation */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Simplified transition */
     }
     
     /* Desktop splitter - enhanced interaction */
@@ -1621,7 +1623,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10;
+        z-index: 100; /* Much higher to ensure it's grabbable */
         pointer-events: auto;
         user-select: none;
         border-left: 1px solid #e5e7eb;
@@ -1651,14 +1653,14 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         min-width: 0 !important;
         opacity: 0;
         overflow: hidden;
-        transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* Match sidebar animation */
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Match sidebar animation timing */
     }
     
     /* Main content area */
     .main-content {
         flex: 1;
         overflow-y: auto;
-        padding: 0.25rem; /* Further reduced padding */
+        padding: 0.125rem; /* Match base rule for consistency */
         transition: all 0.3s ease;
     }
 
@@ -1673,13 +1675,13 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         padding: 0 0.75rem; /* Reduced further to make it more compact */
         align-items: center;
         justify-content: space-between;
-        height: 48px; /* Reduced further from 50px for tighter design */
+        height: 44px; /* Further reduced from 48px for ultra-tight header */
         width: 100%;
     }
 
     .main-content {
         flex: 1;
-        padding: 0.5rem; /* Reduced from 1rem to match tight spacing */
+        padding: 0.125rem; /* Much tighter spacing under header */
         overflow-y: auto;
     }
 
@@ -1719,7 +1721,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     /* Adjust main content when sidebar hidden */
     .main-content {
         transition: margin-left 0.3s ease;
-        padding: 1.5rem;
+        padding: 0.125rem; /* Very tight spacing under header */
         /* Grid layout handles the positioning automatically */
     }
 
@@ -1732,7 +1734,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
 
     .main-content {
-        padding: 1.5rem;
+        padding: 0.125rem; /* Very tight spacing under header */
     }
 
     .viz-canvas {
@@ -1875,11 +1877,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .clusters-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.5rem; /* Reduced gap */
+    padding: 1rem; /* Much reduced padding */
     justify-items: center;
     align-content: center; /* Center content vertically */
-    min-height: 300px; /* Minimum height for centering */
+    min-height: 250px; /* Reduced minimum height */
 }
 
 .cluster-grid-item {
@@ -2261,8 +2263,8 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     background: linear-gradient(135deg, #f0fdfa 0%, #ecfdf5 100%);
     border: 1px solid #10b981;
     border-radius: 12px;
-    padding: 1.5rem;
-    margin: 0 0 1rem 0; /* Reduced bottom margin */
+    padding: 0.75rem; /* Much reduced padding to fix excessive spacing */
+    margin: 0 0 0.5rem 0; /* Further reduced margins */
     box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
 }
 
@@ -2434,8 +2436,8 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
     
     .key-metrics-dashboard {
-        padding: 1rem;
-        margin: 0.25rem 0 0.75rem 0; /* Reduced margins for tighter spacing */
+        padding: 0.5rem; /* Much reduced for tight spacing */
+        margin: 0.125rem 0 0.25rem 0; /* Minimal margins */
     }
     
     .metrics-grid {

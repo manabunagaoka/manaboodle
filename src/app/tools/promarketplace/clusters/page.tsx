@@ -297,6 +297,16 @@ export default function ClustersPage() {
       }
     };
 
+    // Handle touch events for mobile
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isVerticalDragging && e.touches.length > 0) {
+        const touch = e.touches[0];
+        const deltaY = touch.clientY - verticalDragStart.y;
+        const newHeight = Math.max(250, Math.min(500, verticalDragStart.height - deltaY));
+        setTextAreaHeight(newHeight);
+      }
+    };
+
     const handleMouseUp = () => {
       if (isDragging) {
         setIsDragging(false);
@@ -309,6 +319,8 @@ export default function ClustersPage() {
     // Always attach event listeners for drag operations
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleMouseUp);
     
     // Set cursor styles when dragging
     if (isDragging || isVerticalDragging) {
@@ -328,6 +340,8 @@ export default function ClustersPage() {
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleMouseUp);
       // Reset body styles
       if (document.body) {
         document.body.style.cursor = '';
@@ -619,7 +633,6 @@ export default function ClustersPage() {
     <div className="clusters-app">
       <div 
         className={`app-container ${!sidebarOpen && isDesktop ? 'sidebar-hidden' : ''}`}
-        style={{ '--sidebar-width': `${sidebarWidth}px` } as React.CSSProperties}
       >
           {/* Mobile Header - Only visible on mobile */}
           {!isDesktop && (
@@ -671,16 +684,6 @@ export default function ClustersPage() {
               className={`sidebar-overlay ${sidebarOpen ? 'show' : ''}`}
               onClick={handleOverlayClick}
             ></div>
-          )}
-
-          {/* Desktop Splitter - only show when sidebar is open */}
-          {isDesktop && sidebarOpen && (
-            <div 
-              className="desktop-splitter"
-              onMouseDown={handleSplitterMouseDown}
-            >
-              <div className="splitter-handle"></div>
-            </div>
           )}
 
           {/* Desktop Splitter - only show when sidebar is open */}
@@ -819,14 +822,20 @@ export default function ClustersPage() {
             </div>
 
             {/* Vertical Splitter */}
-            {isDesktop && (
-              <div 
-                className="vertical-splitter"
-                onMouseDown={handleVerticalSplitterMouseDown}
-              >
-                <div className="vertical-splitter-handle"></div>
-              </div>
-            )}
+            <div 
+              className="vertical-splitter"
+              onMouseDown={handleVerticalSplitterMouseDown}
+              onTouchStart={(e) => {
+                const touch = e.touches[0];
+                setIsVerticalDragging(true);
+                setVerticalDragStart({
+                  y: touch.clientY,
+                  height: textAreaHeight
+                });
+              }}
+            >
+              <div className="vertical-splitter-handle"></div>
+            </div>
 
             {/* Input Section */}
             <div className="input-section" style={{ height: isDesktop ? `${textAreaHeight}px` : 'auto' }}>
@@ -865,6 +874,16 @@ export default function ClustersPage() {
               </button>
             </div>
           </div>
+
+          {/* Desktop Splitter - only show when sidebar is open */}
+          {isDesktop && sidebarOpen && (
+            <div 
+              className="desktop-splitter"
+              onMouseDown={handleSplitterMouseDown}
+            >
+              <div className="splitter-handle"></div>
+            </div>
+          )}
 
           {/* Main Content Area */}
           <div className="main-content">
