@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Home } from 'lucide-react';
-import EmailCollector from './components/EmailCollector';
 import './globals.css';
 
 // Sample JTBD interview data - exactly from your V10
@@ -259,6 +258,7 @@ export default function ClustersPage() {
 
   // Desktop splitter drag functionality
   const handleSplitterMouseDown = (e: React.MouseEvent) => {
+    console.log('🎯 Splitter mousedown triggered!');
     e.preventDefault();
     setIsDragging(true);
   };
