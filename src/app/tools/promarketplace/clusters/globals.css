@@ -65,7 +65,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.75rem; /* Reduced from 1rem to decrease spacing */
     background: white;
     border-bottom: 1px solid #e5e7eb;
     position: relative;
@@ -171,7 +171,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     border-right: 1px solid #e5e7eb;  /* Border on right (ORIGINAL) */
     display: flex;
     flex-direction: column;
-    transition: left 0.3s ease;  /* Smooth slide animation */
+    transition: left 0.7s cubic-bezier(0.4, 0, 0.2, 1);  /* Much more dramatic mobile animation */
     z-index: 999;
     box-shadow: 2px 0 10px rgba(0,0,0,0.1);  /* Shadow on right */
 }
@@ -637,18 +637,21 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 /* Desktop Splitter */
 .desktop-splitter {
     width: 6px;
-    background: #f3f4f6;
-    cursor: col-resize;
+    background: #f3f4f6; /* Subtle gray background */
+    cursor: ew-resize;
     border-right: 1px solid #e5e7eb;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease;
+    z-index: 10;
+    pointer-events: auto;
+    user-select: none;
 }
 
 .desktop-splitter:hover {
-    background: #e5e7eb;
+    background: #e5e7eb; /* Light gray on hover */
 }
 
 .desktop-splitter:active {
@@ -1080,7 +1083,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem;
+    padding: 0.5rem; /* Reduced from 1rem to give more space */
 }
 
 /* Subscription Feed Section */
@@ -1556,8 +1559,9 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         overflow-y: auto;
         border-right: 1px solid #e5e7eb;
         box-shadow: none;
-        transition: all 0.3s ease;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); /* Much longer, more dramatic */
         opacity: 1;
+        transform: translateX(0);
     }
 
     /* Hide sidebar when closed - smooth animation */
@@ -1567,15 +1571,15 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         overflow: hidden;
         border-right: none;
         opacity: 0;
-        transform: translateX(-30px);
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform: translateX(-100px); /* Much more dramatic slide */
+        transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* Even longer for closing */
     }
     
-    /* Desktop splitter - enhanced visibility and interaction */
+    /* Desktop splitter - enhanced interaction */
     .desktop-splitter {
         width: 6px;
         min-width: 6px;
-        background: #f3f4f6;
+        background: #f3f4f6;  /* Subtle gray background */
         cursor: ew-resize;
         position: relative;
         transition: all 0.2s ease;
@@ -1583,6 +1587,9 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         display: flex;
         align-items: center;
         justify-content: center;
+        z-index: 10;
+        pointer-events: auto;
+        user-select: none;
         border-left: 1px solid #e5e7eb;
         border-right: 1px solid #e5e7eb;
     }
@@ -1613,7 +1620,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         min-width: 0 !important;
         opacity: 0;
         overflow: hidden;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 1s cubic-bezier(0.4, 0, 0.2, 1); /* Match sidebar animation */
     }
     
     /* Main content area */
@@ -1632,16 +1639,16 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         display: flex;
         background: white;
         border-bottom: 1px solid #e5e7eb;
-        padding: 0 1.5rem;
+        padding: 0 1rem; /* Reduced from 1.5rem */
         align-items: center;
         justify-content: space-between;
-        height: 60px;
+        height: 50px; /* Reduced from 60px */
         width: 100%;
     }
 
     .main-content {
         flex: 1;
-        padding: 1.5rem;
+        padding: 1rem; /* Reduced from 1.5rem */
         overflow-y: auto;
     }
 

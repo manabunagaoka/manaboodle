@@ -72,6 +72,7 @@ export default function ClustersPage() {
   // Desktop splitter state
   const [sidebarWidth, setSidebarWidth] = useState(350); // Default 350px
   const [isDragging, setIsDragging] = useState(false);
+  const [horizontalDragStart, setHorizontalDragStart] = useState({ x: 0, width: 350 }); // Better approach like vertical
   
   // Vertical splitter state (within sidebar)
   const [textAreaHeight, setTextAreaHeight] = useState(300); // Default height for text area section
@@ -258,9 +259,12 @@ export default function ClustersPage() {
 
   // Desktop splitter drag functionality
   const handleSplitterMouseDown = (e: React.MouseEvent) => {
-    console.log('🎯 Splitter mousedown triggered!');
     e.preventDefault();
     setIsDragging(true);
+    setHorizontalDragStart({
+      x: e.clientX,
+      width: sidebarWidth
+    });
   };
 
   // Vertical splitter drag functionality
@@ -277,7 +281,10 @@ export default function ClustersPage() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging && isDesktop) {
-        const newWidth = Math.max(250, Math.min(600, e.clientX));
+        // Calculate delta from start position (same smooth approach as vertical)
+        const deltaX = e.clientX - horizontalDragStart.x;
+        // Expand the width range - users need more space for writing
+        const newWidth = Math.max(280, Math.min(800, horizontalDragStart.width + deltaX));
         setSidebarWidth(newWidth);
       }
       
@@ -299,17 +306,22 @@ export default function ClustersPage() {
       }
     };
 
+    // Always attach event listeners for drag operations
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    
+    // Set cursor styles when dragging
     if (isDragging || isVerticalDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      
       if (isDragging) {
-        document.body.style.cursor = 'col-resize';
+        document.body.style.cursor = 'ew-resize';
       } else if (isVerticalDragging) {
-        document.body.style.cursor = 'row-resize';
+        document.body.style.cursor = 'ns-resize';
       }
       
       document.body.style.userSelect = 'none';
+    } else {
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
     }
 
     // Proper cleanup
@@ -322,7 +334,7 @@ export default function ClustersPage() {
         document.body.style.userSelect = '';
       }
     };
-  }, [isDragging, isVerticalDragging, isDesktop, verticalDragStart]);
+  }, [isDragging, isVerticalDragging, isDesktop, textAreaHeight, verticalDragStart, sidebarWidth, horizontalDragStart]);
 
   // Sidebar management
   const toggleSidebar = () => {
