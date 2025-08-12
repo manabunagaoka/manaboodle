@@ -90,11 +90,14 @@ export default function ClustersPage() {
     const checkScreenSize = () => {
       const desktop = window.innerWidth >= 1024;
       setIsDesktop(desktop);
-      // Desktop starts with sidebar open, mobile starts closed
-      setSidebarOpen(desktop);
+      // Only set initial sidebar state, don't override user's choice on resize
     };
     
-    checkScreenSize();
+    // Set initial state
+    const initialDesktop = window.innerWidth >= 1024;
+    setIsDesktop(initialDesktop);
+    setSidebarOpen(initialDesktop); // Desktop starts open, mobile starts closed
+    
     window.addEventListener('resize', checkScreenSize);
     return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
@@ -260,6 +263,7 @@ export default function ClustersPage() {
   // Desktop splitter drag functionality
   const handleSplitterMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Add this to prevent event bubbling
     setIsDragging(true);
     setHorizontalDragStart({
       x: e.clientX,
@@ -270,6 +274,7 @@ export default function ClustersPage() {
   // Vertical splitter drag functionality
   const handleVerticalSplitterMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Add this
     setIsVerticalDragging(true);
     setVerticalDragStart({
       y: e.clientY,
@@ -286,6 +291,8 @@ export default function ClustersPage() {
         // Expand the width range - users need more space for writing
         const newWidth = Math.max(280, Math.min(800, horizontalDragStart.width + deltaX));
         setSidebarWidth(newWidth);
+        // Update CSS variable in real-time
+        document.documentElement.style.setProperty('--sidebar-width', `${newWidth}px`);
       }
       
       if (isVerticalDragging) {
@@ -316,11 +323,13 @@ export default function ClustersPage() {
       }
     };
 
-    // Always attach event listeners for drag operations
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('touchmove', handleTouchMove);
-    document.addEventListener('touchend', handleMouseUp);
+    // Only attach event listeners when actually dragging
+    if (isDragging || isVerticalDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('touchmove', handleTouchMove);
+      document.addEventListener('touchend', handleMouseUp);
+    }
     
     // Set cursor styles when dragging
     if (isDragging || isVerticalDragging) {
@@ -348,11 +357,13 @@ export default function ClustersPage() {
         document.body.style.userSelect = '';
       }
     };
-  }, [isDragging, isVerticalDragging, isDesktop, textAreaHeight, verticalDragStart, sidebarWidth, horizontalDragStart]);
+  }, [isDragging, isVerticalDragging, isDesktop, horizontalDragStart, verticalDragStart]); // Removed sidebarWidth and textAreaHeight from deps to prevent rubber band effect
 
   // Sidebar management
   const toggleSidebar = () => {
+    console.log('Toggle sidebar - current sidebarOpen:', sidebarOpen, 'isDesktop:', isDesktop);
     setSidebarOpen(!sidebarOpen);
+    console.log('Toggle sidebar - new sidebarOpen will be:', !sidebarOpen);
   };
 
   const closeSidebar = () => {
@@ -633,6 +644,12 @@ export default function ClustersPage() {
     <div className="clusters-app">
       <div 
         className={`app-container ${!sidebarOpen && isDesktop ? 'sidebar-hidden' : ''}`}
+        ref={(el) => {
+          if (el) {
+            console.log('App container classes:', el.className);
+            console.log('sidebarOpen:', sidebarOpen, 'isDesktop:', isDesktop);
+          }
+        }}
       >
           {/* Mobile Header - Only visible on mobile */}
           {!isDesktop && (
@@ -686,20 +703,13 @@ export default function ClustersPage() {
             ></div>
           )}
 
-          {/* Desktop Splitter - only show when sidebar is open */}
-          {isDesktop && sidebarOpen && (
-            <div 
-              className="desktop-splitter"
-              onMouseDown={handleSplitterMouseDown}
-            >
-              <div className="splitter-handle"></div>
-            </div>
-          )}
-
           {/* Desktop Content Wrapper */}
           <div className="desktop-content-wrapper">
             {/* Sidebar Panel */}
-            <div className={`sidebar-panel ${sidebarOpen ? 'open' : ''}`}>
+            <div 
+              className={`sidebar-panel ${sidebarOpen ? 'open' : ''} ${isDragging ? 'resizing' : ''}`}
+              style={isDesktop && sidebarOpen && isDragging ? { width: `${sidebarWidth}px` } : {}}
+            >
             <div className="sidebar-header">
               <div>
                 <div className="logo-text">Clusters</div>
@@ -921,7 +931,6 @@ export default function ClustersPage() {
                   </div>
                 </div>
                 <div className="metric-card">
-                  <div className="metric-icon">�</div>
                   <div className="metric-content">
                     <div className="metric-label">Adaptiveness</div>
                     <div className="metric-value confidence">
@@ -934,7 +943,6 @@ export default function ClustersPage() {
                   </div>
                 </div>
                 <div className="metric-card">
-                  <div className="metric-icon">⚡</div>
                   <div className="metric-content">
                     <div className="metric-label">Pattern Clarity</div>
                     <div className="metric-value risk">
@@ -947,7 +955,6 @@ export default function ClustersPage() {
                   </div>
                 </div>
                 <div className="metric-card">
-                  <div className="metric-icon">🎯</div>
                   <div className="metric-content">
                     <div className="metric-label">Cluster Quality</div>
                     <div className="metric-value confidence">
@@ -979,14 +986,8 @@ export default function ClustersPage() {
             </div>
 
             {/* Enhanced Cluster Visualization */}
-            <div className="viz-section">
-              <div className="viz-header">
-                <div className="viz-title">Cluster Map</div>
-                <div className="viz-actions">
-                  <button className="viz-btn primary">Export</button>
-                  <button className="viz-btn secondary disabled" disabled>Share</button>
-                </div>
-              </div>
+            <div className="feed-section">
+              <div className="feed-title">Cluster Map</div>
               <div className="viz-canvas" style={{ minHeight: '400px', position: 'relative' }}>
                 {patterns.length === 0 ? (
                   <div className="empty-state">

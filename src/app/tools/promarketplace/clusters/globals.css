@@ -974,6 +974,9 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 /* Enhanced viz section */
 .viz-canvas {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border-radius: 12px;
     border: 1px solid #e2e8f0;
@@ -1083,7 +1086,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0.125rem; /* Very tight spacing under header */
+    padding: 0; /* No padding at all - sections handle their own spacing */
 }
 
 /* Subscription Feed Section */
@@ -1568,8 +1571,12 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     cursor: pointer;
 }
 
-/* Desktop Layout - Simplified approach for reliable sidebar toggle */
+/* Desktop Layout - Use mobile-style animation */
 @media (min-width: 1024px) {
+    :root {
+        --sidebar-width: 350px;
+    }
+
     .app-container {
         display: flex;
         flex-direction: column;
@@ -1577,38 +1584,50 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         width: 100%;
     }
     
-    /* Desktop content wrapper */
+    /* Desktop content wrapper - ALLOW overflow for animation */
     .desktop-content-wrapper {
         display: flex;
         flex: 1;
-        height: calc(100vh - 44px); /* Updated to match smaller header */
+        height: calc(100vh - 44px);
+        /* Remove overflow: hidden to allow sidebar animation */
     }
     
-    /* Desktop sidebar with smooth transitions */
+    /* Desktop sidebar - clean base styles without conflicting transitions */
     .app-container .sidebar-panel {
-        position: static;
-        left: unset;
+        position: relative;
+        top: 0;
+        left: 0;
         width: var(--sidebar-width, 350px);
-        min-width: var(--sidebar-width, 350px);
-        max-width: var(--sidebar-width, 350px);
+        min-width: 280px;
+        max-width: 800px;
         height: 100%;
-        overflow-y: auto;
+        background: white;
         border-right: 1px solid #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
         box-shadow: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Simplified transition */
-        opacity: 1;
-        transform: translateX(0);
+        overflow-y: auto;
     }
-
-    /* Hide sidebar when closed - smooth animation */
-    .app-container.sidebar-hidden .sidebar-panel {
-        width: 0 !important;
-        min-width: 0 !important;
-        max-width: 0 !important;
-        overflow: hidden;
-        border-right: none;
-        opacity: 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Simplified transition */
+    
+    /* Desktop sidebar animation - use margin-left for reliable animation */
+    @media (min-width: 1024px) {
+        .desktop-content-wrapper .sidebar-panel {
+            margin-left: 0;
+            transition: margin-left 0.5s ease;
+        }
+        
+        .app-container.sidebar-hidden .desktop-content-wrapper .sidebar-panel {
+            margin-left: -350px;
+        }
+    }
+    
+    /* During resize, use CSS variable and disable transitions */
+    .app-container .sidebar-panel.resizing {
+        width: var(--sidebar-width, 350px) !important;
+        min-width: var(--sidebar-width, 350px) !important;
+        max-width: var(--sidebar-width, 350px) !important;
+        transition: none !important; /* Disable transitions during drag */
     }
     
     /* Desktop splitter - enhanced interaction */
@@ -1628,6 +1647,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         user-select: none;
         border-left: 1px solid #e5e7eb;
         border-right: 1px solid #e5e7eb;
+    }
+    
+    /* Hide splitter when sidebar is closed */
+    .app-container .sidebar-panel:not(.open) + .desktop-splitter {
+        display: none;
     }
     
     .desktop-splitter:hover {
@@ -1660,8 +1684,13 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     .main-content {
         flex: 1;
         overflow-y: auto;
-        padding: 0.125rem; /* Match base rule for consistency */
-        transition: all 0.3s ease;
+        padding: 0.25rem; /* Very tight spacing to match sidebar-closed perfection */
+        transition: none; /* Remove transition for smoother experience */
+    }
+
+    /* First section after header needs no top margin */
+    .main-content > *:first-child {
+        margin-top: 0;
     }
 
     .mobile-header {
@@ -1713,15 +1742,13 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         overflow-y: auto;
     }
 
-    /* Sidebar can be hidden on desktop */
-    .sidebar-panel:not(.open) {
-        display: none;
-    }
+    /* Sidebar animation handled by sidebar-hidden class, not open class */
+    /* Removed display:none rule that was preventing animations */
 
     /* Adjust main content when sidebar hidden */
     .main-content {
         transition: margin-left 0.3s ease;
-        padding: 0.125rem; /* Very tight spacing under header */
+        padding: 0; /* No padding at all - let sections handle their own spacing */
         /* Grid layout handles the positioning automatically */
     }
 
@@ -1734,11 +1761,17 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
 
     .main-content {
-        padding: 0.125rem; /* Very tight spacing under header */
+        padding: 0; /* No padding at all - let sections handle their own spacing */
     }
 
     .viz-canvas {
-        height: 400px;
+        min-height: 400px; /* Use min-height instead of fixed height */
+        height: auto; /* Allow height to grow with content */
+        background: white;
+        position: relative;
+        display: flex;
+        align-items: flex-start; /* Align to top instead of center for multi-row */
+        justify-content: center;
     }
 
     .pattern-cards-container {
@@ -1873,15 +1906,18 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     100% { background-position: -200% 0; }
 }
 
-/* Clean Grid Layout - No Overlaps */
+/* Clean Grid Layout - Horizontal First with Responsive Centering */
 .clusters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem; /* Reduced gap */
-    padding: 1rem; /* Much reduced padding */
-    justify-items: center;
-    align-content: center; /* Center content vertically */
-    min-height: 250px; /* Reduced minimum height */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center the entire group */
+    align-items: flex-start; /* Top align for multi-row */
+    align-content: center; /* Center rows vertically in container */
+    gap: 1.5rem;
+    padding: 2rem;
+    min-height: 300px;
+    height: auto; /* Allow dynamic height */
+    width: 100%;
 }
 
 .cluster-grid-item {
@@ -1893,6 +1929,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     animation: fadeInScale 0.6s ease-out;
     animation-fill-mode: both;
     animation-delay: var(--cluster-delay);
+    /* Make each item a modular block that's always centered */
+    min-width: 180px;
+    padding: 1rem;
+    background: transparent;
+    border-radius: 12px;
 }
 
 .cluster-grid-item:hover {
@@ -2082,9 +2123,21 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 /* Mobile responsive adjustments for grid */
 @media (max-width: 768px) {
     .clusters-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1.5rem;
+        gap: 1rem;
         padding: 1.5rem;
+        min-height: 250px;
+    }
+    
+    .cluster-grid-item {
+        min-width: 140px; /* Smaller on mobile */
+    }
+    
+    .viz-canvas {
+        min-height: 250px; /* Use min-height for mobile */
+        height: auto; /* Allow growth */
+        display: flex;
+        align-items: flex-start; /* Top align for multi-row */
+        justify-content: center;
     }
     
     .cluster-grid-item:hover {
