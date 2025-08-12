@@ -1086,7 +1086,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .main-content {
     flex: 1;
     overflow-y: auto;
-    padding: 0; /* No padding at all - sections handle their own spacing */
+    padding: 0.5rem 1rem 1rem 1rem; /* Top matches section gaps, sides match sidebar */
 }
 
 /* Subscription Feed Section */
@@ -1684,7 +1684,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     .main-content {
         flex: 1;
         overflow-y: auto;
-        padding: 0.25rem; /* Very tight spacing to match sidebar-closed perfection */
+        padding: 0.5rem 1rem 1rem 1rem; /* Top matches section gaps, sides match sidebar */
         transition: none; /* Remove transition for smoother experience */
     }
 
@@ -1748,7 +1748,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     /* Adjust main content when sidebar hidden */
     .main-content {
         transition: margin-left 0.3s ease;
-        padding: 0; /* No padding at all - let sections handle their own spacing */
+        padding: 0.5rem 1rem 1rem 1rem; /* Top matches section gaps, sides match sidebar */
         /* Grid layout handles the positioning automatically */
     }
 
@@ -1761,7 +1761,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
 
     .main-content {
-        padding: 0; /* No padding at all - let sections handle their own spacing */
+        padding: 0.5rem 1rem 1rem 1rem; /* Top matches section gaps, sides match sidebar */
     }
 
     .viz-canvas {
@@ -1906,18 +1906,36 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     100% { background-position: -200% 0; }
 }
 
-/* Clean Grid Layout - Horizontal First with Responsive Centering */
+/* Clean Grid Layout - Perfect Centering Based on Content */
 .clusters-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Center the entire group */
-    align-items: flex-start; /* Top align for multi-row */
-    align-content: center; /* Center rows vertically in container */
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     gap: 1.5rem;
     padding: 2rem;
-    min-height: 300px;
-    height: auto; /* Allow dynamic height */
     width: 100%;
+    /* Let the container size itself based on content */
+    min-height: 0;
+    height: auto;
+}
+
+/* For tablet/iPad and smaller desktop screens */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .clusters-grid {
+        justify-content: center; /* Keep centered for balanced look */
+        align-content: flex-start; /* But start from top to prevent weird gaps */
+    }
+}
+
+/* For large desktop, ensure single row is perfectly centered */
+@media (min-width: 1201px) {
+    .clusters-grid {
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+    }
 }
 
 .cluster-grid-item {
@@ -2089,6 +2107,82 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     text-align: center;
 }
 
+/* Custom clustering visualization graphic */
+.cluster-preview-graphic {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+}
+
+.preview-dots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    width: 60px;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    animation: float 3s ease-in-out infinite;
+}
+
+.dot-1 { background: #3B82F6; animation-delay: 0s; }
+.dot-2 { background: #10B981; animation-delay: 0.2s; }
+.dot-3 { background: #F59E0B; animation-delay: 0.4s; }
+.dot-4 { background: #EF4444; animation-delay: 0.6s; }
+.dot-5 { background: #8B5CF6; animation-delay: 0.8s; }
+
+.preview-arrow {
+    font-size: 1.5rem;
+    color: #6B7280;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.preview-clusters {
+    display: flex;
+    gap: 1rem;
+}
+
+.mini-cluster {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+.cluster-a {
+    border-color: #3B82F6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.cluster-b {
+    border-color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+    100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
+}
+
 .empty-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
@@ -2125,7 +2219,10 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     .clusters-grid {
         gap: 1rem;
         padding: 1.5rem;
-        min-height: 250px;
+        min-height: auto;
+        justify-content: flex-start; /* Left align for natural flow */
+        align-items: center;
+        align-content: flex-start; /* Start from top */
     }
     
     .cluster-grid-item {
@@ -2133,10 +2230,10 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
     
     .viz-canvas {
-        min-height: 250px; /* Use min-height for mobile */
-        height: auto; /* Allow growth */
+        min-height: auto;
+        height: auto;
         display: flex;
-        align-items: flex-start; /* Top align for multi-row */
+        align-items: flex-start; /* Align to top for mobile */
         justify-content: center;
     }
     

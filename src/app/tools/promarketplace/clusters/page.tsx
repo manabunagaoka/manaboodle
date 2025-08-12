@@ -914,9 +914,9 @@ export default function ClustersPage() {
               </div>
             </div>
 
-            {/* 2. Key Cluster Metrics - Always visible with pre-data state */}
+            {/* 2. Adaptive Business Analytics Dashboard - Always visible with pre-data state */}
             <div className="key-metrics-dashboard">
-              <div className="metrics-title">Key Cluster Metrics</div>
+              <div className="metrics-title">Adaptive Business Analytics</div>
               <div className="metrics-grid">
                 <div className="metric-card">
                   <div className="metric-content">
@@ -927,7 +927,7 @@ export default function ClustersPage() {
                         : 'Ready'
                       }
                     </div>
-                    <div className="metric-description">How well clusters align with intended purpose</div>
+                    <div className="metric-description">Shows how well your data naturally groups together. Higher percentages mean clearer, more meaningful clusters for business decisions.</div>
                   </div>
                 </div>
                 <div className="metric-card">
@@ -939,19 +939,19 @@ export default function ClustersPage() {
                         : 'Ready'
                       }
                     </div>
-                    <div className="metric-description">Ability to adapt to new data patterns</div>
+                    <div className="metric-description">Measures how distinct each cluster is from others. High scores mean your customer segments are clearly different and actionable.</div>
                   </div>
                 </div>
                 <div className="metric-card">
                   <div className="metric-content">
                     <div className="metric-label">Pattern Clarity</div>
-                    <div className="metric-value risk">
+                    <div className="metric-value confidence">
                       {patterns.length > 0 ? 
                         (100 - Math.round((patterns.reduce((acc, p) => acc + (p.overlap_risk || 0.15), 0) / patterns.length) * 100)) + '%'
                         : 'Ready'
                       }
                     </div>
-                    <div className="metric-description">Clarity of identified patterns</div>
+                    <div className="metric-description">Indicates how clear-cut your patterns are. Higher clarity means less confusion between customer groups and more confident insights.</div>
                   </div>
                 </div>
                 <div className="metric-card">
@@ -963,7 +963,7 @@ export default function ClustersPage() {
                         : 'Ready'
                       }
                     </div>
-                    <div className="metric-description">Overall clustering quality score</div>
+                    <div className="metric-description">Overall confidence in the clustering results. Higher quality scores mean more reliable business insights and recommendations.</div>
                   </div>
                 </div>
               </div>
@@ -988,13 +988,26 @@ export default function ClustersPage() {
             {/* Enhanced Cluster Visualization */}
             <div className="feed-section">
               <div className="feed-title">Cluster Map</div>
-              <div className="viz-canvas" style={{ minHeight: '400px', position: 'relative' }}>
+              <div className="viz-canvas" style={{ position: 'relative' }}>
                 {patterns.length === 0 ? (
                   <div className="empty-state">
-                    <div className="empty-icon"></div>
-                    <div className="empty-title">No Analysis Yet</div>
+                    <div className="cluster-preview-graphic">
+                      <div className="preview-dots">
+                        <div className="dot dot-1"></div>
+                        <div className="dot dot-2"></div>
+                        <div className="dot dot-3"></div>
+                        <div className="dot dot-4"></div>
+                        <div className="dot dot-5"></div>
+                      </div>
+                      <div className="preview-arrow">→</div>
+                      <div className="preview-clusters">
+                        <div className="mini-cluster cluster-a"></div>
+                        <div className="mini-cluster cluster-b"></div>
+                      </div>
+                    </div>
+                    <div className="empty-title">Ready to Discover Patterns</div>
                     <div className="empty-description">
-                      Load sample data or paste your own content to see intelligent clustering patterns with quality metrics
+                      Enter your data to see the clusters and unlock intelligent insights with quality metrics
                     </div>
                   </div>
                 ) : (
