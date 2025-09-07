@@ -229,6 +229,9 @@
 
 .articleActions {
     text-align: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
 }
 
 .backHome {
@@ -258,24 +261,14 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
     .articlePage {
-        padding: 6rem 1rem 3rem;
+        padding: 4rem 1rem 2rem;
     }
-
+    
     .articleTitle {
         font-size: 2rem;
     }
 
-    .sectionHeading {
-        font-size: 1.5rem;
-    }
-
     .authorInfo {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .articleMeta {
         flex-direction: column;
         align-items: flex-start;
         gap: 1rem;
@@ -292,6 +285,11 @@
     .comparisonTable th,
     .comparisonTable td {
         padding: 0.75rem 0.5rem;
+    }
+
+    .imageContainer {
+        margin: 1.5rem 0;
+        padding: 1rem;
     }
 }
 
@@ -316,4 +314,70 @@
     .comparisonTable td {
         padding: 0.5rem 0.25rem;
     }
+}
+
+/* Call to Action Styles */
+.callToAction {
+    background: #f8fafc;
+    border-left: 4px solid #059669;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+}
+
+.callToAction p {
+    margin-bottom: 0.75rem;
+}
+
+.callToAction p:last-child {
+    margin-bottom: 0;
+}
+
+/* Hashtag Styles */
+.hashtags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 2rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #e2e8f0;
+}
+
+.hashtag {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.hashtag:hover {
+    background: #cbd5e1;
+    color: #334155;
+}
+
+/* Spacing paragraph for blank lines */
+.spacingParagraph {
+    height: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* Image container for content images */
+.imageContainer {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.contentImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }

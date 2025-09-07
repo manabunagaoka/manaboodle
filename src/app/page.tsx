@@ -25,6 +25,9 @@ export default function HomePage() {
   };
 
   const getArticleUrl = (article: any) => {
+    if (article.id === 'childcare-startup-journey') {
+      return '/projects/childcare-startup-journey';
+    }
     if (article.id === 'ai-nurturing-surrogate-caregivers') {
       return '/concepts/ai-nurturing';
     }
@@ -54,6 +57,20 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'childcare-startup-journey') {
+      return (
+        <Image
+          src="/images/jenna.jpeg"
+          alt="Childcare startup journey - talking to parents in the playground"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+    
     if (article.id === 'tools') {
       return (
         <Image
@@ -151,7 +168,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list

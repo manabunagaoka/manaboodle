@@ -12,13 +12,23 @@ export interface Article {
 // Static article data with manual dates for now
 export const articles: Article[] = [
   {
+    id: 'childcare-startup-journey',
+    title: 'A Childcare Startup?! What Am I Thinking?',
+    excerpt: 'The early education sector is notoriously hard: fragmented, underfunded, and full of informal solutions. Yet it\'s also one of the most impactful sectors in our economy and society.',
+    category: 'project',
+    publishedAt: '2025-09-07',
+    readTime: 2,
+    featured: true,
+    slug: 'childcare-startup-journey'
+  },
+  {
     id: 'tools',
     title: 'Building Tools That Actually Matter',
     excerpt: 'Introducing Manaboodle\'s Tools category and Sassy, the anti-newsletter companion that keeps your writing human.',
     category: 'project',
     publishedAt: '2025-08-01',
     readTime: 4,
-    featured: true,
+    featured: false,
     slug: 'tools'
   },
   {

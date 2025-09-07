@@ -8,6 +8,19 @@ export default function ProjectsPage() {
   const projectArticles = articles.filter(article => article.category === 'project');
 
   const getMediaContent = (article: any) => {
+    if (article.id === 'childcare-startup-journey') {
+      return (
+        <Image
+          src="/images/jenna.jpeg"
+          alt="Childcare startup journey - talking to parents in the playground"
+          width={400}
+          height={220}
+          className={styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      );
+    }
+
     if (article.id === 'tools') {
       return (
         <Image
