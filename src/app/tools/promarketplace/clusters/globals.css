@@ -587,18 +587,23 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 .text-input {
     width: 100%;
     min-height: 100px;
-    max-height: 300px;
+    max-height: 400px; /* Increased for research tool */
     padding: 0.75rem;
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     font-size: 0.875rem;
-    font-family: inherit;
-    resize: none;
+    font-family: 'SF Mono', 'Monaco', 'Consolas', monospace; /* Better for research text */
+    line-height: 1.4; /* Better readability for long text */
+    resize: vertical; /* Allow manual resize for large texts */
     background: white;
     margin-bottom: 0.75rem;
     overflow-y: auto;
     vertical-align: top;
+    /* Enhanced for large text handling */
+    word-wrap: break-word;
+    white-space: pre-wrap; /* Preserve formatting in research data */
     position: relative;
+    z-index: 1; /* Ensure it doesn't overlap other elements */
 }
 
 /* Subtle pull-up handle at the top of textarea */
@@ -977,24 +982,18 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #d1fae5;
     overflow: hidden;
+    min-height: 300px;
+    height: auto;
 }
 
-.viz-canvas::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(59, 130, 246, 0.5) 50%, 
-        transparent 100%);
-    animation: scanLine 3s ease-in-out infinite;
+/* When viz-canvas has data, align left */
+.viz-canvas.has-data {
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 @keyframes scanLine {
@@ -1037,6 +1036,17 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    margin-top: 0.5rem; /* Add some space */
+}
+
+.submit-btn.loading {
+    background: linear-gradient(135deg, #F59E0B, #F97316);
+    animation: pulse 2s infinite;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0D9488, #10B981);
+    transform: translateY(-1px);
 }
 
 .submit-btn:disabled {
@@ -1098,6 +1108,12 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     margin-bottom: 0.5rem; /* Further reduced margins */
     margin-top: 0; /* Explicitly no top margin */
     position: relative;
+}
+
+/* Cluster Map Section - specific green styling */
+.feed-section.cluster-map-section {
+    background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    border: 1px solid #10b981;
 }
 
 .feed-title {
@@ -1285,6 +1301,11 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     display: flex;
     transition: transform 0.3s ease;
     gap: 1rem;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .pattern-card {
@@ -1768,21 +1789,31 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
         min-height: 400px; /* Use min-height instead of fixed height */
         height: auto; /* Allow height to grow with content */
         background: white;
+        border: 1px solid #d1fae5;
         position: relative;
         display: flex;
-        align-items: flex-start; /* Align to top instead of center for multi-row */
+        align-items: center;
         justify-content: center;
     }
 
+    .viz-canvas.has-data {
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
     .pattern-cards-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 1.5rem;
         transform: none;
+        justify-content: flex-start !important;
+        width: 100%;
+        align-items: flex-start;
     }
 
     .pattern-card {
-        flex: unset;
+        flex: 0 0 350px;
+        max-width: 350px;
     }
 
     .pattern-nav {
@@ -1798,11 +1829,15 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     }
 
     .viz-canvas {
-        height: 350px;
+        min-height: 350px;
+        height: auto;
+        background: white;
+        border: 1px solid #d1fae5;
     }
 
     .pattern-cards-container {
         gap: 1.5rem;
+        justify-content: flex-start !important;
     }
 
     .pattern-card {
@@ -1906,13 +1941,13 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     100% { background-position: -200% 0; }
 }
 
-/* Clean Grid Layout - Perfect Centering Based on Content */
+/* Clean Grid Layout - Smart centering */
 .clusters-grid {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
+    justify-content: flex-start; /* Start with left alignment */
+    align-items: flex-start;
+    align-content: flex-start;
     gap: 1.5rem;
     padding: 2rem;
     width: 100%;
@@ -1921,20 +1956,25 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     height: auto;
 }
 
+/* Center only when there's a single row that doesn't fill the width */
+.clusters-grid:not([data-multi-row]) {
+    justify-content: center;
+}
+
 /* For tablet/iPad and smaller desktop screens */
 @media (min-width: 769px) and (max-width: 1200px) {
     .clusters-grid {
-        justify-content: center; /* Keep centered for balanced look */
-        align-content: flex-start; /* But start from top to prevent weird gaps */
+        justify-content: center; /* Center the circle group */
+        align-content: flex-start; /* Start from top to prevent weird gaps */
     }
 }
 
-/* For large desktop, ensure single row is perfectly centered */
+/* For large desktop, center the circles */
 @media (min-width: 1201px) {
     .clusters-grid {
         justify-content: center;
-        align-items: center;
-        align-content: center;
+        align-items: flex-start;
+        align-content: flex-start;
     }
 }
 
@@ -2105,6 +2145,8 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     justify-content: center;
     padding: 4rem 2rem;
     text-align: center;
+    border: none;
+    outline: none;
 }
 
 /* Custom clustering visualization graphic */
@@ -2114,6 +2156,31 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     gap: 2rem;
     margin-bottom: 2rem;
     opacity: 0.8;
+}
+
+/* Loading dots for metrics */
+.loading-dots {
+    display: flex;
+    gap: 0.2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-dots span {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: #059669;
+    animation: loadingPulse 1.4s infinite ease-in-out;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loadingPulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
 }
 
 .preview-dots {
@@ -2465,6 +2532,7 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: 0.25rem;
+    text-align: center; /* Center the label above the dots */
 }
 
 .metric-content .metric-value {
@@ -2472,6 +2540,9 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
     font-weight: 700;
     color: #065f46;
     margin-bottom: 0.25rem;
+    text-align: center; /* Center the value (dots/percentage) */
+    display: flex;
+    justify-content: center;
 }
 
 .metric-content .metric-value.risk {
@@ -2480,6 +2551,19 @@ body.clusters-body > *:not(.clusters-app-wrapper) {
 
 .metric-content .metric-value.confidence {
     color: #059669;
+}
+
+/* Color-coded percentage values */
+.metric-content .metric-value.confidence.high {
+    color: #10b981; /* Green for high values (80%+) */
+}
+
+.metric-content .metric-value.confidence.medium {
+    color: #f59e0b; /* Orange for medium values (60-79%) */
+}
+
+.metric-content .metric-value.confidence.low {
+    color: #ef4444; /* Red for low values (<60%) */
 }
 
 .metric-content .metric-description {
