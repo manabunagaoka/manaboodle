@@ -10,13 +10,20 @@ import styles from './Header.module.css';
 export default function Header() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
+    setIsMobileSearchOpen(false); // Close search when opening menu
   };
   
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileSearch = () => {
+    setIsMobileSearchOpen(!isMobileSearchOpen);
+    setIsMobileMenuOpen(false); // Close menu when opening search
   };
 
   return (
@@ -108,22 +115,52 @@ export default function Header() {
         </nav>
 
         <div className={styles.navActions}>
-          <Search />
-          <Link 
-            href="/subscribe" 
-            className={styles.subscribeBtn}
-            onClick={closeMobileMenu}
-          >
-            Subscribe
-          </Link>
-          <button 
-            className={styles.menuBtn}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? '✕' : '☰'}
-          </button>
+          {/* Desktop search - always visible */}
+          <div className={styles.desktopSearch}>
+            <Search />
+          </div>
+          
+          {/* Mobile actions */}
+          <div className={styles.mobileActions}>
+            <button 
+              className={styles.searchBtn}
+              onClick={toggleMobileSearch}
+              aria-label="Toggle search"
+            >
+              🔍
+            </button>
+            <Link 
+              href="/subscribe" 
+              className={styles.subscribeBtn}
+              onClick={closeMobileMenu}
+            >
+              Subscribe
+            </Link>
+            <button 
+              className={styles.menuBtn}
+              onClick={toggleMobileMenu}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? '✕' : '☰'}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile search overlay */}
+        {isMobileSearchOpen && (
+          <div className={styles.mobileSearchOverlay}>
+            <div className={styles.mobileSearchContainer}>
+              <Search />
+              <button 
+                className={styles.closeSearchBtn}
+                onClick={toggleMobileSearch}
+                aria-label="Close search"
+              >
+                ✕
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );

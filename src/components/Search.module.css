@@ -129,6 +129,7 @@
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -155,11 +156,19 @@
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .searchContainer {
-    max-width: 100%;
+    max-width: none;
+    flex: 1;
+  }
+  
+  .searchInput {
+    padding: 0.875rem 2.5rem 0.875rem 1rem;
+    font-size: 16px; /* Prevents zoom on iOS */
   }
   
   .searchResults {
-    max-height: 300px;
+    max-height: 60vh;
+    left: -1rem;
+    right: -1rem;
   }
   
   .searchResultHeader {
