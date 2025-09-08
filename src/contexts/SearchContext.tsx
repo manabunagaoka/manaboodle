@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { articles as contentArticles } from '../lib/content';
 
 interface Article {
   id: string;
@@ -38,25 +39,8 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
   const [searchResults, setSearchResults] = useState<Article[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  // Mock articles - replace with your actual content
-  const articles: Article[] = [
-    {
-      id: 'ai-nurturing-surrogate-caregivers',
-      title: 'AI Nurturing Surrogate Caregivers',
-      excerpt: 'Exploring the concept of AI as nurturing caregivers in modern society.',
-      category: 'concept',
-      publishedAt: '2024-01-15',
-      readTime: 5
-    },
-    {
-      id: 'karaokegogo',
-      title: 'KaraokeGogo',
-      excerpt: 'A fun karaoke application project with social features.',
-      category: 'project',
-      publishedAt: '2024-02-10',
-      readTime: 3
-    }
-  ];
+  // Use actual articles from content.ts
+  const articles = contentArticles;
 
   const performSearch = (query: string) => {
     if (!query.trim()) {
@@ -67,11 +51,29 @@ export const SearchProvider: React.FC<SearchProviderProps> = ({ children }) => {
     setIsSearching(true);
     
     setTimeout(() => {
-      const filtered = articles.filter(article => 
-        article.title.toLowerCase().includes(query.toLowerCase()) ||
-        article.excerpt.toLowerCase().includes(query.toLowerCase()) ||
-        article.category.toLowerCase().includes(query.toLowerCase())
-      );
+      const searchTerm = query.toLowerCase();
+      const filtered = articles.filter(article => {
+        const searchableText = [
+          article.title,
+          article.excerpt,
+          article.category,
+          article.author || '',
+          article.content || ''
+        ].join(' ').toLowerCase();
+        
+        // Support both single words and phrases
+        return searchableText.includes(searchTerm);
+      });
+      
+      // Sort results by relevance (title matches first, then content matches)
+      filtered.sort((a, b) => {
+        const aTitle = a.title.toLowerCase().includes(searchTerm);
+        const bTitle = b.title.toLowerCase().includes(searchTerm);
+        
+        if (aTitle && !bTitle) return -1;
+        if (!aTitle && bTitle) return 1;
+        return 0;
+      });
       
       setSearchResults(filtered);
       setIsSearching(false);

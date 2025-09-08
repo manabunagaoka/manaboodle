@@ -42,6 +42,19 @@
   letter-spacing: -0.025em;
 }
 
+.logoWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logoIcon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  color: #111827; /* Match the logo text color */
+}
+
 .byline {
   font-size: 0.75rem;
   color: #6B7280; /* Medium gray for subtitle */
@@ -151,6 +164,11 @@
 @media (max-width: 768px) {
   .navContainer {
     padding: 0 1rem;
+  }
+  
+  .logoIcon {
+    width: 28px;
+    height: 28px;
   }
   
   .logoText {

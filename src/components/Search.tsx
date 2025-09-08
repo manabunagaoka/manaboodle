@@ -19,6 +19,24 @@ export default function Search() {
     if (article.id === 'karaokegogo') {
       return '/projects/karaokegogo';
     }
+    if (article.id === 'nanny') {
+      return '/projects/nanny';
+    }
+    if (article.id === 'vibe-coding') {
+      return '/random/vibe-coding';
+    }
+    if (article.id === 'mangrove-education') {
+      return '/casestudies/mangrove';
+    }
+    if (article.id === 'tools') {
+      return '/projects/tools';
+    }
+    if (article.id === 'childcare-startup-journey') {
+      return '/projects/childcare-startup-journey';
+    }
+    if (article.category === 'casestudy') {
+      return `/casestudies/${article.id}`;
+    }
     return `/${article.category}/${article.id}`;
   };
 
@@ -26,6 +44,7 @@ export default function Search() {
     switch (category) {
       case 'concept': return 'Concept';
       case 'project': return 'Project';
+      case 'casestudy': return 'Case Study';
       case 'random': return 'Random';
       default: return category.charAt(0).toUpperCase() + category.slice(1);
     }
@@ -49,6 +68,27 @@ export default function Search() {
     }
   };
 
+  const getSearchContext = (article: any, query: string) => {
+    if (!article.content || !query.trim()) return article.excerpt;
+    
+    const content = article.content.toLowerCase();
+    const searchTerm = query.toLowerCase();
+    const index = content.indexOf(searchTerm);
+    
+    if (index === -1) return article.excerpt;
+    
+    // Extract context around the found term (50 chars before and after)
+    const start = Math.max(0, index - 50);
+    const end = Math.min(content.length, index + searchTerm.length + 50);
+    let context = article.content.substring(start, end);
+    
+    // Add ellipsis if we're not at the start/end
+    if (start > 0) context = '...' + context;
+    if (end < content.length) context = context + '...';
+    
+    return context;
+  };
+
   // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -67,7 +107,7 @@ export default function Search() {
         <input
           ref={inputRef}
           type="text"
-          placeholder="Search articles..."
+          placeholder="Search content..."
           value={searchQuery}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
@@ -104,7 +144,7 @@ export default function Search() {
                         {getCategoryDisplay(article.category)}
                       </span>
                     </div>
-                    <p className={styles.searchResultExcerpt}>{article.excerpt}</p>
+                    <p className={styles.searchResultExcerpt}>{getSearchContext(article, searchQuery)}</p>
                     <div className={styles.searchResultMeta}>
                       <span className={styles.searchResultDate}>{formatDate(article.publishedAt)}</span>
                       <span className={styles.searchResultReadTime}>{article.readTime} min read</span>

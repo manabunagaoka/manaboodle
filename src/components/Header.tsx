@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import Search from './Search';
 import styles from './Header.module.css';
 
 export default function Header() {
@@ -23,7 +24,26 @@ export default function Header() {
       <div className={styles.navContainer}>
         <Link href="/" className={styles.logo}>
           <div className={styles.logoContainer}>
-            <h1 className={styles.logoText}>Manaboodle</h1>
+            <div className={styles.logoWithIcon}>
+              <svg width="32" height="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={styles.logoIcon}>
+                <circle cx="6" cy="6" r="1.5" fill="currentColor"/>
+                <circle cx="18" cy="6" r="1.5" fill="currentColor"/>
+                <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                <circle cx="6" cy="18" r="1.5" fill="currentColor"/>
+                <circle cx="18" cy="18" r="1.5" fill="currentColor"/>
+                <circle cx="12" cy="3" r="1" fill="currentColor" opacity="0.5"/>
+                <circle cx="12" cy="21" r="1" fill="currentColor" opacity="0.5"/>
+                <circle cx="3" cy="12" r="1" fill="currentColor" opacity="0.5"/>
+                <circle cx="21" cy="12" r="1" fill="currentColor" opacity="0.5"/>
+                <path d="M6 6 L12 12 L18 6" stroke="currentColor" strokeWidth="0.8" fill="none" opacity="0.4"/>
+                <path d="M6 18 L12 12 L18 18" stroke="currentColor" strokeWidth="0.8" fill="none" opacity="0.4"/>
+                <path d="M6 6 L18 18" stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.2"/>
+                <path d="M18 6 L6 18" stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.2"/>
+                <path d="M12 3 L12 21" stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.15"/>
+                <path d="M3 12 L21 12" stroke="currentColor" strokeWidth="0.5" fill="none" opacity="0.15"/>
+              </svg>
+              <h1 className={styles.logoText}>Manaboodle</h1>
+            </div>
             <div className={styles.byline}>by Manabu Nagaoka</div>
           </div>
         </Link>
@@ -88,11 +108,7 @@ export default function Header() {
         </nav>
 
         <div className={styles.navActions}>
-          <input 
-            type="text"
-            placeholder="Search..."
-            className={styles.searchInput}
-          />
+          <Search />
           <Link 
             href="/subscribe" 
             className={styles.subscribeBtn}
