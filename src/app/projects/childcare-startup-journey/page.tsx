@@ -7,7 +7,7 @@ export default function ChildcareStartupJourneyPage() {
     <div className={styles.articlePage}>
       <header className={styles.articleHeader}>
         <div className={styles.articleMeta}>
-          <Link href="/projects" className={styles.backLink}>← Back to Projects</Link>
+          <Link href="/projects" className={styles.backLink}>← Projects</Link>
           <span className={styles.articleCategory}>Project</span>
         </div>
         

@@ -7,7 +7,7 @@
   backdrop-filter: blur(10px);
   border-bottom: 1px solid #E5E7EB;
   z-index: 50;
-  height: 80px;
+  height: 64px;  /* Smaller by default */
 }
 
 .navContainer {
@@ -34,7 +34,7 @@
 
 .logoText {
   font-family: 'Playfair Display', serif;
-  font-size: 1.75rem;
+  font-size: 1.5rem;  /* Smaller by default */
   font-weight: 800;
   color: #111827; /* Professional dark charcoal */
   margin: 0;
@@ -50,13 +50,13 @@
 
 .logoIcon {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  width: 28px;  /* Smaller by default */
+  height: 28px;
   color: #111827; /* Match the logo text color */
 }
 
 .byline {
-  font-size: 0.75rem;
+  font-size: 0.7rem;  /* Smaller by default */
   color: #6B7280; /* Medium gray for subtitle */
   font-weight: 400;
   margin-top: 2px;
@@ -164,12 +164,13 @@
   display: none;
   background: none;
   border: none;
-  font-size: 1.125rem;
   color: #374151;
   cursor: pointer;
   padding: 0.5rem;
   transition: all 0.3s ease;
-  border-radius: 4px;
+  border-radius: 6px;
+  align-items: center;
+  justify-content: center;
 }
 
 .searchBtn:hover {
@@ -225,23 +226,35 @@
   background: #F3F4F6;
 }
 
-/* Mobile styles */
-@media (max-width: 768px) {
+/* Mobile styles - temporarily using larger breakpoint */
+@media (max-width: 1024px) {
+  .header {
+    height: 56px; /* More proportional to mobile content */
+  }
+  
   .navContainer {
     padding: 0 1rem;
   }
   
   .logoIcon {
-    width: 28px;
-    height: 28px;
+    width: 24px; /* Smaller for mobile proportions */
+    height: 24px;
   }
   
   .logoText {
-    font-size: 1.5rem;
+    font-size: 1.3rem; /* Proportionally smaller */
   }
   
   .byline {
-    font-size: 0.7rem;
+    font-size: 0.65rem; /* Slightly smaller */
+  }
+  
+  .logoContainer {
+    justify-content: center; /* Center vertically in shorter header */
+  }
+  
+  .logoWithIcon {
+    gap: 8px; /* Reduced gap for mobile */
   }
   
   /* Hide desktop search on mobile */
@@ -251,7 +264,7 @@
   
   /* Show mobile search button */
   .searchBtn {
-    display: block;
+    display: flex;
   }
   
   .navMenu {

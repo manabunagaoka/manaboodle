@@ -1,6 +1,6 @@
 /* Main Content with proper spacing */
 .mainContent {
-  padding: 8rem 2rem 4rem;
+  padding: 5rem 2rem 4rem;  /* Match article pages - adjusted for 64px header */
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -8,7 +8,7 @@
 /* Featured Card - Full Width */
 .featuredCard {
   width: 100%;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;  /* Consistent spacing with regular grid gap */
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -54,7 +54,7 @@
 .regularGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
+  gap: 3rem;  /* Consistent spacing with featured card margin */
 }
 
 /* Content Cards */
@@ -281,12 +281,12 @@
 /* Mobile responsiveness */
 @media (max-width: 767px) {
   .mainContent {
-    padding: 6rem 1rem 3rem;
+    padding: 5rem 1.5rem 4rem;  /* Consistent top/bottom, balanced side padding */
   }
   
   .regularGrid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;  /* Proportional mobile spacing */
   }
   
   .featuredCard .cardMedia {
@@ -296,7 +296,7 @@
 
 @media (max-width: 480px) {
   .mainContent {
-    padding: 5rem 0.75rem 2rem;
+    padding: 5rem 1rem 4rem;  /* Consistent top/bottom, tighter side padding */
   }
   
   .featuredCard .cardTitle {

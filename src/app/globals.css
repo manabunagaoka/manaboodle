@@ -34,7 +34,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     color: var(--gray-900);
-    background: var(--gray-50);
+    background: white;  /* Clean white background everywhere */
     overflow-x: hidden;
 }
 
@@ -521,8 +521,8 @@ body {
     }
 }
 
-/* Mobile specific footer fixes */
-@media (max-width: 768px) {
+/* Mobile specific fixes - temporarily using larger breakpoint */
+@media (max-width: 1024px) {
     .footer-legal-links {
         flex-wrap: wrap;
         gap: 0.5rem;

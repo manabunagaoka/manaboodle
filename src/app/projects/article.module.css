@@ -2,9 +2,10 @@
 .articlePage {
     max-width: 800px;
     margin: 0 auto;
-    padding: 6rem 2rem 4rem;
+    padding: 5rem 2rem 4rem;  /* Reduced top padding for better spacing */
     line-height: 1.7;
     min-height: 100vh;
+    background: white;  /* Clean white background for articles */
 }
 
 .articleHeader {
@@ -16,14 +17,21 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 1.5rem;
+    flex-wrap: nowrap;  /* Force single line */
+    gap: 1rem;  /* Add space between items */
 }
 
 .backLink {
     color: #059669;
     text-decoration: none;
     font-weight: 500;
-    font-size: 0.9rem;
+    font-size: 0.85rem;  /* Smaller font */
     transition: all 0.3s ease;
+    flex-shrink: 1;  /* Allow shrinking */
+    white-space: nowrap;  /* Prevent line breaks */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 65%;  /* Limit width */
 }
 
 .backLink:hover {
@@ -33,11 +41,13 @@
 .articleCategory {
     background: #059669;
     color: white;
-    padding: 0.25rem 0.75rem;
+    padding: 0.2rem 0.6rem;  /* Smaller padding */
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: 0.7rem;  /* Smaller font */
     font-weight: 600;
     text-transform: uppercase;
+    flex-shrink: 0;  /* Don't shrink */
+    white-space: nowrap;  /* Prevent wrapping */
 }
 
 .articleTitle {
@@ -258,10 +268,10 @@
     color: white;
 }
 
-/* Mobile responsiveness */
-@media (max-width: 768px) {
+/* Mobile responsiveness - temporarily using larger breakpoint */
+@media (max-width: 1024px) {
     .articlePage {
-        padding: 4rem 1rem 2rem;
+        padding: 4.5rem 1rem 2rem; /* Adjusted for 56px header + buffer */
     }
     
     .articleTitle {
@@ -291,11 +301,32 @@
         margin: 1.5rem 0;
         padding: 1rem;
     }
+    
+    .articleMeta {
+        flex-wrap: nowrap; /* Prevent wrapping on mobile */
+        gap: 0.5rem; /* Tighter gap for mobile */
+        align-items: center; /* Ensure vertical alignment */
+    }
+    
+    .backLink {
+        flex-shrink: 1; /* Allow some shrinking if needed */
+        font-size: 0.8rem; /* Smaller on mobile */
+        white-space: nowrap; /* Prevent text wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%; /* Limit width to prevent overlap */
+    }
+    
+    .articleCategory {
+        flex-shrink: 0; /* Keep badge size fixed */
+        font-size: 0.7rem; /* Smaller badge text */
+        padding: 0.25rem 0.5rem; /* Tighter padding */
+    }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
     .articlePage {
-        padding: 4rem 0.75rem 2rem;
+        padding: 4.5rem 0.75rem 2rem; /* Consistent with 56px header */
     }
     
     .articleTitle {
