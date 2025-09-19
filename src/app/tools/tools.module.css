@@ -488,3 +488,23 @@
     font-size: 1.25rem;
   }
 }
+
+/* External link styles */
+.externalIcon {
+  color: #0F766E;
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+  font-weight: bold;
+  opacity: 0.8;
+}
+
+.externalLabel {
+  background: #E6FFFA;
+  color: #0F766E;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  border: 1px solid #B2F5EA;
+}

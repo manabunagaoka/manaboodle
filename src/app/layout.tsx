@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Manaboodle',
   description: 'Cultivating synchronicity through creative vibes and authentic human stories',
+  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({

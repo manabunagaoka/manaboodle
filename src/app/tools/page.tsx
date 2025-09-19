@@ -13,10 +13,38 @@ interface Tool {
   image?: string;
   imageAlt?: string;
   isNew?: boolean;
+  external?: boolean; // Set to true for external tools (hosted elsewhere)
+  externalUrl?: string; // URL for external tools - will open in new tab
 }
+
+/*
+ * NAVIGATION PATTERN FOR TOOLS:
+ * 
+ * Internal Tools (hosted on this site):
+ * - Tool pages have: "← Back to Tools" (top) and "← Back to Home" (footer)
+ * - Links go to `/tools/${tool.id}`
+ * 
+ * External Tools (hosted elsewhere):
+ * - Set external: true and provide externalUrl
+ * - Links open in new tab with external indicators (↗ icon and "External" label)
+ * - Users can use browser back button to return to tools page
+ * 
+ * Main Tools Page:
+ * - Has "← Back to Home" link at top
+ * - All tools are listed with consistent styling
+ */
 
 const tools: Tool[] = [
   // Free Tools (Always Available)
+  {
+    id: 'runway',
+    title: 'Runway',
+    description: 'Calculate startup runway with budget planning, team costs, and AI-powered financial assistance.',
+    status: 'free',
+    category: 'Entrepreneurship',
+    available: true,
+    isNew: true
+  },
   {
     id: 'sassy',
     title: 'Sassy',
@@ -136,34 +164,82 @@ export default function ToolsPage() {
             Available Now
           </h2>
           <div className={styles.toolsGrid}>
-            {availableTools.map((tool) => (
-              <Link key={tool.id} href={`/tools/${tool.id}`} className={styles.toolCard}>
-                {tool.image ? (
-                  <div className={styles.toolHeaderWithImage}>
-                    <Image 
-                      src={tool.image}
-                      alt={tool.imageAlt || `${tool.title} preview`}
-                      width={80}
-                      height={80}
-                      unoptimized // Important for GIFs
-                      className={styles.toolImage}
-                    />
+            {availableTools.map((tool) => {
+              if (tool.external) {
+                return (
+                  <a 
+                    key={tool.id} 
+                    href={tool.externalUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={styles.toolCard}
+                  >
+                    {tool.image ? (
+                      <div className={styles.toolHeaderWithImage}>
+                        <Image 
+                          src={tool.image}
+                          alt={tool.imageAlt || `${tool.title} preview`}
+                          width={80}
+                          height={80}
+                          unoptimized // Important for GIFs
+                          className={styles.toolImage}
+                        />
+                        <h3 className={styles.toolTitle}>
+                          {tool.title}
+                          <span className={styles.externalIcon}>↗</span>
+                        </h3>
+                      </div>
+                    ) : (
+                      <h3 className={styles.toolTitle}>
+                        {tool.title}
+                        <span className={styles.externalIcon}>↗</span>
+                      </h3>
+                    )}
+                    <p className={styles.toolDescription}>{tool.description}</p>
+                    <div className={styles.toolMeta}>
+                      <span className={styles.toolStatus}>
+                        <span className={`${styles.statusBadge} ${styles[tool.status]}`}>
+                          {tool.status}
+                        </span>
+                        {tool.isNew && <span className={styles.newBadge}>NEW!</span>}
+                      </span>
+                      <span className={styles.toolCategory}>{tool.category}</span>
+                      <span className={styles.externalLabel}>External</span>
+                    </div>
+                  </a>
+                );
+              }
+
+              return (
+                <Link key={tool.id} href={`/tools/${tool.id}`} className={styles.toolCard}>
+                  {tool.image ? (
+                    <div className={styles.toolHeaderWithImage}>
+                      <Image 
+                        src={tool.image}
+                        alt={tool.imageAlt || `${tool.title} preview`}
+                        width={80}
+                        height={80}
+                        unoptimized // Important for GIFs
+                        className={styles.toolImage}
+                      />
+                      <h3 className={styles.toolTitle}>{tool.title}</h3>
+                    </div>
+                  ) : (
                     <h3 className={styles.toolTitle}>{tool.title}</h3>
-                  </div>
-                ) : (
-                  <h3 className={styles.toolTitle}>{tool.title}</h3>
-                )}
-                <p className={styles.toolDescription}>{tool.description}</p>
-                <div className={styles.toolMeta}>
-                  <span className={styles.toolStatus}>
-                    <span className={`${styles.statusBadge} ${styles[tool.status]}`}>
-                      {tool.status}
+                  )}
+                  <p className={styles.toolDescription}>{tool.description}</p>
+                  <div className={styles.toolMeta}>
+                    <span className={styles.toolStatus}>
+                      <span className={`${styles.statusBadge} ${styles[tool.status]}`}>
+                        {tool.status}
+                      </span>
+                      {tool.isNew && <span className={styles.newBadge}>NEW!</span>}
                     </span>
-                  </span>
-                  <span className={styles.toolCategory}>{tool.category}</span>
-                </div>
-              </Link>
-            ))}
+                    <span className={styles.toolCategory}>{tool.category}</span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </>
       )}
