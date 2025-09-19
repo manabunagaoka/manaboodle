@@ -3,11 +3,18 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     console.log('Testing OpenAI API key availability...');
+    console.log('Full process.env object keys:', Object.keys(process.env).length);
     
-    // Check if the key exists
+    // Check if the key exists with multiple approaches
     const apiKey = process.env.OPENAI_API_KEY;
+    const alternativeKey = process.env['OPENAI_API_KEY']; 
+    const processEnvOpenai = (process.env as any).OPENAI_API_KEY;
+    
     console.log('API key exists:', !!apiKey);
     console.log('API key starts with:', apiKey ? apiKey.substring(0, 10) + '...' : 'undefined');
+    
+    // Log all environment variable names containing 'KEY' to see if the naming is different
+    const keyVars = Object.keys(process.env).filter(key => key.includes('KEY'));
     
     if (!apiKey) {
       return NextResponse.json({
@@ -16,11 +23,17 @@ export async function GET() {
         all_env_count: Object.keys(process.env).length,
         sample_env_vars: Object.keys(process.env).slice(0, 20), // Show first 20 env vars
         vercel_env_vars: Object.keys(process.env).filter(key => key.startsWith('VERCEL')).slice(0, 5),
+        vars_with_key: keyVars,
+        api_vars: Object.keys(process.env).filter(key => key.includes('API')),
         openai_variants: [
           process.env.OPENAI_API_KEY ? 'OPENAI_API_KEY exists' : 'OPENAI_API_KEY missing',
           process.env.OPENAI_KEY ? 'OPENAI_KEY exists' : 'OPENAI_KEY missing',
           process.env.OPENAI ? 'OPENAI exists' : 'OPENAI missing'
-        ]
+        ],
+        alternative_access: {
+          bracket_notation: !!alternativeKey,
+          any_cast: !!processEnvOpenai
+        }
       });
     }
 
