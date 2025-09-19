@@ -3,10 +3,13 @@ import OpenAI from 'openai';
 
 // Lazy initialization of OpenAI client
 const getOpenAIClient = () => {
+  console.log('Checking OpenAI API key availability...');
   if (!process.env.OPENAI_API_KEY) {
+    console.error('OpenAI API key not found in environment variables');
     throw new Error('OpenAI API key not configured');
   }
   
+  console.log('OpenAI API key found, initializing client...');
   return new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
@@ -104,11 +107,24 @@ Guidelines:
     
   } catch (error) {
     console.error('OpenAI API error details:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
     
     // Check if it's an API key issue
-    if (error instanceof Error && error.message.includes('apiKey')) {
+    if (error instanceof Error && (error.message.includes('apiKey') || error.message.includes('API key') || error.message.includes('credentials'))) {
+      console.error('Detected API key issue');
       return {
-        text: 'AI features are temporarily unavailable. Please contact support if this persists.',
+        text: 'AI features are temporarily unavailable due to configuration issues. Please contact support.',
+        suggestedValue: null,
+        category: null
+      };
+    }
+    
+    // Check for rate limiting
+    if (error instanceof Error && (error.message.includes('rate') || error.message.includes('quota'))) {
+      console.error('Detected rate limit or quota issue');
+      return {
+        text: 'AI features are temporarily unavailable due to high usage. Please try again in a few minutes.',
         suggestedValue: null,
         category: null
       };
