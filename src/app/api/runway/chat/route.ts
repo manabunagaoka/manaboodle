@@ -104,6 +104,16 @@ Guidelines:
     
   } catch (error) {
     console.error('OpenAI API error details:', error);
+    
+    // Check if it's an API key issue
+    if (error instanceof Error && error.message.includes('apiKey')) {
+      return {
+        text: 'AI features are temporarily unavailable. Please contact support if this persists.',
+        suggestedValue: null,
+        category: null
+      };
+    }
+    
     return {
       text: 'I apologize, but I\'m having trouble accessing my knowledge base right now. Please try again in a moment.',
       suggestedValue: null,
