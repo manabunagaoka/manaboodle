@@ -13,7 +13,14 @@ export async function GET() {
       return NextResponse.json({
         error: 'No API key found',
         env_vars: Object.keys(process.env).filter(key => key.includes('OPENAI')),
-        all_env_count: Object.keys(process.env).length
+        all_env_count: Object.keys(process.env).length,
+        sample_env_vars: Object.keys(process.env).slice(0, 20), // Show first 20 env vars
+        vercel_env_vars: Object.keys(process.env).filter(key => key.startsWith('VERCEL')).slice(0, 5),
+        openai_variants: [
+          process.env.OPENAI_API_KEY ? 'OPENAI_API_KEY exists' : 'OPENAI_API_KEY missing',
+          process.env.OPENAI_KEY ? 'OPENAI_KEY exists' : 'OPENAI_KEY missing',
+          process.env.OPENAI ? 'OPENAI exists' : 'OPENAI missing'
+        ]
       });
     }
 
