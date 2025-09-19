@@ -273,8 +273,13 @@ export async function POST(request: NextRequest) {
     // Check if this is a specific startup cost query or a general question
     const isSpecificCostQuery = isStartupCostQuery(message);
     console.log('Is startup cost query:', isSpecificCostQuery);
+    console.log('Query routing decision: Will use', isSpecificCostQuery ? 'FALLBACK' : 'OPENAI');
     
-    if (isSpecificCostQuery) {
+    // TEMPORARY: Force OpenAI for testing if message contains 'force-openai'
+    const forceOpenAI = message.toLowerCase().includes('force-openai');
+    console.log('Force OpenAI:', forceOpenAI);
+    
+    if (isSpecificCostQuery && !forceOpenAI) {
       // Use existing cost logic for specific startup cost queries
       console.log('Using existing cost logic');
       const response = getKnowledgeBaseFallback(message, context);
