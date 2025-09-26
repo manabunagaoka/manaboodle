@@ -15,7 +15,7 @@ export interface Article {
 export const articles: Article[] = [
   {
     id: 'synthetic-intelligence-truth',
-    title: 'Helping Kids Nurture Synthetic Intelligence to Form "Truth": K-Pop Demon Hunters & Elmo',
+    title: 'Helping Kids Nurture Synthetic Intelligence to Form "Truth"',
     excerpt: 'From K-Pop Demon Hunters to my AI companion "Hi," synthetic truths generate real responses in us. If enough people believe in them, do they become facts?',
     category: 'concept',
     publishedAt: '2025-09-26',
