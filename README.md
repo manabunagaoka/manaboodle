@@ -128,7 +128,107 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 - Implement proper TypeScript types for all new components
 - Add comprehensive testing for clustering algorithms
 
-## 🛠️ Synchronicity Engine Architecture
+## � Article Publishing System
+
+### Content Management Overview
+Manaboodle uses a simple, maintainable article system with centralized content management and automated deployment.
+
+#### Article Publishing Process
+
+**1. Content Structure**
+- All articles are managed in `/src/lib/content.ts`
+- Featured article appears on home page and gets priority in search results
+- Categories: `concept`, `project`, `casestudy`, `random`
+- Each article has: id, title, excerpt, category, publishedAt, readTime, featured, slug, author, content
+
+**2. Adding New Articles**
+```typescript
+// Example article entry in content.ts
+{
+  id: 'article-slug',
+  title: 'Article Title',
+  excerpt: 'Brief description for cards and previews',
+  category: 'concept', // concept | project | casestudy | random
+  publishedAt: '2025-09-26',
+  readTime: 2,
+  featured: true, // Only one article should be featured at a time
+  slug: 'article-slug',
+  author: 'Author Name',
+  content: `Full article content for search functionality...`
+}
+```
+
+**3. Creating Article Pages**
+- Create directory: `/src/app/[category]/[article-slug]/`
+- Create page: `/src/app/[category]/[article-slug]/page.tsx`
+- Use existing templates (e.g., `/concepts/ai-nurturing/page.tsx`) as reference
+- Include proper metadata, navigation, images, and content structure
+
+**4. Image Management**
+- Add images to `/public/images/[image-name].jpg`
+- Update category page mappings (e.g., `/concepts/page.tsx`) with image paths
+- Images appear in: home featured card, category list page, article header
+
+**5. URL Mapping & Navigation**
+- Update category page URL mappings for custom routes
+- Add article ID to home page `allowedArticleIds` array if it should appear on homepage
+- Example: `'synthetic-intelligence-truth': '/concepts/synthetic-intelligence-truth'`
+
+**6. Deployment**
+- All changes auto-deploy via Vercel when pushed to main branch
+- No build process needed - Next.js handles everything automatically
+- Search functionality updates automatically with new content
+
+**⚠️ IMPORTANT: Avoiding Duplicates**
+- **Use consistent naming**: Choose ONE slug format and stick to it
+- **Check existing folders**: Before creating new article, verify no similar folders exist
+- **Clean up immediately**: If duplicates are created, delete unused folders immediately
+- **Follow the pattern**: Use descriptive, URL-friendly slugs (kebab-case)
+- **Single source of truth**: The article ID in `content.ts` must match the folder name exactly
+
+#### Recent Article Updates
+
+**Repository Cleanup (September 26, 2025)**
+- **Removed duplicate article folder**: Deleted `/concepts/synthetic-intelligence-truth/` 
+- **Consolidated structure**: Using `/concepts/k-pop-demon-hunters-synthetic-truth/` as the single source
+- **Updated README**: Added warnings and best practices to prevent future duplicates
+- **Article formatting**: Fixed paragraph spacing and image caption placement
+
+**Latest: "Helping Kids Nurture Synthetic Intelligence to Form 'Truth'" (September 26, 2025)**
+- **New Featured Article**: Replaces childcare startup article as home page featured
+- **Category**: Concept - exploring AI, children, education, and synthetic truth
+- **Image**: Uses `/images/hi.jpg` across all three display contexts
+- **Content Flow**: Home featured → Concepts list → Full article page
+- **Previous Featured**: Moved childcare startup article to regular projects list
+- **Formatting**: Added proper paragraph breaks and correct image caption text
+
+**Previous: Childcare Startup Article (September 7, 2025)**
+- **Status**: Moved from featured to regular project article
+- **Author**: Jenna Winocur - first guest author on the platform
+- **Impact**: Established guest author functionality and content diversity
+
+### Category-Specific Pages
+
+#### Concepts (`/concepts/`)
+- Focuses on ideas, theories, and conceptual explorations
+- Current articles: AI Nurturing, Synthetic Intelligence & Truth
+- Template: Use `/concepts/ai-nurturing/page.tsx` for new concept articles
+
+#### Projects (`/projects/`)
+- Showcases actual work, tools, and implementations
+- Includes: Tools, Childcare Startup Journey, Nanny project, KaraokeGoGo
+- Template: Use existing project article structure
+
+#### Case Studies (`/casestudies/`)
+- In-depth analysis of real-world implementations
+- Currently: Mangrove case study
+- Template: Use `/casestudies/mangrove/page.tsx`
+
+#### Random (`/random/`)
+- Personal thoughts, quick ideas, experimental content
+- Flexible format for various content types
+
+## �🛠️ Synchronicity Engine Architecture
 
 ### Core Technology Stack
 - **Pattern Recognition**: Scikit-learn, Sentence-BERT embeddings

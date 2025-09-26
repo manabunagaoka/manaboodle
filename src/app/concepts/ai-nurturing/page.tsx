@@ -26,7 +26,7 @@ export default function AINurturingPage() {
           <div className={styles.authorInfo}>
             <span className={styles.author}>by Manabu Nagaoka</span>
             <span className={styles.publishDate}>July 20, 2025</span>
-            <span className={styles.readTime}>5 min read</span>
+            <span className={styles.readTime}>2 min read</span>
           </div>
         </div>
 
