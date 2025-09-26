@@ -102,6 +102,10 @@ export default function SyntheticIntelligenceTruthPage() {
           <span className={styles.tag}>#SyntheticTruths</span>
         </div>
         
+        <div className={styles.articleDisclaimer}>
+          <p><strong>Note:</strong> The views expressed in this article are my personal academic musings and do not represent the positions of Sesame Workshop, Netflix, or any mentioned entities. This is an independent philosophical exploration.</p>
+        </div>
+        
         <div className={styles.articleActions}>
           <Link href="/" className={styles.backHome}>← Back to Home</Link>
         </div>
