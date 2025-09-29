@@ -2,11 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-export const metadata = {
-  title: 'Launching Clusters - Manaboodle',
-  description: 'Redirecting to Clusters pattern recognition tool',
-};
-
 export default function ClustersRedirect() {
   const [progress, setProgress] = useState(0);
   const [status, setStatus] = useState('Initializing...');
@@ -56,174 +51,162 @@ export default function ClustersRedirect() {
   }, []);
 
   return (
-    <>
+    <div style={{
+      minHeight: '100vh',
+      background: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      color: '#333',
+      textAlign: 'center',
+      padding: '20px'
+    }}>
+      <div style={{ maxWidth: '500px', width: '100%' }}>
+        <div style={{
+          fontSize: '2.5rem',
+          fontWeight: 700,
+          marginBottom: '40px',
+          color: 'black'
+        }}>
+          Manaboodle
+        </div>
+        
+        <div style={{
+          fontSize: '1.5rem',
+          marginBottom: '20px',
+          fontWeight: 600,
+          color: '#333'
+        }}>
+          Launching External Tool
+        </div>
+        
+        <div style={{
+          fontSize: '1.1rem',
+          opacity: 0.7,
+          marginBottom: '40px',
+          lineHeight: '1.5',
+          color: '#666'
+        }}>
+          You're being redirected to our advanced pattern recognition tool. 
+          This opens in a separate application for the best experience.
+        </div>
+
+        <div style={{
+          width: '100%',
+          height: '8px',
+          background: '#f0f0f0',
+          borderRadius: '4px',
+          overflow: 'hidden',
+          marginBottom: '20px',
+          border: '1px solid #e0e0e0'
+        }}>
+          <div style={{
+            height: '100%',
+            background: 'linear-gradient(90deg, #333, #666)',
+            transition: 'width 0.1s ease',
+            borderRadius: '3px',
+            width: `${progress}%`
+          }} />
+        </div>
+
+        <div style={{
+          fontSize: '1rem',
+          opacity: 0.8,
+          marginTop: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#666'
+        }}>
+          <div style={{
+            display: 'inline-block',
+            width: '20px',
+            height: '20px',
+            border: '3px solid #e0e0e0',
+            borderRadius: '50%',
+            borderTopColor: '#333',
+            marginRight: '10px'
+          }} className="spinner" />
+          {status}
+        </div>
+
+        <div style={{
+          background: '#f8f8f8',
+          padding: '15px 25px',
+          borderRadius: '12px',
+          marginTop: '30px',
+          border: '1px solid #e0e0e0'
+        }}>
+          <div style={{
+            fontSize: '0.9rem',
+            opacity: 0.8,
+            marginBottom: '8px',
+            color: '#666'
+          }}>
+            Destination:
+          </div>
+          <div style={{
+            fontSize: '1.3rem',
+            fontWeight: 600,
+            color: '#333'
+          }}>
+            🔍 Clusters - Pattern Analysis
+          </div>
+        </div>
+
+        <noscript>
+          <div style={{
+            background: '#f8f8f8',
+            padding: '20px',
+            borderRadius: '12px',
+            marginTop: '30px',
+            textAlign: 'center',
+            border: '1px solid #e0e0e0'
+          }}>
+            <p style={{ marginBottom: '15px', color: '#666' }}>JavaScript is required for automatic redirect.</p>
+            <a 
+              href="https://clusters-git-main-manabunagaokas-projects.vercel.app?_vercel_share=H0UCEGCTYBqbBKWTg3cMSxFYhV7PrXQf"
+              style={{
+                display: 'inline-block',
+                background: 'black',
+                color: 'white',
+                padding: '12px 24px',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontWeight: '600'
+              }}
+            >
+              Continue to Clusters →
+            </a>
+          </div>
+        </noscript>
+      </div>
+
       <style jsx>{`
-        .redirect-container {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          color: white;
-          text-align: center;
-          padding: 20px;
-        }
-
-        .redirect-content {
-          max-width: 500px;
-          width: 100%;
-        }
-
-        .logo {
-          font-size: 2.5rem;
-          font-weight: 700;
-          margin-bottom: 40px;
-          text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
-        .redirect-message {
-          font-size: 1.5rem;
-          margin-bottom: 20px;
-          font-weight: 600;
-        }
-
-        .redirect-subtitle {
-          font-size: 1.1rem;
-          opacity: 0.9;
-          margin-bottom: 40px;
-          line-height: 1.5;
-        }
-
-        .progress-container {
-          width: 100%;
-          height: 8px;
-          background: rgba(255, 255, 255, 0.2);
-          border-radius: 4px;
-          overflow: hidden;
-          margin-bottom: 20px;
-        }
-
-        .progress-bar {
-          height: 100%;
-          background: linear-gradient(90deg, #fff, rgba(255,255,255,0.8));
-          transition: width 0.1s ease;
-          border-radius: 4px;
-        }
-
-        .loading-text {
-          font-size: 1rem;
-          opacity: 0.8;
-          margin-top: 20px;
-        }
-
-        .destination {
-          background: rgba(255, 255, 255, 0.1);
-          padding: 15px 25px;
-          border-radius: 12px;
-          margin-top: 30px;
-          backdrop-filter: blur(10px);
-        }
-
-        .destination-label {
-          font-size: 0.9rem;
-          opacity: 0.8;
-          margin-bottom: 8px;
-        }
-
-        .destination-name {
-          font-size: 1.3rem;
-          font-weight: 600;
-        }
-
         .spinner {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          border: 3px solid rgba(255,255,255,.3);
-          border-radius: 50%;
-          border-top-color: white;
           animation: spin 1s ease-in-out infinite;
-          margin-right: 10px;
         }
-
+        
         @keyframes spin {
           to { transform: rotate(360deg); }
         }
-
+        
         @media (max-width: 768px) {
-          .logo {
-            font-size: 2rem;
+          div[style*="font-size: 2.5rem"] {
+            font-size: 2rem !important;
           }
           
-          .redirect-message {
-            font-size: 1.3rem;
+          div[style*="font-size: 1.5rem"] {
+            font-size: 1.3rem !important;
           }
           
-          .redirect-subtitle {
-            font-size: 1rem;
+          div[style*="font-size: 1.1rem"] {
+            font-size: 1rem !important;
           }
         }
       `}</style>
-
-      <div className="redirect-container">
-        <div className="redirect-content">
-          <div className="logo">Manaboodle</div>
-          
-          <div className="redirect-message">
-            Launching External Tool
-          </div>
-          
-          <div className="redirect-subtitle">
-            You're being redirected to our advanced pattern recognition tool. 
-            This opens in a separate application for the best experience.
-          </div>
-
-          <div className="progress-container">
-            <div 
-              className="progress-bar" 
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-
-          <div className="loading-text">
-            <div className="spinner" />
-            {status}
-          </div>
-
-          <div className="destination">
-            <div className="destination-label">Destination:</div>
-            <div className="destination-name">🔍 Clusters - Pattern Analysis</div>
-          </div>
-
-          <noscript>
-            <div style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              padding: '20px',
-              borderRadius: '12px',
-              marginTop: '30px',
-              textAlign: 'center'
-            }}>
-              <p style={{ marginBottom: '15px' }}>JavaScript is required for automatic redirect.</p>
-              <a 
-                href="https://clusters-git-main-manabunagaokas-projects.vercel.app?_vercel_share=H0UCEGCTYBqbBKWTg3cMSxFYhV7PrXQf"
-                style={{
-                  display: 'inline-block',
-                  background: 'white',
-                  color: '#667eea',
-                  padding: '12px 24px',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  fontWeight: '600'
-                }}
-              >
-                Continue to Clusters →
-              </a>
-            </div>
-          </noscript>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
