@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-// Initialize SendGrid with your API key from environment variables
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+// Initialize Resend with API key
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(request: NextRequest) {
   console.log('Subscribe API POST request received!');
@@ -90,17 +90,14 @@ export async function POST(request: NextRequest) {
       var subscriber = data[0];
     }
     
-    // Send welcome email with SendGrid
+    // Send welcome email with Resend
     if (subscriber) {
       try {
-        console.log('Sending welcome email via SendGrid...');
+        console.log('Sending welcome email via Resend...');
         
         const welcomeMsg = {
-          to: subscriber.email,
-          from: {
-            email: 'subscription@manaboodle.com',
-            name: 'Manaboodle'
-          },
+          from: 'hello@manaboodle.com',
+          to: [subscriber.email],
           subject: 'Welcome to Manaboodle!',
           text: `Thank you for joining Manaboodle!
 
@@ -151,15 +148,15 @@ P.S. You can unsubscribe anytime: https://manaboodle.com/unsubscribe?token=${sub
           `,
         };
         
-        await sgMail.send(welcomeMsg);
+        await resend.emails.send(welcomeMsg);
         console.log('Welcome email sent successfully');
         
       } catch (emailError: any) {
         console.error('Failed to send welcome email:', emailError);
         
-        // Log specific SendGrid errors but don't fail the subscription
+        // Log specific Resend errors but don't fail the subscription
         if (emailError.response) {
-          console.error('SendGrid error response:', emailError.response.body);
+          console.error('Resend error response:', emailError.response.body);
         }
         
         // Don't fail the subscription if email fails
@@ -189,7 +186,7 @@ P.S. You can unsubscribe anytime: https://manaboodle.com/unsubscribe?token=${sub
 export async function GET() {
   return NextResponse.json({ 
     message: 'Subscribe API is working!',
-    hasSendGridKey: !!process.env.SENDGRID_API_KEY,
+    hasResendKey: !!process.env.RESEND_API_KEY,
     sender: 'subscription@manaboodle.com'
   });
 }

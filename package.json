@@ -23,7 +23,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "^4.0.17",
-    "resend": "^4.6.0",
+    "resend": "^4.8.0",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {

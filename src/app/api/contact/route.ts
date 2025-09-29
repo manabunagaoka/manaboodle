@@ -1,9 +1,9 @@
 // app/api/contact/route.ts
 import { NextResponse } from 'next/server';
-import sgMail from '@sendgrid/mail';
+import { Resend } from 'resend';
 
-// Initialize SendGrid with API key
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+// Initialize Resend with API key
+const resend = new Resend(process.env.RESEND_API_KEY!);
 
 export async function POST(request: Request) {
   try {
@@ -19,9 +19,9 @@ export async function POST(request: Request) {
 
     // Email to you (notification of new contact)
     const notificationMsg = {
-      to: 'hello@manaboodle.com',
-      from: 'hello@manaboodle.com', // Must be your verified sender
-      replyTo: email, // Visitor's email for easy reply
+      from: 'hello@manaboodle.com', // Your verified domain
+      to: ['hello@manaboodle.com'],
+      reply_to: email, // Visitor's email for easy reply
       subject: `New Contact Form Message from ${name}`,
       text: `
 New Contact Form Submission
@@ -55,11 +55,8 @@ You can reply directly to this email to respond to ${name}.
 
     // Auto-reply to the visitor
     const autoReplyMsg = {
-      to: email,
-      from: {
-        email: 'hello@manaboodle.com',
-        name: 'Manabu Nagaoka'
-      },
+      from: 'hello@manaboodle.com',
+      to: [email],
       subject: 'Thank you for contacting Manaboodle',
       text: `
 Hi ${name},
@@ -108,8 +105,8 @@ https://manaboodle.com
 
     // Send both emails
     await Promise.all([
-      sgMail.send(notificationMsg),
-      sgMail.send(autoReplyMsg)
+      resend.emails.send(notificationMsg),
+      resend.emails.send(autoReplyMsg)
     ]);
 
     return NextResponse.json({ 
