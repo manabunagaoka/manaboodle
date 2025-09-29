@@ -37,6 +37,17 @@ interface Tool {
 const tools: Tool[] = [
   // Free Tools (Always Available)
   {
+    id: 'clusters',
+    title: 'Clusters',
+    description: 'Advanced pattern recognition and clustering analysis. Discover hidden patterns in data, text, and customer insights using AI-powered algorithms.',
+    status: 'free',
+    category: 'Data Analysis',
+    available: true,
+    isNew: true,
+    external: true,
+    externalUrl: 'https://clusters-xi.vercel.app' // Update this with your actual Vercel URL
+  },
+  {
     id: 'runway',
     title: 'Runway',
     description: 'Calculate startup runway with budget planning, team costs, and AI-powered financial assistance.',
@@ -64,15 +75,6 @@ const tools: Tool[] = [
     available: true
   },
   // Fun Pattern Recognition Tools (Coming Soon - Will be Free)
-  {
-    id: 'clusters',
-    title: 'Clusters',
-    description: 'Advanced pattern recognition and clustering analysis. Discover hidden patterns in data, text, and customer insights using AI-powered algorithms.',
-    status: 'coming-soon',
-    category: 'Data Analysis',
-    available: false,
-    isNew: true
-  },
   {
     id: 'resume-analyzer',
     title: 'Resume Cluster Analyzer',
