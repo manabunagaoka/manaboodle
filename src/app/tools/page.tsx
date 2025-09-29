@@ -45,7 +45,7 @@ const tools: Tool[] = [
     available: true,
     isNew: true,
     external: true,
-    externalUrl: 'https://clusters-xi.vercel.app' // Update this with your actual Vercel URL
+    externalUrl: '/go/clusters'
   },
   {
     id: 'runway',
