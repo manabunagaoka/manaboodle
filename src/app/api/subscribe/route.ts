@@ -110,6 +110,7 @@ export async function POST(request: NextRequest) {
       try {
         console.log('📤 Sending welcome email via Resend to:', subscriber.email);
         
+        // Welcome email to subscriber
         const welcomeMsg = {
           from: 'hello@manaboodle.com',
           to: [subscriber.email],
@@ -163,8 +164,41 @@ P.S. You can unsubscribe anytime: https://manaboodle.com/unsubscribe?token=${sub
           `,
         };
         
-        const result = await resend.emails.send(welcomeMsg);
-        console.log('✅ Welcome email sent successfully:', result);
+        // Notification email to you about new subscriber
+        const notificationMsg = {
+          from: 'hello@manaboodle.com',
+          to: ['subscription@manaboodle.com'],
+          subject: `New Subscriber: ${subscriber.email}`,
+          text: `New subscription to Manaboodle!
+
+Email: ${subscriber.email}
+Subscribed: ${new Date().toISOString()}
+Status: ${subscriber.status}
+
+Total subscribers: Check your Supabase dashboard for current count.`,
+          html: `
+            <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+              <h2 style="color: #333; font-size: 24px; margin-bottom: 20px;">New Subscriber!</h2>
+              
+              <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${subscriber.email}</p>
+                <p style="margin: 0 0 10px 0;"><strong>Subscribed:</strong> ${new Date().toISOString()}</p>
+                <p style="margin: 0;"><strong>Status:</strong> ${subscriber.status}</p>
+              </div>
+              
+              <p style="color: #666; font-size: 14px;">
+                Check your Supabase dashboard for current subscriber count and management.
+              </p>
+            </div>
+          `
+        };
+        
+        // Send both emails
+        const welcomeResult = await resend.emails.send(welcomeMsg);
+        console.log('✅ Welcome email sent successfully:', welcomeResult);
+        
+        const notificationResult = await resend.emails.send(notificationMsg);
+        console.log('✅ Subscription notification sent successfully:', notificationResult);
         
       } catch (emailError: any) {
         console.error('❌ Failed to send welcome email:', emailError);
