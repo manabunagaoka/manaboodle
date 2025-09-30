@@ -10,6 +10,10 @@ export async function GET() {
     const apiKey = process.env.RESEND_API_KEY;
     console.log('🔑 API Key present:', !!apiKey);
     console.log('🔑 API Key length:', apiKey?.length || 0);
+    console.log('🔑 API Key starts with re_:', apiKey?.startsWith('re_') || false);
+    console.log('🔑 First 15 chars:', apiKey?.substring(0, 15) || 'NONE');
+    console.log('🔑 Last 10 chars:', apiKey?.substring(-10) || 'NONE');
+    console.log('🔑 All env vars containing RESEND:', Object.keys(process.env).filter(k => k.includes('RESEND')));
     
     if (!apiKey) {
       return NextResponse.json({
