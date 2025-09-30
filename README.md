@@ -18,7 +18,7 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 - **SEO Optimized**: Dynamic metadata generation for all pages
 - **Article System**: Simple, maintainable structure with consistent layouts
 - **Legal Pages**: Privacy Policy and Terms of Service with proper navigation
-- **Email System**: Professional email infrastructure with SendGrid
+- **Email System**: Professional email infrastructure with Resend
   - Contact form with auto-reply functionality
   - Newsletter subscription with welcome emails
   - Unsubscribe functionality
@@ -31,6 +31,29 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
   - Black (About/Legal)
 
 ### Recent Updates
+
+#### Email Service Migration: SendGrid → Resend (September 30, 2025) 🔄
+- **BREAKING CHANGE**: Migrated from SendGrid to Resend for email services
+- **Environment Variable Change**: `SENDGRID_API_KEY` → `RESEND_API_KEY`
+- **Why the change**: SendGrid free trial expired, Resend offers better developer experience
+- **What's improved**:
+  - Enhanced error logging and debugging capabilities
+  - New test endpoint `/api/test-resend` for email verification
+  - Better email deliverability with verified `manaboodle.com` domain
+  - Simplified API integration and cleaner error handling
+- **All email functionality preserved**:
+  - Contact form notifications and auto-replies ✅
+  - Newsletter subscription with welcome emails ✅
+  - Unsubscribe functionality ✅
+- **Deployment Note**: Update `RESEND_API_KEY` in production environment variables
+
+#### External Tools Integration: Clusters Pattern Recognition (September 30, 2025) 🔗
+- **Added external tool integration pattern** for Pro Marketplace expansion
+- **Clusters tool launched**: Advanced pattern recognition tool at `/go/clusters`
+- **Professional loading transitions** with branded experience
+- **URL masking**: Clean `manaboodle.com/go/clusters` redirects to external Vercel app
+- **Template established** for future external tool integrations
+- **White/black theme consistency** matching manaboodle aesthetic
 
 #### Synchronicity Engine Tools Section Added (August 1, 2025) 🆕
 - **Updated Tools page** with new Synchronicity Engine section
@@ -120,7 +143,7 @@ Visit: [www.manaboodle.com](https://www.manaboodle.com)
 #### 🔄 ONGOING TASKS
 - **Email Preferences Page**: UI complete at `/preferences`, functionality pending
 - **Article Notification System**: Notify subscribers of new content
-- **Domain Authentication**: Complete SendGrid setup for improved deliverability
+- **Domain Verification**: Complete Resend domain setup for optimal deliverability
 
 #### 📋 TECHNICAL DEBT
 - Optimize image loading across all pages
@@ -316,7 +339,7 @@ manaboodle/
 - Node.js 18.x or higher
 - npm or yarn
 - Supabase account
-- SendGrid account (for email features)
+- Resend account (for email features)
 
 ### New Dependencies for Synchronicity Engine
 ```bash
@@ -350,8 +373,8 @@ Update `.env.local` with your credentials:
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# SendGrid
-SENDGRID_API_KEY=your_sendgrid_api_key
+# Resend (Email Service)
+RESEND_API_KEY=your_resend_api_key
 
 # App URL
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -386,12 +409,24 @@ Visit [http://localhost:3000](http://localhost:3000) to see your site.
 
 ## 📧 Email Configuration
 
-The platform uses SendGrid for all email communications:
+The platform uses Resend for all email communications:
+
+### Migration from SendGrid (September 30, 2025)
+- **Previous**: SendGrid with `SENDGRID_API_KEY`
+- **Current**: Resend with `RESEND_API_KEY`
+- **Benefits**: Better developer experience, enhanced error logging, improved deliverability
+- **Verification**: Domain verified at `manaboodle.com`
+- **Test Endpoint**: `/api/test-resend` for debugging email functionality
 
 ### Sender Addresses
 - `hello@manaboodle.com` - Contact form and direct communication
-- `subscription@manaboodle.com` - Newsletter and welcome emails
-- `noreply@manaboodle.com` - System notifications (future)
+- All emails sent from verified `manaboodle.com` domain
+
+### Email Functionality
+- **Contact Form**: Notification emails to admin + auto-reply to visitors
+- **Newsletter Subscription**: Welcome emails with unsubscribe tokens
+- **Enhanced Error Handling**: Comprehensive logging for debugging
+- **Fallback Support**: Graceful degradation if email service is unavailable
 
 ### NEW: Tool Notification System
 - Welcome emails for new tool launches
