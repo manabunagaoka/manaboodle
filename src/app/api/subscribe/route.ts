@@ -2,15 +2,30 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
 
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 export async function POST(request: NextRequest) {
-  console.log('Subscribe API POST request received!');
+  console.log('📧 Subscribe API POST request received!');
   
   try {
+    // Environment variable debugging
+    const apiKey = process.env.RESEND_API_KEY;
+    console.log('🔑 API Key present:', !!apiKey);
+    console.log('🔑 API Key length:', apiKey?.length || 0);
+    
+    if (!apiKey) {
+      console.error('❌ RESEND_API_KEY is not set!');
+      return NextResponse.json(
+        { error: 'Email service not configured' },
+        { status: 500 }
+      );
+    }
+    
+    // Initialize Resend with explicit error handling
+    const resend = new Resend(apiKey);
+    console.log('🚀 Resend client initialized');
+    
     const body = await request.json();
     const { email } = body; // Get email from request body
+    console.log('📝 Subscription request for:', email?.substring(0, 5) + '...');
     
     // Validate email
     if (!email) {
@@ -93,7 +108,7 @@ export async function POST(request: NextRequest) {
     // Send welcome email with Resend
     if (subscriber) {
       try {
-        console.log('Sending welcome email via Resend...');
+        console.log('📤 Sending welcome email via Resend to:', subscriber.email);
         
         const welcomeMsg = {
           from: 'hello@manaboodle.com',
@@ -148,15 +163,21 @@ P.S. You can unsubscribe anytime: https://manaboodle.com/unsubscribe?token=${sub
           `,
         };
         
-        await resend.emails.send(welcomeMsg);
-        console.log('Welcome email sent successfully');
+        const result = await resend.emails.send(welcomeMsg);
+        console.log('✅ Welcome email sent successfully:', result);
         
       } catch (emailError: any) {
-        console.error('Failed to send welcome email:', emailError);
+        console.error('❌ Failed to send welcome email:', emailError);
+        console.error('Email error details:', {
+          name: emailError.name,
+          message: emailError.message,
+          status: emailError.status,
+          cause: emailError.cause
+        });
         
         // Log specific Resend errors but don't fail the subscription
         if (emailError.response) {
-          console.error('Resend error response:', emailError.response.body);
+          console.error('Resend error response:', emailError.response);
         }
         
         // Don't fail the subscription if email fails

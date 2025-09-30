@@ -2,15 +2,33 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend with API key
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 export async function POST(request: Request) {
+  console.log('📧 Contact form submission received');
+  
   try {
+    // Environment variable debugging
+    const apiKey = process.env.RESEND_API_KEY;
+    console.log('🔑 API Key present:', !!apiKey);
+    console.log('🔑 API Key length:', apiKey?.length || 0);
+    
+    if (!apiKey) {
+      console.error('❌ RESEND_API_KEY is not set!');
+      return NextResponse.json(
+        { error: 'Email service not configured' },
+        { status: 500 }
+      );
+    }
+    
+    // Initialize Resend with explicit error handling
+    const resend = new Resend(apiKey);
+    console.log('🚀 Resend client initialized');
+    
     const { name, email, message } = await request.json();
+    console.log('📝 Form data received:', { name, email: email?.substring(0, 5) + '...', messageLength: message?.length });
 
     // Validate input
     if (!name || !email || !message) {
+      console.log('❌ Missing required fields');
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -103,23 +121,33 @@ https://manaboodle.com
       `,
     };
 
-    // Send both emails
-    await Promise.all([
-      resend.emails.send(notificationMsg),
-      resend.emails.send(autoReplyMsg)
-    ]);
+    // Send both emails with detailed logging
+    console.log('📤 Sending notification email...');
+    const notificationResult = await resend.emails.send(notificationMsg);
+    console.log('✅ Notification email result:', notificationResult);
+    
+    console.log('📤 Sending auto-reply email...');
+    const autoReplyResult = await resend.emails.send(autoReplyMsg);
+    console.log('✅ Auto-reply email result:', autoReplyResult);
 
+    console.log('🎉 Both emails sent successfully!');
     return NextResponse.json({ 
       success: true,
       message: 'Thank you for your message. We\'ll be in touch soon!'
     });
 
-  } catch (error) {
-    console.error('Contact form error:', error);
+  } catch (error: any) {
+    console.error('❌ Contact form error:', error);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      status: error.status,
+      cause: error.cause
+    });
     
-    // More detailed error logging in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error('Full error details:', error);
+    // Log Resend-specific errors
+    if (error.response) {
+      console.error('Resend API response error:', error.response);
     }
     
     return NextResponse.json(
