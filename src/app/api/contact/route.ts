@@ -1,4 +1,5 @@
 // app/api/contact/route.ts
+// FIXED VERSION with proper replyTo formatting
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
@@ -6,10 +7,8 @@ export async function POST(request: Request) {
   console.log('📧 Contact form submission received');
   
   try {
-    // Environment variable debugging
     const apiKey = process.env.RESEND_API_KEY;
     console.log('🔑 API Key present:', !!apiKey);
-    console.log('🔑 API Key length:', apiKey?.length || 0);
     
     if (!apiKey) {
       console.error('❌ RESEND_API_KEY is not set!');
@@ -19,12 +18,15 @@ export async function POST(request: Request) {
       );
     }
     
-    // Initialize Resend with explicit error handling
     const resend = new Resend(apiKey);
     console.log('🚀 Resend client initialized');
     
     const { name, email, message } = await request.json();
-    console.log('📝 Form data received:', { name, email: email?.substring(0, 5) + '...', messageLength: message?.length });
+    console.log('📝 Form data received:', { 
+      name, 
+      email: email?.substring(0, 5) + '...', 
+      messageLength: message?.length 
+    });
 
     // Validate input
     if (!name || !email || !message) {
@@ -37,9 +39,9 @@ export async function POST(request: Request) {
 
     // Email to you (notification of new contact)
     const notificationMsg = {
-      from: 'hello@manaboodle.com', // Your verified domain
-      to: ['hello@manaboodle.com'],
-      reply_to: email, // Visitor's email for easy reply
+      from: 'hello@manaboodle.com',
+      to: 'hello@manaboodle.com', // Changed from array to string
+      replyTo: email, // FIXED: Changed from reply_to to replyTo
       subject: `New Contact Form Message from ${name}`,
       text: `
 New Contact Form Submission
@@ -74,7 +76,7 @@ You can reply directly to this email to respond to ${name}.
     // Auto-reply to the visitor
     const autoReplyMsg = {
       from: 'hello@manaboodle.com',
-      to: [email],
+      to: email, // Changed from array to string
       subject: 'Thank you for contacting Manaboodle',
       text: `
 Hi ${name},
@@ -124,16 +126,25 @@ https://manaboodle.com
     // Send both emails with detailed logging
     console.log('📤 Sending notification email...');
     const notificationResult = await resend.emails.send(notificationMsg);
-    console.log('✅ Notification email result:', notificationResult);
+    console.log('✅ Notification email sent!');
+    console.log('   Email ID:', notificationResult.data?.id);
+    console.log('   Full result:', JSON.stringify(notificationResult, null, 2));
     
     console.log('📤 Sending auto-reply email...');
     const autoReplyResult = await resend.emails.send(autoReplyMsg);
-    console.log('✅ Auto-reply email result:', autoReplyResult);
+    console.log('✅ Auto-reply email sent!');
+    console.log('   Email ID:', autoReplyResult.data?.id);
+    console.log('   Full result:', JSON.stringify(autoReplyResult, null, 2));
 
     console.log('🎉 Both emails sent successfully!');
     return NextResponse.json({ 
       success: true,
-      message: 'Thank you for your message. We\'ll be in touch soon!'
+      message: 'Thank you for your message. We\'ll be in touch soon!',
+      // Include email IDs for debugging (remove in production)
+      debug: {
+        notificationId: notificationResult.data?.id,
+        autoReplyId: autoReplyResult.data?.id
+      }
     });
 
   } catch (error: any) {
@@ -142,16 +153,21 @@ https://manaboodle.com
       name: error.name,
       message: error.message,
       status: error.status,
+      statusCode: error.statusCode,
       cause: error.cause
     });
     
     // Log Resend-specific errors
     if (error.response) {
-      console.error('Resend API response error:', error.response);
+      console.error('Resend API response error:', JSON.stringify(error.response, null, 2));
     }
     
     return NextResponse.json(
-      { error: 'Failed to send message. Please try again later.' },
+      { 
+        error: 'Failed to send message. Please try again later.',
+        // Include error details for debugging (remove in production)
+        debug: error.message
+      },
       { status: 500 }
     );
   }

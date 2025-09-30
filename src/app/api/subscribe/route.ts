@@ -1,3 +1,5 @@
+// app/api/subscribe/route.ts
+// FIXED VERSION with proper email configuration
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
@@ -6,10 +8,8 @@ export async function POST(request: NextRequest) {
   console.log('📧 Subscribe API POST request received!');
   
   try {
-    // Environment variable debugging
     const apiKey = process.env.RESEND_API_KEY;
     console.log('🔑 API Key present:', !!apiKey);
-    console.log('🔑 API Key length:', apiKey?.length || 0);
     
     if (!apiKey) {
       console.error('❌ RESEND_API_KEY is not set!');
@@ -19,12 +19,11 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Initialize Resend with explicit error handling
     const resend = new Resend(apiKey);
     console.log('🚀 Resend client initialized');
     
     const body = await request.json();
-    const { email } = body; // Get email from request body
+    const { email } = body;
     console.log('📝 Subscription request for:', email?.substring(0, 5) + '...');
     
     // Validate email
@@ -60,6 +59,8 @@ export async function POST(request: NextRequest) {
       );
     }
     
+    let subscriber;
+    
     // If subscriber exists but unsubscribed, reactivate them
     if (existingSubscriber && existingSubscriber.status === 'unsubscribed') {
       const { error: updateError } = await supabase
@@ -80,8 +81,7 @@ export async function POST(request: NextRequest) {
       }
       
       console.log('Reactivated subscriber:', email);
-      // Use existing subscriber data for welcome email
-      var subscriber = { ...existingSubscriber, status: 'active' };
+      subscriber = { ...existingSubscriber, status: 'active' };
     } else {
       // Insert new subscriber
       const { data, error } = await supabase
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       }
       
       console.log('New subscriber added:', data);
-      var subscriber = data[0];
+      subscriber = data[0];
     }
     
     // Send welcome email with Resend
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
         // Welcome email to subscriber
         const welcomeMsg = {
           from: 'hello@manaboodle.com',
-          to: [subscriber.email],
+          to: subscriber.email, // Changed from array to string
           subject: 'Welcome to Manaboodle!',
           text: `Thank you for joining Manaboodle!
 
@@ -165,10 +165,11 @@ P.S. You can unsubscribe anytime: https://manaboodle.com/unsubscribe?token=${sub
         };
         
         // Notification email to you about new subscriber
+        // CHANGED: Using hello@ instead of subscription@ to avoid issues
         const notificationMsg = {
           from: 'hello@manaboodle.com',
-          to: ['subscription@manaboodle.com'],
-          subject: `New Subscriber: ${subscriber.email}`,
+          to: 'hello@manaboodle.com', // CHANGED to hello@ and from array to string
+          subject: `🎉 New Subscriber: ${subscriber.email}`,
           text: `New subscription to Manaboodle!
 
 Email: ${subscriber.email}
@@ -178,7 +179,7 @@ Status: ${subscriber.status}
 Total subscribers: Check your Supabase dashboard for current count.`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-              <h2 style="color: #333; font-size: 24px; margin-bottom: 20px;">New Subscriber!</h2>
+              <h2 style="color: #333; font-size: 24px; margin-bottom: 20px;">🎉 New Subscriber!</h2>
               
               <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
                 <p style="margin: 0 0 10px 0;"><strong>Email:</strong> ${subscriber.email}</p>
@@ -194,11 +195,17 @@ Total subscribers: Check your Supabase dashboard for current count.`,
         };
         
         // Send both emails
+        console.log('📤 Sending welcome email...');
         const welcomeResult = await resend.emails.send(welcomeMsg);
-        console.log('✅ Welcome email sent successfully:', welcomeResult);
+        console.log('✅ Welcome email sent!');
+        console.log('   Email ID:', welcomeResult.data?.id);
+        console.log('   Full result:', JSON.stringify(welcomeResult, null, 2));
         
+        console.log('📤 Sending notification email...');
         const notificationResult = await resend.emails.send(notificationMsg);
-        console.log('✅ Subscription notification sent successfully:', notificationResult);
+        console.log('✅ Notification email sent!');
+        console.log('   Email ID:', notificationResult.data?.id);
+        console.log('   Full result:', JSON.stringify(notificationResult, null, 2));
         
       } catch (emailError: any) {
         console.error('❌ Failed to send welcome email:', emailError);
@@ -206,12 +213,12 @@ Total subscribers: Check your Supabase dashboard for current count.`,
           name: emailError.name,
           message: emailError.message,
           status: emailError.status,
+          statusCode: emailError.statusCode,
           cause: emailError.cause
         });
         
-        // Log specific Resend errors but don't fail the subscription
         if (emailError.response) {
-          console.error('Resend error response:', emailError.response);
+          console.error('Resend error response:', JSON.stringify(emailError.response, null, 2));
         }
         
         // Don't fail the subscription if email fails
@@ -227,11 +234,12 @@ Total subscribers: Check your Supabase dashboard for current count.`,
       { status: 200 }
     );
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('Subscribe error:', error);
     return NextResponse.json(
       { 
         error: 'Internal server error. Please try again.',
+        debug: error.message
       },
       { status: 500 }
     );
@@ -242,6 +250,6 @@ export async function GET() {
   return NextResponse.json({ 
     message: 'Subscribe API is working!',
     hasResendKey: !!process.env.RESEND_API_KEY,
-    sender: 'subscription@manaboodle.com'
+    sender: 'hello@manaboodle.com'
   });
 }
