@@ -1,22 +1,32 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { useEffect, useState } from 'react'
+import { supabase } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 import { ExternalLink, Shield, HardDrive, Clock, Component, ArrowLeft } from 'lucide-react'
 import styles from './clusters.module.css'
 
 export default function ClustersPage() {
-  const { data: session, status } = useSession()
+  const [user, setUser] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/academic-portal/login')
-    }
-  }, [status, router])
+    checkUser()
+  }, [])
 
-  if (status === 'loading') {
+  const checkUser = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    
+    if (!user) {
+      router.push('/academic-portal/login')
+    } else {
+      setUser(user)
+      setIsLoading(false)
+    }
+  }
+
+  if (isLoading) {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
@@ -25,7 +35,7 @@ export default function ClustersPage() {
     )
   }
 
-  if (!session) {
+  if (!user) {
     return null
   }
 

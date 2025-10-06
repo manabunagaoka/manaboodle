@@ -11,16 +11,17 @@ datasource db {
 }
 
 model HarvardUser {
-  id               String   @id @default(cuid())
+  id               String   @id @default(uuid())
+  authUserId       String   @unique // References Supabase auth.users.id
   email            String   @unique
-  password         String   // bcrypt hashed
   name             String
   classCode        String?  // Harvard course/class identifier
   affiliation      String   // "student" | "faculty" | "staff"
-  twoFactorEnabled Boolean  @default(false)
-  twoFactorSecret  String?  // TOTP secret for 2FA
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  
+  @@index([authUserId])
+  @@index([email])
 }
 
 model PasswordResetToken {

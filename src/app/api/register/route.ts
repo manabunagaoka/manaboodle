@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
+import { supabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
@@ -42,45 +41,35 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user already exists
-    const existingUser = await prisma.harvardUser.findUnique({
-      where: { email }
+    // Register user with Supabase Auth
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name }
+      }
     })
 
-    if (existingUser) {
-      return NextResponse.json(
-        { error: 'User with this email already exists' },
-        { status: 409 }
-      )
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    // Hash password with bcrypt (10 rounds)
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    // Create new Harvard user
-    const newUser = await prisma.harvardUser.create({
-      data: {
+    // Store Harvard-specific data in your table (optional)
+    if (data.user) {
+      await supabase.from('HarvardUser').insert({
+        id: data.user.id,
         email,
-        password: hashedPassword,
         name,
         classCode: classCode || null,
         affiliation,
-      },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        classCode: true,
-        affiliation: true,
-        createdAt: true,
-      }
-    })
+      })
+    }
 
     return NextResponse.json(
       {
         success: true,
         message: 'User registered successfully',
-        user: newUser
+        user: data.user
       },
       { status: 201 }
     )

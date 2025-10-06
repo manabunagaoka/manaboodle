@@ -3,7 +3,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { signIn } from 'next-auth/react'
+import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../auth.module.css'
@@ -51,20 +51,19 @@ function LoginForm() {
     }
 
     try {
-      // Use NextAuth signIn with credentials
-      const result = await signIn('credentials', {
+      // Use Supabase Auth signIn
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
-        redirect: false,
       })
 
-      if (result?.error) {
-        setError(result.error)
+      if (error) {
+        setError(error.message)
         setIsLoading(false)
         return
       }
 
-      if (result?.ok) {
+      if (data.session) {
         // Redirect to dashboard on successful login
         router.push('/academic-portal/dashboard')
       }
