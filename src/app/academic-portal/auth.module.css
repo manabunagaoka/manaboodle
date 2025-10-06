@@ -1,0 +1,249 @@
+/* auth.module.css - Shared styles for signup and login pages */
+
+.authPage {
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px 20px 20px;
+}
+
+.authContainer {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 32px; /* Reduce padding to make card less tall */
+  margin-bottom: 0; /* Remove any bottom margin */
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  overflow: hidden;
+}
+
+.authContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #8B0000, #C8102E);
+}
+
+.authHeader {
+  text-align: center;
+  margin-bottom: 32px; /* Reduce bottom margin */
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px; /* Reduce bottom margin */
+}
+
+.logo {
+  width: 50px; /* Reduce logo size */
+  height: 50px;
+  object-fit: contain;
+}
+
+.universityName {
+  font-size: 20px; /* Reduce font size */
+  font-weight: 700;
+  color: #111; /* Change to black like tool cards */
+  letter-spacing: -0.5px;
+}
+
+.title {
+  font-size: 28px; /* Reduce font size */
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 6px 0; /* Reduce margin */
+  letter-spacing: -1px;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 14px; /* Reduce font size */
+  margin: 0;
+}
+
+.authForm {
+  margin-bottom: 16px; /* Further reduce bottom margin */
+}
+
+.formGroup {
+  margin-bottom: 20px; /* Reduce bottom margin */
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 6px; /* Reduce bottom margin */
+  font-size: 14px;
+}
+
+.input {
+  width: 100%;
+  padding: 14px; /* Reduce padding */
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  background: #f8f9fa;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #8B0000;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+}
+
+.helpText {
+  display: block;
+  color: #666;
+  font-size: 13px;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.helpText a {
+  color: #8B0000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.helpText a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 10px 14px; /* Reduce padding */
+  border-radius: 8px;
+  margin-bottom: 16px; /* Reduce margin */
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.success {
+  background: #efe;
+  border: 1px solid #cfc;
+  color: #3c3;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.submitButton {
+  width: 100%;
+  background: linear-gradient(135deg, #8B0000, #C8102E);
+  color: white;
+  border: none;
+  padding: 16px; /* Reduce padding slightly */
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 0, 0, 0.3);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.authFooter {
+  text-align: center;
+  color: #666;
+  margin-bottom: 6px; /* Further reduce margin */
+}
+
+.authFooter p {
+  margin: 0 0 4px 0; /* Further reduce margin */
+  font-size: 14px;
+}
+
+.link {
+  color: #8B0000;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.backLink {
+  text-align: center;
+  margin-top: 8px; /* Further reduce margin */
+  padding-top: 8px; /* Further reduce padding */
+  border-top: 1px solid #eee;
+}
+
+.backLink a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.backLink a:hover {
+  color: #8B0000;
+  text-decoration: underline;
+}
+
+/* Override global footer spacing for auth pages */
+.authPage .footer,
+.authPage footer {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .authPage {
+    padding: 10px;
+    padding-top: 60px; /* Increase top padding for mobile */
+  }
+  
+  .authContainer {
+    padding: 24px 20px; /* Reduce padding on mobile */
+  }
+  
+  .logoSection {
+    flex-direction: column;
+    gap: 6px; /* Reduce gap */
+  }
+  
+  .universityName {
+    font-size: 18px; /* Reduce font size */
+  }
+  
+  .title {
+    font-size: 24px; /* Reduce font size */
+  }
+}

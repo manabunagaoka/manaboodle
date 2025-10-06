@@ -1,0 +1,297 @@
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #A51C30;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+}
+
+.iconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  background: linear-gradient(135deg, #A51C30 0%, #8B0000 100%);
+  border-radius: 24px;
+  margin-bottom: 1.5rem;
+  color: white;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Privacy Card */
+.privacyCard {
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE8EC 100%);
+  border: 1px solid #FFCCD5;
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.privacyHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  color: #A51C30;
+}
+
+.privacyHeader h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.privacyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.privacyItem {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.privacyItem > svg {
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+  color: #A51C30;
+}
+
+.privacyItem strong {
+  display: block;
+  color: #8B0000;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.privacyItem p {
+  margin: 0;
+  color: #6B1B2B;
+  line-height: 1.6;
+}
+
+/* Features Section */
+.features {
+  margin: 3rem 0;
+}
+
+.features h2 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #111827;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.featureCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.featureCard:hover {
+  border-color: #A51C30;
+  box-shadow: 0 4px 12px rgba(165, 28, 48, 0.1);
+  transform: translateY(-2px);
+}
+
+.featureNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #FFF5F7;
+  color: #A51C30;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.featureCard h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: #111827;
+}
+
+.featureCard p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Launch Section */
+.launchSection {
+  text-align: center;
+  margin: 3rem 0;
+  padding: 2rem 0;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #6B7280;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+}
+
+.backButton:hover {
+  background: #4B5563;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(107, 114, 128, 0.3);
+}
+
+.backButton:active {
+  transform: translateY(0);
+}
+
+.launchButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #A51C30 0%, #8B0000 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(165, 28, 48, 0.3);
+}
+
+.launchButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(165, 28, 48, 0.4);
+}
+
+.launchButton:active {
+  transform: translateY(0);
+}
+
+.launchNote {
+  margin-top: 1rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+/* Technical Note */
+.techNote {
+  background: #f9fafb;
+  border-left: 4px solid #A51C30;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+
+.techNote p {
+  margin: 0;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.techNote strong {
+  color: #111827;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .privacyCard {
+    padding: 1.5rem;
+  }
+
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .hamburger {
+    top: 1rem;
+    right: 1rem;
+  }
+}

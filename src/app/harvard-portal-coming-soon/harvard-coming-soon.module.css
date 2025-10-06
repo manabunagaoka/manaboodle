@@ -1,0 +1,313 @@
+/* app/harvard-portal-coming-soon/harvard-coming-soon.module.css */
+.comingSoonPage {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #A51C30 0%, #C41E3A 100%);
+  color: white;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.harvardLogo {
+  border-radius: 12px;
+  background: white;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 500;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.statusCard {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.statusTitle {
+  font-size: 1.5rem;
+  margin: 0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.statusDescription {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  opacity: 0.95;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.featureCard {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.featureIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 0.75rem;
+}
+
+.featureDescription {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.timeline {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timelineTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.timelineItems {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timelineItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.timelineItem.current {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.timelineIcon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timelineContent {
+  flex: 1;
+}
+
+.timelineContent h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+
+.timelineContent p {
+  font-size: 0.9rem;
+  margin: 0;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.timelineStatus {
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.notificationSection {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 3rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: center;
+}
+
+.notificationTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 0.75rem;
+}
+
+.notificationDescription {
+  font-size: 1rem;
+  margin: 0;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.notifyButton {
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  color: #A51C30;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.notifyButton:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.backButton {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.contact {
+  text-align: right;
+}
+
+.contact p {
+  margin: 0;
+  margin-bottom: 0.5rem;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+.contactLink {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  transition: border-color 0.3s ease;
+}
+
+.contactLink:hover {
+  border-color: white;
+}
+
+@media (max-width: 768px) {
+  .comingSoonPage {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .featuresGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .timelineItems {
+    gap: 1rem;
+  }
+  
+  .timelineItem {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .contact {
+    text-align: center;
+  }
+}

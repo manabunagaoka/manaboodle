@@ -36,26 +36,27 @@ interface Tool {
 
 const tools: Tool[] = [
   // Free Tools (Always Available)
-  {
-    id: 'clusters',
-    title: 'Clusters',
-    description: 'Advanced pattern recognition and clustering analysis. Discover hidden patterns in data, text, and customer insights using AI-powered algorithms.',
-    status: 'free',
-    category: 'Data Analysis',
-    available: true,
-    isNew: true,
-    external: true,
-    externalUrl: '/go/clusters'
-  },
-  {
-    id: 'runway',
-    title: 'Runway',
-    description: 'Calculate startup runway with budget planning, team costs, and AI-powered financial assistance.',
-    status: 'free',
-    category: 'Entrepreneurship',
-    available: true,
-    isNew: true
-  },
+  // MOVED TO ACADEMIC PORTAL - Academic Portal Exclusive Tools
+  // {
+  //   id: 'clusters',
+  //   title: 'Clusters',
+  //   description: 'Advanced pattern recognition and clustering analysis. Discover hidden patterns in data, text, and customer insights using AI-powered algorithms.',
+  //   status: 'free',
+  //   category: 'Data Analysis',
+  //   available: true,
+  //   isNew: true,
+  //   external: true,
+  //   externalUrl: '/go/clusters'
+  // },
+  // {
+  //   id: 'runway',
+  //   title: 'Runway',
+  //   description: 'Calculate startup runway with budget planning, team costs, and AI-powered financial assistance.',
+  //   status: 'free',
+  //   category: 'Entrepreneurship',
+  //   available: true,
+  //   isNew: true
+  // },
   {
     id: 'sassy',
     title: 'Sassy',
@@ -175,6 +176,36 @@ export default function ToolsPage() {
             Available Now
           </h2>
           <div className={styles.toolsGrid}>
+            {/* Harvard Academic Portal - First Position */}
+            <a 
+              href="/academic-portal" 
+              className={`${styles.toolCard} ${styles.harvardCard}`}
+            >
+              <div className={styles.harvardHeader}>
+                <Image 
+                  src="/images/veritas.png"
+                  alt="Harvard Veritas Logo"
+                  width={50}
+                  height={50}
+                  className={styles.harvardLogo}
+                />
+                <h3 className={styles.toolTitle}>Harvard University</h3>
+              </div>
+              <div className={styles.harvardContent}>
+                <p className={styles.toolDescription}>
+                  Exclusive tools for students enrolled in Harvard classes. .edu email and class number required.
+                </p>
+                <div className={styles.toolMeta}>
+                  <span className={styles.toolStatus}>
+                    <span className={`${styles.statusBadge} ${styles.harvardBadge}`}>
+                      Academic Portal
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </a>
+            
+            {/* Regular Available Tools */}
             {availableTools.map((tool) => {
               if (tool.external) {
                 return (
