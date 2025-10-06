@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-import bcrypt from 'bcryptjs'
+import { createClient } from '@/lib/supabase-server'
 
-// Validate token
+// Note: With Supabase Auth, password reset is handled differently
+// Token validation happens on the client side when user clicks the reset link
+// This endpoint is kept for backward compatibility but redirects to Supabase flow
+
+// Validate token - This is now handled by Supabase Auth
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -10,37 +13,17 @@ export async function GET(request: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { valid: false, error: 'No token provided' },
+        { valid: false, error: 'No token provided. Please use the reset link from your email.' },
         { status: 400 }
       )
     }
 
-    // Find valid token
-    const resetToken = await prisma.passwordResetToken.findUnique({
-      where: { token },
-    })
-
-    if (!resetToken) {
-      return NextResponse.json(
-        { valid: false, error: 'Invalid token' },
-        { status: 404 }
-      )
-    }
-
-    // Check if token has expired
-    if (new Date() > resetToken.expires) {
-      // Delete expired token
-      await prisma.passwordResetToken.delete({
-        where: { token },
-      })
-      
-      return NextResponse.json(
-        { valid: false, error: 'Token has expired' },
-        { status: 400 }
-      )
-    }
-
-    return NextResponse.json({ valid: true }, { status: 200 })
+    // With Supabase Auth, token validation happens when exchanging the code
+    // We just return valid=true and let the frontend handle it
+    return NextResponse.json({ 
+      valid: true,
+      message: 'Please set your new password' 
+    }, { status: 200 })
   } catch (error) {
     console.error('Token validation error:', error)
     return NextResponse.json(
@@ -50,14 +33,14 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Reset password
+// Reset password - Use Supabase Auth
 export async function POST(request: NextRequest) {
   try {
-    const { token, password } = await request.json()
+    const { password } = await request.json()
 
-    if (!token || !password) {
+    if (!password) {
       return NextResponse.json(
-        { error: 'Token and password are required' },
+        { error: 'Password is required' },
         { status: 400 }
       )
     }
@@ -69,60 +52,29 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find valid token
-    const resetToken = await prisma.passwordResetToken.findUnique({
-      where: { token },
+    // Get Supabase client
+    const supabase = createClient()
+
+    // Update password for currently authenticated user
+    // (User must be authenticated via the reset token link)
+    const { data, error } = await supabase.auth.updateUser({
+      password: password
     })
 
-    if (!resetToken) {
+    if (error) {
+      console.error('Password update error:', error)
       return NextResponse.json(
-        { error: 'Invalid or expired reset token' },
-        { status: 404 }
-      )
-    }
-
-    // Check if token has expired
-    if (new Date() > resetToken.expires) {
-      await prisma.passwordResetToken.delete({
-        where: { token },
-      })
-      
-      return NextResponse.json(
-        { error: 'Reset token has expired' },
+        { error: error.message || 'Failed to reset password' },
         { status: 400 }
       )
     }
 
-    // Find user
-    const user = await prisma.harvardUser.findUnique({
-      where: { email: resetToken.email },
-    })
-
-    if (!user) {
+    if (!data.user) {
       return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
+        { error: 'No authenticated user found. Please use the reset link from your email.' },
+        { status: 401 }
       )
     }
-
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    // Update user password
-    await prisma.harvardUser.update({
-      where: { email: resetToken.email },
-      data: { password: hashedPassword },
-    })
-
-    // Delete used token
-    await prisma.passwordResetToken.delete({
-      where: { token },
-    })
-
-    // Delete any other reset tokens for this user
-    await prisma.passwordResetToken.deleteMany({
-      where: { email: resetToken.email },
-    })
 
     return NextResponse.json(
       {
