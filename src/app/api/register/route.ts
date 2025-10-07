@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
-import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
@@ -64,18 +63,23 @@ export async function POST(request: NextRequest) {
 
     console.log('Supabase user created:', data.user?.id)
 
-    // Store Harvard-specific data in your table using Prisma
+    // Store Harvard-specific data in HarvardUser table using Supabase
     if (data.user) {
       try {
-        await prisma.harvardUser.create({
-          data: {
+        const { error: dbError } = await supabase
+          .from('HarvardUser')
+          .insert({
             authUserId: data.user.id,
             email,
             name,
             classCode: classCode || null,
             affiliation,
-          }
-        })
+          })
+        
+        if (dbError) {
+          throw dbError
+        }
+        
         console.log('Harvard user profile created')
       } catch (dbError) {
         console.error('Database error creating Harvard user profile:')
