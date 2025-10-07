@@ -78,11 +78,15 @@ export async function POST(request: NextRequest) {
         })
         console.log('Harvard user profile created')
       } catch (dbError) {
-        console.error('Database error:', dbError)
+        console.error('Database error creating Harvard user profile:')
+        console.error('Error details:', JSON.stringify(dbError, null, 2))
+        console.error('Error message:', (dbError as Error).message)
+        console.error('Error stack:', (dbError as Error).stack)
+        
         // If profile creation fails, delete the auth user
         await supabase.auth.admin.deleteUser(data.user.id)
         return NextResponse.json(
-          { error: 'Failed to create user profile' },
+          { error: `Failed to create user profile: ${(dbError as Error).message}` },
           { status: 500 }
         )
       }
