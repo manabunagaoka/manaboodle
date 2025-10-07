@@ -1,5 +1,6 @@
 // Server-side Supabase client for API routes and server components
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 
 export function createClient() {
@@ -37,16 +38,16 @@ export function createClient() {
 }
 
 // Service role client for admin operations (use carefully!)
+// This bypasses RLS policies and should only be used in secure server contexts
 export function createServiceClient() {
-  return createServerClient(
+  return createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!, // Use service key for admin operations
+    process.env.SUPABASE_SERVICE_KEY!,
     {
-      cookies: {
-        get() { return undefined },
-        set() {},
-        remove() {},
-      },
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false
+      }
     }
   )
 }
