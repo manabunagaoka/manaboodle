@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { createServiceClient } from '@/lib/supabase-server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { email, password, name, classCode, affiliation } = body
+
+    console.log('Registration attempt for:', email)
 
     // Validate required fields
     if (!email || !password || !name || !affiliation) {
@@ -41,28 +44,48 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Use service role client (bypasses RLS)
+    const supabase = createServiceClient()
+    
+    console.log('Creating Supabase Auth user...')
+
     // Register user with Supabase Auth
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.admin.createUser({
       email,
       password,
-      options: {
-        data: { name }
-      }
+      email_confirm: true, // Auto-confirm for now to avoid email delays
+      user_metadata: { name }
     })
 
     if (error) {
+      console.error('Supabase Auth error:', error)
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    // Store Harvard-specific data in your table (optional)
+    console.log('Supabase user created:', data.user?.id)
+
+    // Store Harvard-specific data in your table using Prisma
     if (data.user) {
-      await supabase.from('HarvardUser').insert({
-        id: data.user.id,
-        email,
-        name,
-        classCode: classCode || null,
-        affiliation,
-      })
+      try {
+        await prisma.harvardUser.create({
+          data: {
+            authUserId: data.user.id,
+            email,
+            name,
+            classCode: classCode || null,
+            affiliation,
+          }
+        })
+        console.log('Harvard user profile created')
+      } catch (dbError) {
+        console.error('Database error:', dbError)
+        // If profile creation fails, delete the auth user
+        await supabase.auth.admin.deleteUser(data.user.id)
+        return NextResponse.json(
+          { error: 'Failed to create user profile' },
+          { status: 500 }
+        )
+      }
     }
 
     return NextResponse.json(
