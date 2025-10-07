@@ -1,19 +1,46 @@
-# 🚨 SECURITY INCIDENT - Service Key Exposed
+# 🚨 CRITICAL SECURITY INCIDENT - Multiple Secrets Exposed
 
 ## What Happened
-The `SUPABASE_SERVICE_KEY` was accidentally committed to GitHub in the file `VERCEL_ENV_FIX.md`.
+Multiple secrets were accidentally committed to GitHub:
 
-GitHub detected this and sent an alert.
+1. **SUPABASE_SERVICE_KEY** - Exposed in `VERCEL_ENV_FIX.md`
+2. **RESEND_API_KEY** - Exposed in `CURRENT_STATE.md`
+3. **DATABASE_PASSWORD** - Exposed in multiple documentation files
+4. **OPENAI_API_KEY** - Exposed in `CURRENT_STATE.md`
+
+GitHub Secret Scanning (GitGuardian) detected these and sent alerts.
 
 ## Immediate Actions Required
 
-### 1. Rotate the Supabase Service Key (CRITICAL - DO THIS NOW!)
+### 1. Rotate ALL Compromised Secrets (CRITICAL - DO THIS NOW!)
 
-1. Go to **Supabase Dashboard**: https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne
-2. Click **Settings** → **API**
-3. Under **Project API keys**, find **service_role** key
+#### A. Supabase Service Key
+1. Go to **Supabase Dashboard**: https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/api
+2. Scroll to **Project API keys**
+3. Find the **service_role** key
 4. Click **Reset service_role secret** or **Regenerate**
 5. Copy the NEW service key
+
+#### B. Supabase Database Password
+1. Go to **Supabase Dashboard**: https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/database
+2. Click **Reset database password**
+3. Choose a strong new password
+4. Copy the new password
+5. Update your `DATABASE_URL` connection strings
+
+#### C. Resend API Key
+1. Go to **Resend Dashboard**: https://resend.com/api-keys
+2. Find the compromised key (`re_eDKcVBgd...`)
+3. Click **Delete** to revoke it
+4. Click **Create API Key**
+5. Give it a name (e.g., "Manaboodle Production")
+6. Copy the new key
+
+#### D. OpenAI API Key (if still using)
+1. Go to **OpenAI Dashboard**: https://platform.openai.com/api-keys
+2. Find the compromised key
+3. Click **Revoke**
+4. Create a new key if needed
 
 ### 2. Update Vercel Environment Variable
 
