@@ -1,7 +1,7 @@
 // app/api/subscribe/route.ts
 // FIXED VERSION with proper email configuration
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 
 export async function POST(request: NextRequest) {
@@ -43,6 +43,12 @@ export async function POST(request: NextRequest) {
     }
     
     console.log('Adding subscriber:', email);
+    
+    // Create Supabase client with server-side credentials
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
     
     // Check if email already exists
     const { data: existingSubscriber } = await supabase
