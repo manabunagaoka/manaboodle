@@ -61,8 +61,8 @@ export default function SignUpPage() {
     }
 
     try {
-      // Call registration API (no email confirmation to test if Resend SMTP is causing delay)
-      const response = await fetch('/api/register-no-confirm', {
+      // Call registration API
+      const response = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,37 +3,32 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { Component, Calculator, ChartColumnIncreasing, Plus } from 'lucide-react'
 import styles from '../dashboard.module.css'
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null)
+  const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
-    checkUser()
-  }, [])
-
-  const checkUser = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
+    if (status === 'loading') return
     
-    if (!user) {
+    if (status === 'unauthenticated') {
       router.push('/academic-portal/login')
-    } else {
-      setUser(user)
+    } else if (status === 'authenticated') {
       setIsLoading(false)
     }
-  }
+  }, [status, router])
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    await signOut({ redirect: false })
     router.push('/tools')
   }
 
-  if (isLoading) {
+  if (isLoading || status === 'loading') {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
@@ -42,7 +37,7 @@ export default function DashboardPage() {
     )
   }
 
-  if (!user) {
+  if (!session) {
     return null
   }
 
@@ -74,8 +69,8 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.welcome}>Welcome, {user.email}</span>
-            <span className={styles.classCode}>{user.user_metadata?.name || 'Student'}</span>
+            <span className={styles.welcome}>Welcome, {session.user.email}</span>
+            <span className={styles.classCode}>{session.user.name}</span>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
