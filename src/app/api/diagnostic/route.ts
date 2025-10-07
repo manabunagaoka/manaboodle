@@ -2,7 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const diagnostics = {
+    const diagnostics: {
+      timestamp: string
+      environment: string | undefined
+      supabaseUrl: string
+      supabaseAnonKey: string
+      supabaseServiceKey: string
+      resendApiKey: string
+      databaseUrl: string
+      supabaseConnection?: string
+    } = {
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV,
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Set' : '❌ Missing',
