@@ -1,10 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 export async function POST(request: NextRequest) {
   console.log('Unsubscribe API POST request received!');
   
   try {
+    // Create Supabase client with server-side credentials
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('❌ Supabase credentials missing!');
+      return NextResponse.json(
+        { error: 'Database service not configured' },
+        { status: 500 }
+      );
+    }
+    
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    
     const body = await request.json();
     const { token, email } = body;
     
