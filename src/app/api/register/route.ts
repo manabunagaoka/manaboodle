@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { createServiceClient } from '@/lib/supabase-server'
 
 export async function POST(request: NextRequest) {
   try {
+    // Use service role client for admin operations
+    const supabase = createServiceClient()
+    
     const body = await request.json()
     const { email, password, name, classCode, affiliation } = body
 
@@ -60,18 +63,34 @@ export async function POST(request: NextRequest) {
     })
 
     if (error) {
+      console.error('Supabase signUp error:', error)
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
-    // Store Harvard-specific data in your table (optional)
+    // Store Harvard-specific data in your table
     if (data.user) {
-      await supabase.from('HarvardUser').insert({
+      const { error: insertError } = await supabase.from('HarvardUser').insert({
         id: data.user.id,
         email,
         name,
         classCode: classCode || null,
         affiliation,
       })
+      
+      if (insertError) {
+        console.error('HarvardUser insert error:', insertError)
+        // User was created in auth.users but Harvard data failed
+        // Still return success but log the error
+        return NextResponse.json(
+          {
+            success: true,
+            message: 'User registered successfully. Please check your email to confirm.',
+            warning: 'Profile creation incomplete',
+            user: data.user
+          },
+          { status: 201 }
+        )
+      }
     }
 
     return NextResponse.json(
