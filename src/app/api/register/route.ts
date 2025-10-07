@@ -41,12 +41,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Get the correct redirect URL (production or local)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 
+                    process.env.NEXTAUTH_URL || 
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 
+                    'https://manaboodle.com')
+    
+    const redirectUrl = `${baseUrl}/api/auth/callback`
+
     // Register user with Supabase Auth
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: { name }
+        data: { name },
+        emailRedirectTo: redirectUrl
       }
     })
 
