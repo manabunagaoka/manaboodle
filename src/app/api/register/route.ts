@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
+import { randomUUID } from 'crypto'
 
 export async function POST(request: NextRequest) {
   try {
@@ -69,6 +70,7 @@ export async function POST(request: NextRequest) {
         const { error: dbError } = await supabase
           .from('HarvardUser')
           .insert({
+            id: randomUUID(),
             authUserId: data.user.id,
             email,
             name,
