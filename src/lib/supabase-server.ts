@@ -46,19 +46,12 @@ export function createServiceClient() {
     {
       auth: {
         autoRefreshToken: false,
-        persistSession: false
+        persistSession: false,
+        detectSessionInUrl: false,
+        flowType: 'pkce'
       },
-      global: {
-        fetch: (url, options = {}) => {
-          // Add timeout to fetch requests
-          const controller = new AbortController()
-          const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
-          
-          return fetch(url, {
-            ...options,
-            signal: controller.signal,
-          }).finally(() => clearTimeout(timeoutId))
-        }
+      db: {
+        schema: 'public'
       }
     }
   )

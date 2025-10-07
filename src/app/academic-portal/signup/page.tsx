@@ -62,7 +62,7 @@ export default function SignUpPage() {
 
     try {
       // Call registration API
-      const response = await fetch('/api/register', {
+      const response = await fetch('/api/register-direct', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

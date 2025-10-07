@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 
-// Increase timeout for Vercel functions
-export const maxDuration = 60 // 60 seconds
+// Increase timeout for Vercel functions to maximum
+export const maxDuration = 300 // 5 minutes (maximum for Hobby plan)
 
 export async function POST(request: NextRequest) {
   console.log('=== REGISTRATION API CALLED ===')
