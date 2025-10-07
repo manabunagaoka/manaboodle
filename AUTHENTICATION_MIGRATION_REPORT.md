@@ -364,16 +364,16 @@ Test this first. If it works in <3 seconds, then issue is in profile creation lo
 ```env
 # Supabase (Public)
 NEXT_PUBLIC_SUPABASE_URL=https://otxidzozhdnszvqbgzne.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<see_vercel_dashboard_or_supabase_settings>
 
 # Supabase (Private - Server Only)
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=<see_vercel_dashboard_or_supabase_settings>
 
 # Database
-DATABASE_URL=postgresql://postgres.otxidzozhdnszvqbgzne:YGYAfygckqZaCn36@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+DATABASE_URL=<see_vercel_dashboard_or_supabase_settings>
 
 # Resend (NOT USED - DISABLED)
-RESEND_API_KEY=re_Tt59K67n_2Hya8aQPSZbqvUXVsLCZKWbP
+RESEND_API_KEY=<see_resend_dashboard>
 ```
 
 ### Critical Code Files
@@ -397,7 +397,7 @@ WHERE table_name = 'HarvardUser';
 ### Supabase Configuration
 - **Project**: otxidzozhdnszvqbgzne
 - **Region**: US East
-- **Database Password**: YGYAfygckqZaCn36 (rotated)
+- **Database Password**: <rotated - see Supabase dashboard>
 - **Site URL**: https://manaboodle.com
 - **Redirect URLs**: Configured for /api/auth/callback
 
