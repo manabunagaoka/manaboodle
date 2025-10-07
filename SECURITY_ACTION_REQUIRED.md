@@ -4,21 +4,46 @@
 
 Even though we removed the files, the secrets are **still in Git history** and visible to anyone with read access to the repository. GitHub Secret Scanning has detected these and they need to be rotated IMMEDIATELY.
 
+## 🎯 QUICK START (If You're in a Hurry)
+
+**Fastest way to fix everything:**
+
+1. **Supabase**: Go to [API Settings](https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/api) → Scroll down → Click **"Reset project API keys"** (resets both anon + service_role)
+2. **Resend**: Go to [API Keys](https://resend.com/api-keys) → Delete old key → Create new
+3. **Database**: Go to [Database Settings](https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/database) → Click **"Reset Database Password"**
+4. **Vercel**: Update all 4 environment variables with new values from steps 1-3
+5. **Redeploy**: Trigger new deployment in Vercel
+6. **GitHub**: Close the secret scanning alerts
+
+**Time**: 15 minutes total
+
 ---
 
 ## 🔴 STEP 1: Rotate All Secrets (DO THIS NOW)
 
-### A. Rotate Supabase Service Role Key
+### A. Rotate Supabase Service Role Key (Now Called "API Keys")
 
+**IMPORTANT**: Supabase renamed "Service Role Key" to just show as one of the API keys.
+
+**Option 1: Reset Project API Keys (Easier - Resets ALL keys)**
 1. Go to: https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/api
-2. Under "Service Role Key" section
-3. Click **"Generate New Service Role Key"** or **"Rotate Key"**
-4. Copy the new key
+2. Scroll to bottom, find **"Reset project API keys"** button
+3. Click it - this will regenerate BOTH the anon key and service_role key
+4. Copy BOTH new keys:
+   - **anon / public** key (for `NEXT_PUBLIC_SUPABASE_ANON_KEY`)
+   - **service_role / secret** key (for `SUPABASE_SERVICE_KEY`)
 5. Update in Vercel:
    - Go to: https://vercel.com/manabunagaokas-projects/manaboodle/settings/environment-variables
-   - Find `SUPABASE_SERVICE_ROLE_KEY`
-   - Click Edit → Paste new key → Save
+   - Update `NEXT_PUBLIC_SUPABASE_ANON_KEY` with new anon key
+   - Update `SUPABASE_SERVICE_KEY` with new service_role key
+   - Click Save on each
 6. Redeploy: https://vercel.com/manabunagaokas-projects/manaboodle
+
+**Option 2: Contact Supabase Support (If no reset button)**
+- If you don't see a "Reset project API keys" option
+- Go to: https://supabase.com/dashboard/support
+- Message: "Please rotate my service_role API key for project otxidzozhdnszvqbgzne due to GitHub secret exposure"
+- They usually respond within hours
 
 ### B. Rotate Resend API Key
 
@@ -45,15 +70,16 @@ Even though we removed the files, the secrets are **still in Git history** and v
    - Update both `DATABASE_URL` and `DIRECT_URL` if present
 5. Redeploy: https://vercel.com/manabunagaokas-projects/manaboodle
 
-### D. Check Supabase Anon Key (Low Priority)
+### D. Supabase Anon Key
 
-The anon key is less sensitive (it's meant to be public), but if you want to be thorough:
+**NOTE**: If you used Option 1 above (Reset project API keys), you already rotated this key. Skip this step.
 
-1. Go to: https://supabase.com/dashboard/project/otxidzozhdnszvqbgzne/settings/api
-2. Under "Anon Public Key"
-3. If there's a rotate option, use it
-4. Update `NEXT_PUBLIC_SUPABASE_ANON_KEY` in Vercel
-5. Redeploy
+If you only rotated the service_role key individually, then:
+
+1. The anon key is less sensitive (it's meant to be public in client-side code)
+2. However, since it was also in the exposed documentation files
+3. Consider using Option 1 above to reset both keys together
+4. Or leave it as-is (low risk since anon keys have limited permissions)
 
 ---
 
@@ -129,7 +155,7 @@ This is why rotation is MANDATORY.
 - ✅ Use placeholder values in documentation: `<your_secret_here>`
 - ✅ Reference where to find secrets: "See Vercel Dashboard"
 - ✅ Keep secrets ONLY in `.env.local` (gitignored)
-- ✅ Use environment variable references: `$SUPABASE_SERVICE_ROLE_KEY`
+- ✅ Use environment variable references: `$SUPABASE_SERVICE_KEY`
 
 ### DON'T:
 - ❌ NEVER commit actual secret values
@@ -142,7 +168,7 @@ This is why rotation is MANDATORY.
 ## ✅ Checklist (Mark when complete)
 
 - [ ] Rotated Supabase Service Role Key in Supabase Dashboard
-- [ ] Updated SUPABASE_SERVICE_ROLE_KEY in Vercel
+- [ ] Updated SUPABASE_SERVICE_KEY in Vercel
 - [ ] Rotated Resend API Key in Resend Dashboard
 - [ ] Updated RESEND_API_KEY in Vercel
 - [ ] Reset Database Password in Supabase Dashboard
