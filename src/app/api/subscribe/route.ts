@@ -44,11 +44,23 @@ export async function POST(request: NextRequest) {
     
     console.log('Adding subscriber:', email);
     
+    // Check environment variables
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    console.log('🔍 Supabase URL present:', !!supabaseUrl);
+    console.log('🔍 Supabase Key present:', !!supabaseKey);
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('❌ Supabase credentials missing!');
+      return NextResponse.json(
+        { error: 'Database service not configured' },
+        { status: 500 }
+      );
+    }
+    
     // Create Supabase client with server-side credentials
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    );
+    const supabase = createClient(supabaseUrl, supabaseKey);
     
     // Check if email already exists
     const { data: existingSubscriber } = await supabase
