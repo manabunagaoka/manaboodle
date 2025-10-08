@@ -2,26 +2,31 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { supabase } from '@/lib/supabase'
 import StartupBudgetCalculator from './components/StartupBudgetCalculator'
 import styles from '../dashboard.module.css'
 
 export default function RunwayPage() {
-  const { data: session, status } = useSession()
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState<any>(null)
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'loading') return
-    
-    if (status === 'unauthenticated') {
-      router.push('/academic-portal/login')
-    } else if (status === 'authenticated') {
-      setIsLoading(false)
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (!user) {
+        router.push('/academic-portal/login')
+      } else {
+        setUser(user)
+        setIsLoading(false)
+      }
     }
-  }, [status, router])
+    
+    checkUser()
+  }, [router])
 
-  if (isLoading || status === 'loading') {
+  if (isLoading) {
     return (
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
@@ -30,7 +35,7 @@ export default function RunwayPage() {
     )
   }
 
-  if (!session) {
+  if (!user) {
     return null
   }
 
