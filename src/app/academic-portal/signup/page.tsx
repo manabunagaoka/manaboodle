@@ -16,6 +16,7 @@ export default function SignUpPage() {
     classCode: '',
     affiliation: 'student'
   })
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -56,6 +57,12 @@ export default function SignUpPage() {
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match')
+      setIsLoading(false)
+      return
+    }
+
+    if (!agreedToTerms) {
+      setError('You must agree to the MVP Testing Agreement to continue')
       setIsLoading(false)
       return
     }
@@ -273,6 +280,63 @@ export default function SignUpPage() {
             <small className={styles.helpText}>
               Need a class code? <a href="https://www.manaboodle.com/subscribe" target="_blank" rel="noopener noreferrer">Subscribe to Manaboodle</a> (you can unsubscribe anytime)
             </small>
+          </div>
+
+          <div className={styles.formGroup} style={{ marginTop: '24px' }}>
+            <div style={{ 
+              padding: '16px', 
+              background: '#f8f9fa', 
+              border: '1px solid #dee2e6', 
+              borderRadius: '8px',
+              marginBottom: '16px'
+            }}>
+              <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', fontWeight: '600' }}>
+                MVP Testing Agreement
+              </h3>
+              <div style={{ fontSize: '14px', lineHeight: '1.6', color: '#495057' }}>
+                <p style={{ margin: '0 0 12px 0' }}>
+                  By creating an account, you agree to participate in MVP (Minimum Viable Product) testing for the Manaboodle Academic Portal. Please note:
+                </p>
+                <ul style={{ margin: '0 0 12px 0', paddingLeft: '20px' }}>
+                  <li>We collect only your name and .edu email address for authentication purposes</li>
+                  <li>All user data will be permanently deleted from our database upon completion of MVP testing, no later than <strong>June 1, 2026</strong>, without further notice</li>
+                  <li>You will lose access to the portal when your data is deleted</li>
+                  <li>We do not collect, store, or process any other personal information</li>
+                  <li>We are not responsible for any data loss or interruption of service</li>
+                  <li>This is a testing environment and features may change or become unavailable without notice</li>
+                </ul>
+                <p style={{ margin: '0', fontSize: '13px' }}>
+                  For questions or to stay informed about future access to these tools, please visit{' '}
+                  <a href="https://manaboodle.com" target="_blank" rel="noopener noreferrer" style={{ color: '#0066cc' }}>
+                    manaboodle.com
+                  </a>{' '}
+                  or subscribe to our newsletter.
+                </p>
+              </div>
+            </div>
+            
+            <label style={{ 
+              display: 'flex', 
+              alignItems: 'flex-start', 
+              cursor: 'pointer',
+              gap: '12px'
+            }}>
+              <input
+                type="checkbox"
+                checked={agreedToTerms}
+                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                style={{ 
+                  marginTop: '2px',
+                  width: '18px',
+                  height: '18px',
+                  cursor: 'pointer'
+                }}
+                required
+              />
+              <span style={{ fontSize: '14px', lineHeight: '1.5' }}>
+                I have read and agree to the MVP Testing Agreement
+              </span>
+            </label>
           </div>
 
           {error && (
