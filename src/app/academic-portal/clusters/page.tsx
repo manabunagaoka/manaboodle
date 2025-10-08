@@ -40,6 +40,7 @@ export default function ClustersPage() {
   }
 
   const handleLaunch = () => {
+    // Open Clusters in new tab so users can easily switch back
     window.open('https://clusters-git-main-manabunagaokas-projects.vercel.app?_vercel_share=ylGI3HYkSn33Gj8GMNRQcdEjQ26GG73E', '_blank', 'noopener,noreferrer')
   }
 
