@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '../components/Header'
-import Footer from '../components/Footer'
 import { SearchProvider } from '../contexts/SearchContext'
 import GoogleAnalytics from '../components/GoogleAnalytics'
 import AuthProvider from '../components/AuthProvider'
+import LayoutContent from '../components/LayoutContent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,9 +32,7 @@ export default function RootLayout({
         )}
         <AuthProvider>
           <SearchProvider>
-            <Header />
-            {children}
-            <Footer />
+            <LayoutContent>{children}</LayoutContent>
           </SearchProvider>
         </AuthProvider>
       </body>

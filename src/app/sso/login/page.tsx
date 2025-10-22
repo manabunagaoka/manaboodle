@@ -2,6 +2,8 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Image from 'next/image';
+import styles from '../../academic-portal/auth.module.css';
 
 function SSOLoginForm() {
   const searchParams = useSearchParams();
@@ -12,6 +14,7 @@ function SSOLoginForm() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   useEffect(() => {
     if (!returnUrl) {
@@ -23,6 +26,13 @@ function SSOLoginForm() {
     e.preventDefault();
     setError('');
     setLoading(true);
+    
+    // Validate .edu email
+    if (!email.endsWith('.edu')) {
+      setError('Please use a valid .edu email address');
+      setLoading(false);
+      return;
+    }
     
     try {
       const response = await fetch('/api/sso/token', {
@@ -50,90 +60,102 @@ function SSOLoginForm() {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          {/* Header */}
-          <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">
-              Sign in to {appName}
-            </h1>
-            <p className="text-sm text-gray-600">
-              Use your Harvard Academic Portal credentials
-            </p>
+    <div className={styles.authPage}>
+      <div className={styles.authContainer}>
+        {/* Header */}
+        <div className={styles.authHeader}>
+          <div className={styles.logoSection}>
+            <Image 
+              src="/images/Harvard_University_logo.png" 
+              alt="Harvard" 
+              width={50}
+              height={50}
+              className={styles.logo}
+            />
+            <span className={styles.universityName}>Harvard University</span>
+          </div>
+          <h1 className={styles.title}>Sign in to {appName}</h1>
+          <p className={styles.subtitle}>
+            Use your Harvard Academic Portal credentials
+          </p>
+        </div>
+        
+        {/* Error Message */}
+        {error && (
+          <div className={styles.errorMessage}>
+            {error}
+          </div>
+        )}
+        
+        {/* Login Form */}
+        <form onSubmit={handleLogin} className={styles.authForm}>
+          <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.label}>
+              Harvard Email (.edu)
+            </label>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={styles.input}
+              placeholder="your.email@harvard.edu"
+              required
+              disabled={loading}
+            />
           </div>
           
-          {/* Error Message */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-700">{error}</p>
-            </div>
-          )}
-          
-          {/* Login Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Harvard Email (.edu)
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                placeholder="your.email@harvard.edu"
-                required
-                disabled={loading}
-              />
-            </div>
-            
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
+          <div className={styles.formGroup}>
+            <label htmlFor="password" className={styles.label}>
+              Password
+            </label>
+            <div className={styles.passwordInputWrapper}>
               <input
                 id="password"
-                type="password"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className={styles.input}
+                placeholder="Enter your password"
                 required
                 disabled={loading}
               />
-            </div>
-            
-            <button
-              type="submit"
-              disabled={loading || !returnUrl}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition"
-            >
-              {loading ? 'Signing in...' : 'Sign In'}
-            </button>
-          </form>
-          
-          {/* Footer Links */}
-          <div className="mt-6 text-center space-y-2">
-            <p className="text-sm text-gray-600">
-              Don&apos;t have an account?{' '}
-              <a 
-                href="/academic-portal/signup" 
-                className="text-blue-600 hover:text-blue-700 font-medium"
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className={styles.togglePassword}
+                disabled={loading}
               >
-                Sign up here
-              </a>
-            </p>
-            <p className="text-xs text-gray-500">
-              By signing in, you&apos;ll be returned to {appName}
-            </p>
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
           </div>
+          
+          <button
+            type="submit"
+            disabled={loading || !returnUrl}
+            className={styles.submitButton}
+          >
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+        
+        {/* Footer Links */}
+        <div className={styles.authFooter}>
+          <p>
+            Don&apos;t have an account?{' '}
+            <a href="/academic-portal/signup">Sign up here</a>
+          </p>
+          <p className={styles.returnNotice}>
+            You&apos;ll be returned to {appName} after signing in
+          </p>
         </div>
         
         {/* Security Notice */}
-        <div className="mt-4 text-center">
-          <p className="text-xs text-gray-500">
-            🔒 Secured by Manaboodle Academic Portal
-          </p>
+        <div className={styles.securityNotice}>
+          🔒 Secured by Manaboodle Academic Portal
         </div>
       </div>
     </div>
