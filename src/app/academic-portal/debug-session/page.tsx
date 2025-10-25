@@ -19,7 +19,13 @@ export default function DebugSessionPage() {
         'manaboodle-auth-token': localStorage.getItem('manaboodle-auth-token'),
         'sb-otxidzozhdnszvqbgzne-auth-token': localStorage.getItem('sb-otxidzozhdnszvqbgzne-auth-token'),
         'academicPortalUser': localStorage.getItem('academicPortalUser'),
-        'all_keys': Object.keys(localStorage).filter(key => key.includes('auth') || key.includes('supabase') || key.includes('sb-'))
+        'all_keys': Object.keys(localStorage).filter(key => 
+          key.includes('auth') || 
+          key.includes('supabase') || 
+          key.includes('sb-') ||
+          key.includes('manaboodle')
+        ),
+        'all_localStorage_keys': Object.keys(localStorage)
       } : {}
 
       setSessionInfo({
