@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
 import styles from '../../academic-portal/auth.module.css';
 
 function SSOLoginForm() {
@@ -15,11 +16,53 @@ function SSOLoginForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [checking, setChecking] = useState(true);
   
   useEffect(() => {
     if (!returnUrl) {
       setError('Missing return_url parameter. Please access this page from your application.');
+      setChecking(false);
+      return;
     }
+    
+    // Check if user is already authenticated
+    const checkExistingSession = async () => {
+      try {
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) {
+          console.error('Session check error:', sessionError);
+          setChecking(false);
+          return;
+        }
+        
+        if (session?.user) {
+          // User is already authenticated, verify they're in HarvardUser table
+          const { data: harvardUser, error: userError } = await supabase
+            .from('HarvardUser')
+            .select('id, email, name, classCode')
+            .eq('email', session.user.email)
+            .single();
+          
+          if (!userError && harvardUser) {
+            // Valid Harvard user with active session - redirect immediately
+            const redirectUrl = new URL(returnUrl);
+            redirectUrl.searchParams.set('sso_token', session.access_token);
+            redirectUrl.searchParams.set('sso_refresh', session.refresh_token || '');
+            window.location.href = redirectUrl.toString();
+            return;
+          }
+        }
+        
+        // No valid session - show login form
+        setChecking(false);
+      } catch (err) {
+        console.error('Error checking session:', err);
+        setChecking(false);
+      }
+    };
+    
+    checkExistingSession();
   }, [returnUrl]);
   
   const handleLogin = async (e: React.FormEvent) => {
@@ -58,6 +101,22 @@ function SSOLoginForm() {
       setLoading(false);
     }
   };
+  
+  // Show loading state while checking for existing session
+  if (checking) {
+    return (
+      <div className={styles.authPage}>
+        <div className={styles.authContainer}>
+          <div style={{ textAlign: 'center', padding: '40px 0' }}>
+            <p style={{ color: '#666', marginBottom: '12px' }}>Checking authentication...</p>
+            <p style={{ fontSize: '14px', color: '#888' }}>
+              If you&apos;re already logged in, you&apos;ll be redirected automatically
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className={styles.authPage}>

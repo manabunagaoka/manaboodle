@@ -196,14 +196,17 @@ export async function GET() {
    ```
    https://www.manaboodle.com/sso/login?return_url=<RIZE_URL>&app_name=RIZE
    ```
-4. **User logs in** at Manaboodle with Harvard .edu credentials
-5. **Manaboodle redirects back** to:
+4. **SSO page checks for existing Manaboodle session**:
+   - **If user already logged into Manaboodle** → Automatically generates tokens and redirects back to RIZE (instant, no login form shown)
+   - **If user not logged in** → Shows login form
+5. **User logs in** at Manaboodle with Harvard .edu credentials (if needed)
+6. **Manaboodle redirects back** to:
    ```
    <RIZE_URL>?sso_token=<jwt_token>&sso_refresh=<refresh_token>
    ```
-6. **Middleware intercepts** callback, stores tokens in cookies, redirects to clean URL
-7. **Future requests** → Middleware validates token with Manaboodle
-8. **User data available** in headers: `x-user-id`, `x-user-email`, `x-user-name`, `x-user-class`
+7. **Middleware intercepts** callback, stores tokens in cookies, redirects to clean URL
+8. **Future requests** → Middleware validates token with Manaboodle
+9. **User data available** in headers: `x-user-id`, `x-user-email`, `x-user-name`, `x-user-class`
 
 ### Token Lifecycle
 
