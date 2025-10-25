@@ -36,19 +36,38 @@ function LoginForm() {
   // HarvardUser table, immediately redirect to return_url with tokens.
   useEffect(() => {
     const returnUrl = searchParams.get('return_url')
+    const appName = searchParams.get('app_name')
+    
+    console.log('🔍 SSO Check starting...', { returnUrl, appName })
+    
     const checkSession = async () => {
       try {
         setIsChecking(true)
-        const { data } = await supabase.auth.getSession()
+        const { data, error: sessionError } = await supabase.auth.getSession()
+        
+        console.log('📦 Session data:', { 
+          hasData: !!data, 
+          hasSession: !!data?.session,
+          sessionError: sessionError?.message,
+          userEmail: data?.session?.user?.email 
+        })
+        
         // data.session may be undefined
         const session = (data as any)?.session
         if (session && session.user && session.user.email) {
+          console.log('✅ Valid session found for:', session.user.email)
+          
           // Verify user exists in HarvardUser table
-          const { data: harvardUser } = await supabase
+          const { data: harvardUser, error: userError } = await supabase
             .from('HarvardUser')
             .select('id, email, name, classCode')
             .eq('email', session.user.email)
             .single()
+
+          console.log('👤 HarvardUser lookup:', { 
+            found: !!harvardUser, 
+            error: userError?.message 
+          })
 
           if (harvardUser) {
             if (returnUrl) {
@@ -60,22 +79,29 @@ function LoginForm() {
                 if (session.refresh_token) {
                   redirectUrl.searchParams.set('sso_refresh', session.refresh_token)
                 }
+                console.log('🚀 Redirecting to:', redirectUrl.toString().substring(0, 100) + '...')
                 // Redirect the browser to the external app with tokens
                 window.location.href = redirectUrl.toString()
                 return
               } catch (err) {
                 // If return_url is not a valid URL, fall back to dashboard
-                console.error('Invalid return_url:', returnUrl, err)
+                console.error('❌ Invalid return_url:', returnUrl, err)
               }
             }
+            console.log('🏠 No return_url, going to dashboard')
             // No return_url provided, go to internal dashboard
             router.push('/academic-portal/dashboard')
             return
+          } else {
+            console.log('⚠️ Session exists but user not in HarvardUser table')
           }
+        } else {
+          console.log('❌ No valid session found')
         }
       } catch (err) {
-        console.error('Error checking session for SSO:', err)
+        console.error('💥 Error checking session for SSO:', err)
       } finally {
+        console.log('✋ Setting isChecking to false, will show login form')
         setIsChecking(false)
       }
     }
@@ -91,6 +117,8 @@ function LoginForm() {
     setError('')
     setSuccess('')
 
+    console.log('📝 Login form submitted')
+
     // Validate .edu email
     if (!formData.email.endsWith('.edu')) {
       setError('Please use a valid .edu email address')
@@ -105,6 +133,8 @@ function LoginForm() {
     }
 
     try {
+      console.log('🔐 Attempting login for:', formData.email)
+      
       // Use Supabase Auth signIn
       const { data, error } = await supabase.auth.signInWithPassword({
         email: formData.email,
@@ -112,35 +142,47 @@ function LoginForm() {
       })
 
       if (error) {
+        console.error('❌ Login error:', error.message)
         setError(error.message)
         setIsLoading(false)
         return
       }
 
+      console.log('✅ Login successful, session created')
+
       if (data.session) {
         // If a return_url param was provided (SSO flow), redirect back to the
         // external app with the session tokens. Otherwise, go to dashboard.
         const returnUrl = searchParams.get('return_url')
+        const appName = searchParams.get('app_name')
+        
+        console.log('🔗 Post-login redirect:', { returnUrl, appName })
+        
         if (returnUrl) {
           try {
             const redirectUrl = new URL(returnUrl)
             if ((data.session as any).access_token) {
               redirectUrl.searchParams.set('sso_token', (data.session as any).access_token)
+              console.log('🎫 Added sso_token to redirect')
             }
             if ((data.session as any).refresh_token) {
               redirectUrl.searchParams.set('sso_refresh', (data.session as any).refresh_token)
+              console.log('🔄 Added sso_refresh to redirect')
             }
+            console.log('🚀 Redirecting to external app:', redirectUrl.toString().substring(0, 100) + '...')
             window.location.href = redirectUrl.toString()
             return
           } catch (err) {
-            console.error('Invalid return_url during login submit:', returnUrl, err)
+            console.error('❌ Invalid return_url during login submit:', returnUrl, err)
           }
         }
 
+        console.log('🏠 No return_url, redirecting to dashboard')
         // No valid return_url — go to internal dashboard
         router.push('/academic-portal/dashboard')
       }
     } catch (err: any) {
+      console.error('💥 Unexpected error during login:', err)
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
       setIsLoading(false)
@@ -158,7 +200,12 @@ function LoginForm() {
       <div className={styles.authPage}>
         <div className={styles.authContainer}>
           <div style={{ textAlign: 'center', padding: '2rem' }}>
-            Checking authentication...
+            <div style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>🔍</div>
+            <div style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Checking authentication...</div>
+            <div style={{ fontSize: '0.9rem', color: '#666' }}>
+              {searchParams.get('return_url') && 'Verifying your Manaboodle session'}
+              {!searchParams.get('return_url') && 'Loading login page'}
+            </div>
           </div>
         </div>
       </div>
