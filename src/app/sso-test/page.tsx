@@ -29,7 +29,7 @@ export default function SSOTestPage() {
       log('✅ Found session in manaboodle-auth-token', 'success')
       try {
         const sessionData = JSON.parse(manaboodleKey)
-        log(`User: ${sessionData.user?.email || 'Unknown'}', 'info')
+        log(`User: ${sessionData.user?.email || 'Unknown'}`, 'info')
         log(`Token expires: ${new Date(sessionData.expires_at * 1000).toLocaleString()}`, 'info')
       } catch (e) {
         log('⚠️ Could not parse session data', 'warning')
