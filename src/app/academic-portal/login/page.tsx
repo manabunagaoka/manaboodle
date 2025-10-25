@@ -19,6 +19,7 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     // Check if user was just registered
@@ -30,6 +31,59 @@ function LoginForm() {
       setSuccess('Password reset successfully! Please sign in with your new password.')
     }
   }, [searchParams])
+
+  // Check for existing Supabase session on mount. If found and user exists in
+  // HarvardUser table, immediately redirect to return_url with tokens.
+  useEffect(() => {
+    const returnUrl = searchParams.get('return_url')
+    const checkSession = async () => {
+      try {
+        setIsChecking(true)
+        const { data } = await supabase.auth.getSession()
+        // data.session may be undefined
+        const session = (data as any)?.session
+        if (session && session.user && session.user.email) {
+          // Verify user exists in HarvardUser table
+          const { data: harvardUser } = await supabase
+            .from('HarvardUser')
+            .select('id, email, name, classCode')
+            .eq('email', session.user.email)
+            .single()
+
+          if (harvardUser) {
+            if (returnUrl) {
+              try {
+                const redirectUrl = new URL(returnUrl)
+                if (session.access_token) {
+                  redirectUrl.searchParams.set('sso_token', session.access_token)
+                }
+                if (session.refresh_token) {
+                  redirectUrl.searchParams.set('sso_refresh', session.refresh_token)
+                }
+                // Redirect the browser to the external app with tokens
+                window.location.href = redirectUrl.toString()
+                return
+              } catch (err) {
+                // If return_url is not a valid URL, fall back to dashboard
+                console.error('Invalid return_url:', returnUrl, err)
+              }
+            }
+            // No return_url provided, go to internal dashboard
+            router.push('/academic-portal/dashboard')
+            return
+          }
+        }
+      } catch (err) {
+        console.error('Error checking session for SSO:', err)
+      } finally {
+        setIsChecking(false)
+      }
+    }
+
+    checkSession()
+    // We only want to run this on mount so ignore searchParams in deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -64,7 +118,26 @@ function LoginForm() {
       }
 
       if (data.session) {
-        // Redirect to dashboard on successful login
+        // If a return_url param was provided (SSO flow), redirect back to the
+        // external app with the session tokens. Otherwise, go to dashboard.
+        const returnUrl = searchParams.get('return_url')
+        if (returnUrl) {
+          try {
+            const redirectUrl = new URL(returnUrl)
+            if ((data.session as any).access_token) {
+              redirectUrl.searchParams.set('sso_token', (data.session as any).access_token)
+            }
+            if ((data.session as any).refresh_token) {
+              redirectUrl.searchParams.set('sso_refresh', (data.session as any).refresh_token)
+            }
+            window.location.href = redirectUrl.toString()
+            return
+          } catch (err) {
+            console.error('Invalid return_url during login submit:', returnUrl, err)
+          }
+        }
+
+        // No valid return_url — go to internal dashboard
         router.push('/academic-portal/dashboard')
       }
     } catch (err: any) {
@@ -79,6 +152,17 @@ function LoginForm() {
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+  if (isChecking) {
+    return (
+      <div className={styles.authPage}>
+        <div className={styles.authContainer}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            Checking authentication...
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
