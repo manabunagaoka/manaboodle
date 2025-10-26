@@ -62,12 +62,13 @@ function LoginForm() {
             .from('HarvardUser')
             .select('id, email, name, classCode')
             .eq('email', session.user.email)
-            .single()
+            .maybeSingle()
 
           console.log('👤 HarvardUser lookup:', { 
             found: !!harvardUser, 
             error: userError?.message,
-            details: userError
+            details: userError,
+            email: session.user.email
           })
 
           if (harvardUser) {
