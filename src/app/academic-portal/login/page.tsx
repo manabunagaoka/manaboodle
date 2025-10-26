@@ -57,21 +57,21 @@ function LoginForm() {
         if (session && session.user && session.user.email) {
           console.log('✅ Valid session found for:', session.user.email)
           
-          // Verify user exists in HarvardUser table using server-side API
-          const harvardUserResponse = await fetch(
-            `/api/harvard-user?email=${encodeURIComponent(session.user.email)}`
-          )
+          // Verify user exists in HarvardUser table (RLS policies handle permissions)
+          const { data: harvardUser, error: userError } = await supabase
+            .from('HarvardUser')
+            .select('id, email, name, classCode')
+            .eq('email', session.user.email)
+            .maybeSingle()
 
-          console.log('👤 HarvardUser API response:', { 
-            status: harvardUserResponse.status,
-            ok: harvardUserResponse.ok
+          console.log('👤 HarvardUser lookup:', { 
+            found: !!harvardUser, 
+            error: userError?.message,
+            email: session.user.email
           })
 
-          if (harvardUserResponse.ok) {
-            const { user: harvardUser } = await harvardUserResponse.json()
-            console.log('✅ HarvardUser found:', harvardUser)
-            
-            if (harvardUser && returnUrl) {
+          if (harvardUser) {
+            if (returnUrl) {
               try {
                 const redirectUrl = new URL(returnUrl)
                 if (session.access_token) {
@@ -88,7 +88,7 @@ function LoginForm() {
                 // If return_url is not a valid URL, fall back to dashboard
                 console.error('❌ Invalid return_url:', returnUrl, err)
               }
-            } else if (harvardUser) {
+            } else {
               console.log('🏠 No return_url, going to dashboard')
               // No return_url provided, go to internal dashboard
               router.push('/academic-portal/dashboard')
