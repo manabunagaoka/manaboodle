@@ -66,7 +66,8 @@ function LoginForm() {
 
           console.log('👤 HarvardUser lookup:', { 
             found: !!harvardUser, 
-            error: userError?.message 
+            error: userError?.message,
+            details: userError
           })
 
           if (harvardUser) {
