@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function SSOTestPage() {
+function SSOTestContent() {
   const [logs, setLogs] = useState<Array<{time: string, message: string, type: string}>>([])
   const searchParams = useSearchParams()
 
@@ -216,6 +216,24 @@ export default function SSOTestPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SSOTestPage() {
+  return (
+    <Suspense fallback={
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'system-ui, -apple-system, sans-serif'
+      }}>
+        Loading SSO Test Page...
+      </div>
+    }>
+      <SSOTestContent />
+    </Suspense>
   )
 }
 

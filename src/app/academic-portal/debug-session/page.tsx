@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { supabase } from '@/lib/supabase'
 import { useSearchParams } from 'next/navigation'
 
-export default function DebugSessionPage() {
+function DebugContent() {
   const [sessionInfo, setSessionInfo] = useState<any>(null)
   const [storageInfo, setStorageInfo] = useState<any>(null)
   const searchParams = useSearchParams()
@@ -112,5 +112,23 @@ export default function DebugSessionPage() {
         </a>
       </div>
     </div>
+  )
+}
+
+export default function DebugSessionPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ 
+        padding: '2rem', 
+        fontFamily: 'monospace',
+        maxWidth: '800px',
+        margin: '0 auto',
+        textAlign: 'center'
+      }}>
+        Loading...
+      </div>
+    }>
+      <DebugContent />
+    </Suspense>
   )
 }
