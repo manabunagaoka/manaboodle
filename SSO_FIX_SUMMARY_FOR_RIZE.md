@@ -48,7 +48,7 @@ if (oldSession && !newSession) {
 2. **Test SSO Auto-Redirect**
    - In the same browser (don't clear storage), visit:
      ```
-     https://www.manaboodle.com/academic-portal/login?return_url=https://rize.vercel.app/login&app_name=RIZE
+     https://www.manaboodle.com/academic-portal/login?return_url=https://rize-git-main-manabunagaokas-projects.vercel.app&app_name=RIZE
      ```
    - **Expected Result**: Should immediately redirect to RIZE with tokens (no login form shown)
    - **URL should include**: `sso_token=eyJ...` and `sso_refresh=...`
@@ -77,7 +77,7 @@ if (oldSession && !newSession) {
    - Open incognito/private window
    - Go directly to:
      ```
-     https://www.manaboodle.com/academic-portal/login?return_url=https://rize.vercel.app/login&app_name=RIZE
+     https://www.manaboodle.com/academic-portal/login?return_url=https://rize-git-main-manabunagaokas-projects.vercel.app&app_name=RIZE
      ```
    - Enter credentials and submit
    - Should redirect to RIZE with tokens after login
