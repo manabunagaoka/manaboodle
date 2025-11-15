@@ -132,6 +132,7 @@ export default function Header() {
                 <path d="m21 21-4.35-4.35" stroke="currentColor" strokeWidth="2"/>
               </svg>
             </button>
+            {/* TEMPORARILY HIDDEN: Subscribe button
             <Link 
               href="/subscribe" 
               className={styles.subscribeBtn}
@@ -139,6 +140,7 @@ export default function Header() {
             >
               Subscribe
             </Link>
+            */}
             <button 
               className={styles.menuBtn}
               onClick={toggleMobileMenu}

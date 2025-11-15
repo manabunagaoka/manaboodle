@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import styles from './SubscribeForm.module.css';
 
 export default function SubscribeForm() {
@@ -41,12 +42,12 @@ export default function SubscribeForm() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h3 className={styles.title}>📬 Get Article Updates</h3>
-        <p className={styles.description}>
-          Subscribe to get notified whenever I publish new articles and insights.
+        <h3 className={styles.title} style={{color: 'white'}}>Subscription Closed</h3>
+        <p className={styles.description} style={{color: 'white'}}>
+          Subscription is closed until further notice. Please use our <Link href="/contact" style={{color: 'white', textDecoration: 'underline', fontWeight: '600'}}>Contact form</Link> to submit any inquiries.
         </p>
       </div>
-
+      {/* DISABLED: Original subscription form
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
           <input
@@ -83,6 +84,7 @@ export default function SubscribeForm() {
       <p className={styles.privacy}>
         No spam, ever. Unsubscribe anytime with one click.
       </p>
+      */}
     </div>
   );
 }

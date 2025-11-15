@@ -360,7 +360,7 @@ export default function ToolsPage() {
         </>
       )}
 
-      {/* Call to Action */}
+      {/* TEMPORARILY HIDDEN: Call to Action
       <div className={styles.ctaSection}>
         <h3 className={styles.ctaTitle}>Want to be notified when new tools launch?</h3>
         <p className={styles.ctaDescription}>
@@ -370,6 +370,7 @@ export default function ToolsPage() {
           Subscribe
         </Link>
       </div>
+      */}
 
       <footer className={styles.toolFooter}>
         <Link href="/" className={styles.backHome}>← Back to Home</Link>

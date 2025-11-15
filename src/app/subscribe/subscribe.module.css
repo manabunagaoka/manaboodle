@@ -151,6 +151,17 @@
   margin: 0 auto 2rem;
 }
 
+.disabledMessage {
+  color: white;
+  text-align: center;
+  padding: 2rem;
+}
+
+.disabledMessage p {
+  margin: 0;
+  line-height: 1.6;
+}
+
 .statsSection {
   display: flex;
   justify-content: center;

@@ -5,6 +5,13 @@ import { createClient } from '@supabase/supabase-js';
 import { Resend } from 'resend';
 
 export async function POST(request: NextRequest) {
+  // TEMPORARILY DISABLED: Subscription feature disabled due to spam
+  return NextResponse.json(
+    { error: 'Subscription feature is temporarily disabled.' },
+    { status: 503 }
+  );
+
+  /* COMMENTED OUT - Original subscription logic
   console.log('📧 Subscribe API POST request received!');
   
   try {
@@ -262,6 +269,7 @@ Total subscribers: Check your Supabase dashboard for current count.`,
       { status: 500 }
     );
   }
+  */
 }
 
 export async function GET() {

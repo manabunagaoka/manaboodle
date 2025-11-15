@@ -46,13 +46,22 @@ export default function SubscribePage() {
       <header className={styles.header}>
         <h1 className={styles.title}>Subscribe</h1>
         <p className={styles.subtitle}>
-          Join the community and get notified when new articles, projects, and concepts are published. No spam, just good content delivered to your inbox.
+          Subscription is closed until further notice.
         </p>
       </header>
 
       <div className={styles.dividerLine}></div>
 
       <section className={styles.subscribeSection}>
+        <div className={styles.disabledMessage}>
+          <p style={{color: 'white', fontSize: '18px', fontWeight: '500', marginBottom: '15px'}}>
+            Subscription is closed until further notice.
+          </p>
+          <p style={{color: 'white', fontSize: '16px', marginTop: '10px'}}>
+            Please use our <Link href="/contact" style={{color: 'white', textDecoration: 'underline', fontWeight: '600'}}>Contact form</Link> to submit any inquiries.
+          </p>
+        </div>
+        {/* DISABLED: Original subscription form
         <form onSubmit={handleSubscribe} className={styles.subscribeForm}>
           <input
             type="email"
@@ -87,6 +96,7 @@ export default function SubscribePage() {
         <p className={styles.privacyNote}>
           By subscribing, you agree to receive newsletters from Manaboodle. You can unsubscribe at any time.
         </p>
+        */}
       </section>
     </div>
   );
