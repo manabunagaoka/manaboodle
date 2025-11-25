@@ -122,8 +122,7 @@ export default function DashboardPage() {
               <div className={styles.toolIcon}>
                 <CircleDollarSign size={48} strokeWidth={1.5} />
               </div>
-              <h3>PPP</h3>
-              <p className={styles.appSubtitle}>Purchasing Power Parity</p>
+              <h3>Purchasing Power Parity</h3>
               <p>Compare purchasing power across 11 global markets. Calculate how far your money goes in different countries with real-time economic data.</p>
               <span className={styles.toolLink}>
                 Launch Tool →
