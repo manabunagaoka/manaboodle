@@ -249,6 +249,15 @@
   letter-spacing: -0.5px;
 }
 
+.appSubtitle {
+  font-size: 13px !important;
+  color: #8B0000 !important;
+  font-weight: 600 !important;
+  margin: -8px 0 12px 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 .toolCard p {
   color: #666;
   line-height: 1.6;

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
-import { Component, Calculator, ChartColumnIncreasing, Plus } from 'lucide-react'
+import { Component, Calculator, ChartColumnIncreasing, Plus, CircleDollarSign } from 'lucide-react'
 import styles from '../dashboard.module.css'
 
 export default function DashboardPage() {
@@ -112,6 +112,23 @@ export default function DashboardPage() {
                 Access Tool →
               </span>
             </Link>
+
+            <a 
+              href="https://ppp.manaboodle.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={styles.toolCard}
+            >
+              <div className={styles.toolIcon}>
+                <CircleDollarSign size={48} strokeWidth={1.5} />
+              </div>
+              <h3>PPP</h3>
+              <p className={styles.appSubtitle}>Purchasing Power Parity</p>
+              <p>Compare purchasing power across 11 global markets. Calculate how far your money goes in different countries with real-time economic data.</p>
+              <span className={styles.toolLink}>
+                Launch Tool →
+              </span>
+            </a>
 
             <div className={styles.toolCard + ' ' + styles.comingSoon}>
               <div className={styles.badge}>Coming Soon</div>
