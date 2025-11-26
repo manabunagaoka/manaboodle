@@ -447,6 +447,7 @@ export default function SignUpPage() {
               <option value="student">Student</option>
               <option value="faculty">Faculty</option>
               <option value="staff">Staff</option>
+              <option value="other">Other</option>
             </select>
           </div>
 
@@ -477,26 +478,26 @@ export default function SignUpPage() {
               marginBottom: '16px'
             }}>
               <h3 style={{ margin: '0 0 12px 0', fontSize: '16px', fontWeight: '600' }}>
-                MVP Testing Agreement
+                Terms of Use Agreement
               </h3>
               <div style={{ fontSize: '14px', lineHeight: '1.6', color: '#495057' }}>
                 <p style={{ margin: '0 0 12px 0' }}>
-                  By creating an account, you agree to participate in MVP (Minimum Viable Product) testing for the Manaboodle Academic Portal. Please note:
+                  By creating an account, you agree to the following terms:
                 </p>
                 <ul style={{ margin: '0 0 12px 0', paddingLeft: '20px' }}>
-                  <li>We collect only your name and .edu email address for authentication purposes</li>
-                  <li>All user data will be permanently deleted from our database upon completion of MVP testing, no later than <strong>June 1, 2026</strong>, without further notice</li>
-                  <li>You will lose access to the portal when your data is deleted</li>
-                  <li>We do not collect, store, or process any other personal information</li>
-                  <li>We are not responsible for any data loss or interruption of service</li>
-                  <li>This is a testing environment and features may change or become unavailable without notice</li>
+                  <li>This Academic Portal is designed for <strong>authorized users only</strong> and may be discontinued at Manaboodle's discretion without notice</li>
+                  <li>You may lose your data completely. We collect your name, email, username, and affiliation for authentication and basic functionality</li>
+                  <li>Unless otherwise stated in each app within the portal, no additional user data is stored or processed</li>
+                  <li>You verify that you are of legal age in the state/country where you are participating</li>
+                  <li>We are not responsible for any data loss, interruption of service, or any damages arising from your use of this portal</li>
+                  <li>Features, apps, and access may change or become unavailable without notice</li>
+                  <li>By using this portal, you agree to use the tools responsibly and in accordance with applicable laws</li>
                 </ul>
                 <p style={{ margin: '0', fontSize: '13px' }}>
-                  For questions or to stay informed about future access to these tools, please visit{' '}
+                  For questions or updates, please visit{' '}
                   <a href="https://manaboodle.com" target="_blank" rel="noopener noreferrer" style={{ color: '#0066cc' }}>
                     manaboodle.com
-                  </a>{' '}
-                  or subscribe to our newsletter.
+                  </a>.
                 </p>
               </div>
             </div>
@@ -520,7 +521,7 @@ export default function SignUpPage() {
                 required
               />
               <span style={{ fontSize: '14px', lineHeight: '1.5' }}>
-                I have read and agree to the MVP Testing Agreement
+                I have read and agree to the Terms of Use Agreement
               </span>
             </label>
           </div>

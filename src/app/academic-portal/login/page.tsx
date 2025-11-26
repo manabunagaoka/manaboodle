@@ -231,7 +231,7 @@ function LoginForm() {
         <form onSubmit={handleSubmit} className={styles.authForm}>
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.label}>
-              .edu email
+              Email Address
             </label>
             <input
               type="email"
