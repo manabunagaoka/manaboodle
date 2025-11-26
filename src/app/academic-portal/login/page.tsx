@@ -24,7 +24,11 @@ function LoginForm() {
   useEffect(() => {
     // Check if user was just registered
     if (searchParams.get('registered') === 'true') {
-      setSuccess('Account created successfully! Please sign in.')
+      setSuccess('Account created successfully! Please check your email to verify your address before signing in.')
+    }
+    // Check if guest request was submitted
+    if (searchParams.get('guest_request') === 'true') {
+      setSuccess('Guest access request submitted! You will receive an email when your request is reviewed (usually within 24-48 hours).')
     }
     // Check if password was just reset
     if (searchParams.get('reset') === 'success') {

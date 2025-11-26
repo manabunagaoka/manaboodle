@@ -11,16 +11,58 @@ datasource db {
 }
 
 model HarvardUser {
-  id               String   @id @default(uuid())
-  authUserId       String   @unique // References Supabase auth.users.id
-  email            String   @unique
-  name             String
-  classCode        String?  // Harvard course/class identifier
-  affiliation      String   // "student" | "faculty" | "staff"
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id               String    @id @default(uuid())
+  authUserId       String    @unique // References Supabase auth.users.id
+  username         String    @unique // Public identifier (e.g., @john_smith)
+  email            String    @unique
+  name             String    // Full name / Display name
+  classCode        String?   // Optional course/class identifier
+  affiliation      String    // "student" | "faculty" | "staff"
+  accessType       String    @default("guest") // "harvard" | "sesame" | "guest"
+  emailVerified    Boolean   @default(false)
+  institution      String?   // Organization/institution name (required for guests)
+  guestPassId      String?   // References GuestPass if guest user
+  accessExpiresAt  DateTime? // For guest passes with time limits
+  lastLoginAt      DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  guestPass        GuestPass? @relation(fields: [guestPassId], references: [id])
   
   @@index([authUserId])
+  @@index([email])
+  @@index([username])
+  @@index([accessType])
+  @@index([emailVerified])
+}
+
+model GuestPass {
+  id             String    @id @default(uuid())
+  email          String
+  code           String?   @unique // Unique approval code
+  status         String    @default("pending") // "pending" | "approved" | "denied" | "expired"
+  requestReason  String?   // Why they need access
+  institution    String?   // Their organization
+  expiresAt      DateTime? // When access expires (if approved)
+  approvedBy     String?   // Admin email who approved
+  approvedAt     DateTime?
+  deniedReason   String?   // Reason for denial (if denied)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  
+  users          HarvardUser[]
+  
+  @@index([email])
+  @@index([status])
+  @@index([code])
+}
+
+model AdminUser {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  role      String   @default("admin") // "admin" | "super_admin"
+  createdAt DateTime @default(now())
+  
   @@index([email])
 }
 

@@ -1,7 +1,7 @@
 // app/academic-portal/signup/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -9,46 +9,121 @@ import styles from '../auth.module.css'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
+    username: '',
+    name: '',
     password: '',
     confirmPassword: '',
     classCode: '',
-    affiliation: 'student'
+    affiliation: 'student',
+    institution: '',
+    requestReason: ''
   })
   const [agreedToTerms, setAgreedToTerms] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [emailStatus, setEmailStatus] = useState<'checking' | 'approved' | 'guest' | ''>('')
+  const [usernameStatus, setUsernameStatus] = useState<'checking' | 'available' | 'taken' | 'invalid' | ''>('')
+  const [usernameMessage, setUsernameMessage] = useState('')
   const router = useRouter()
+
+  // Check email domain when email changes
+  useEffect(() => {
+    if (formData.email && formData.email.includes('@')) {
+      checkEmailDomain(formData.email)
+    } else {
+      setEmailStatus('')
+    }
+  }, [formData.email])
+
+  // Check username availability with debounce
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (formData.username && formData.username.length >= 3) {
+        checkUsernameAvailability(formData.username)
+      } else {
+        setUsernameStatus('')
+        setUsernameMessage('')
+      }
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [formData.username])
+
+  const checkEmailDomain = (email: string) => {
+    const lowerEmail = email.toLowerCase()
+    
+    // Check for harvard.edu (including school.harvard.edu patterns)
+    if (lowerEmail.endsWith('@harvard.edu') || 
+        (lowerEmail.includes('@') && lowerEmail.split('@')[1].endsWith('.harvard.edu'))) {
+      setEmailStatus('approved')
+      return
+    }
+    
+    // Check for sesame.org
+    if (lowerEmail.endsWith('@sesame.org')) {
+      setEmailStatus('approved')
+      return
+    }
+    
+    // Everything else requires guest pass
+    setEmailStatus('guest')
+  }
+
+  const checkUsernameAvailability = async (username: string) => {
+    setUsernameStatus('checking')
+    
+    try {
+      const response = await fetch(`/api/check-username?username=${encodeURIComponent(username)}`)
+      const data = await response.json()
+      
+      if (data.error) {
+        setUsernameStatus('invalid')
+        setUsernameMessage(data.error)
+      } else if (data.available) {
+        setUsernameStatus('available')
+        setUsernameMessage('Available')
+      } else {
+        setUsernameStatus('taken')
+        setUsernameMessage('Already taken')
+      }
+    } catch (err) {
+      console.error('Error checking username:', err)
+      setUsernameStatus('')
+    }
+  }
+
+  const isGuestRequest = emailStatus === 'guest'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
 
-    // Validate .edu email
-    if (!formData.email.endsWith('.edu')) {
-      setError('Please use a valid .edu email address')
+    // Validate email domain
+    if (!formData.email || !formData.email.includes('@')) {
+      setError('Please enter a valid email address')
       setIsLoading(false)
       return
     }
 
-    // Validate class code
-    const validCodes = ['T565', 'T566', 'T595']
-    if (!validCodes.includes(formData.classCode.toUpperCase())) {
-      setError('Invalid class code. Valid codes: T565, T566, T595')
+    // Validate username
+    if (usernameStatus !== 'available') {
+      setError('Please choose an available username')
       setIsLoading(false)
       return
     }
 
+    // Validate name
     if (!formData.name.trim()) {
       setError('Please enter your full name')
       setIsLoading(false)
       return
     }
 
+    // Validate password
     if (!formData.password || formData.password.length < 8) {
       setError('Password must be at least 8 characters long')
       setIsLoading(false)
@@ -61,6 +136,22 @@ export default function SignUpPage() {
       return
     }
 
+    // Validate guest-specific fields
+    if (isGuestRequest) {
+      if (!formData.institution || formData.institution.trim().length < 3) {
+        setError('Please enter your institution/organization name')
+        setIsLoading(false)
+        return
+      }
+
+      if (!formData.requestReason || formData.requestReason.trim().length < 20) {
+        setError('Please provide a detailed reason for access (at least 20 characters)')
+        setIsLoading(false)
+        return
+      }
+    }
+
+    // Validate terms agreement
     if (!agreedToTerms) {
       setError('You must agree to the MVP Testing Agreement to continue')
       setIsLoading(false)
@@ -76,10 +167,14 @@ export default function SignUpPage() {
         },
         body: JSON.stringify({
           email: formData.email,
+          username: formData.username,
           password: formData.password,
           name: formData.name,
-          classCode: formData.classCode.toUpperCase(),
+          classCode: formData.classCode.toUpperCase() || null,
           affiliation: formData.affiliation,
+          institution: formData.institution || null,
+          requestReason: formData.requestReason || null,
+          isGuestRequest,
         }),
       })
 
@@ -89,8 +184,14 @@ export default function SignUpPage() {
         throw new Error(data.error || 'Registration failed')
       }
 
-      // Redirect to login page on successful registration
-      router.push('/academic-portal/login?registered=true')
+      // Redirect based on response
+      if (data.requiresApproval) {
+        // Guest request submitted
+        router.push('/academic-portal/login?guest_request=true')
+      } else {
+        // Auto-approved user - needs email verification
+        router.push('/academic-portal/login?registered=true')
+      }
     } catch (err: any) {
       setError(err.message || 'An error occurred. Please try again.')
     } finally {
@@ -109,16 +210,76 @@ export default function SignUpPage() {
     <div className={styles.authPage}>
       <div className={styles.authContainer}>
         <div className={styles.authHeader}>
-          <h1 className={styles.title}>Manaboodle Academic Portal</h1>
+          <h1 className={styles.title}>
+            {isGuestRequest ? 'Request Guest Access' : 'Manaboodle Academic Portal'}
+          </h1>
           <p className={styles.subtitle}>
-            Create your account to access exclusive tools
+            {isGuestRequest 
+              ? 'Submit your request for approval' 
+              : 'Create your account to access exclusive tools'
+            }
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className={styles.authForm}>
           <div className={styles.formGroup}>
+            <label htmlFor="email" className={styles.label}>
+              Email Address *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="your.name@institution.edu"
+              className={styles.input}
+              required
+            />
+            {emailStatus === 'approved' && (
+              <small className={styles.helpText} style={{color: '#10b981'}}>
+                ✅ Approved domain - Proceed with signup
+              </small>
+            )}
+            {emailStatus === 'guest' && (
+              <small className={styles.helpText} style={{color: '#f59e0b'}}>
+                ⚠️ Guest access required - Your request will be reviewed
+              </small>
+            )}
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="username" className={styles.label}>
+              Username * 
+              <span style={{fontSize: '0.85em', fontWeight: 'normal', marginLeft: '8px', color: '#666'}}>
+                (Your public identifier)
+              </span>
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleInputChange}
+              placeholder="john_smith"
+              className={styles.input}
+              required
+              minLength={3}
+              maxLength={20}
+              pattern="[a-zA-Z0-9_]{3,20}"
+            />
+            <small className={styles.helpText}>
+              3-20 characters, letters, numbers, and underscores only
+              {usernameStatus === 'checking' && ' • Checking...'}
+              {usernameStatus === 'available' && <span style={{color: '#10b981'}}> • ✓ {usernameMessage}</span>}
+              {usernameStatus === 'taken' && <span style={{color: '#ef4444'}}> • ✗ {usernameMessage}</span>}
+              {usernameStatus === 'invalid' && <span style={{color: '#f59e0b'}}> • ⚠️ {usernameMessage}</span>}
+            </small>
+          </div>
+
+          <div className={styles.formGroup}>
             <label htmlFor="name" className={styles.label}>
-              Full Name
+              Full Name *
             </label>
             <input
               type="text"
@@ -127,22 +288,6 @@ export default function SignUpPage() {
               value={formData.name}
               onChange={handleInputChange}
               placeholder="Enter your full name"
-              className={styles.input}
-              required
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              .edu email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              placeholder="yourname@university.edu"
               className={styles.input}
               required
             />
@@ -245,6 +390,48 @@ export default function SignUpPage() {
           </div>
           </div>
 
+          {/* Guest-only fields */}
+          {isGuestRequest && (
+            <>
+              <div className={styles.formGroup}>
+                <label htmlFor="institution" className={styles.label}>
+                  Institution/Organization *
+                </label>
+                <input
+                  type="text"
+                  id="institution"
+                  name="institution"
+                  value={formData.institution}
+                  onChange={handleInputChange}
+                  placeholder="MIT, Stanford, Company Name, etc."
+                  className={styles.input}
+                  required={isGuestRequest}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label htmlFor="requestReason" className={styles.label}>
+                  Reason for Access Request *
+                </label>
+                <textarea
+                  id="requestReason"
+                  name="requestReason"
+                  value={formData.requestReason}
+                  onChange={(e) => setFormData({...formData, requestReason: e.target.value})}
+                  placeholder="Briefly explain why you need access to these tools (minimum 20 characters)"
+                  className={styles.input}
+                  rows={4}
+                  required={isGuestRequest}
+                  minLength={20}
+                  style={{resize: 'vertical'}}
+                />
+                <small className={styles.helpText}>
+                  {formData.requestReason.length}/20 minimum characters
+                </small>
+              </div>
+            </>
+          )}
+
           <div className={styles.formGroup}>
             <label htmlFor="affiliation" className={styles.label}>
               Affiliation
@@ -265,7 +452,7 @@ export default function SignUpPage() {
 
           <div className={styles.formGroup}>
             <label htmlFor="classCode" className={styles.label}>
-              Class Code: Enter your class number
+              Class Code (Optional)
             </label>
             <input
               type="text"
@@ -273,12 +460,11 @@ export default function SignUpPage() {
               name="classCode"
               value={formData.classCode}
               onChange={handleInputChange}
-              placeholder="T565, T566, or T595"
+              placeholder="e.g., T565, T566, T595"
               className={styles.input}
-              required
             />
             <small className={styles.helpText}>
-              Need a class code? <a href="https://www.manaboodle.com/subscribe" target="_blank" rel="noopener noreferrer">Subscribe to Manaboodle</a> (you can unsubscribe anytime)
+              Enter if enrolled in a specific course
             </small>
           </div>
 
@@ -347,11 +533,22 @@ export default function SignUpPage() {
 
           <button 
             type="submit" 
-            disabled={isLoading}
+            disabled={isLoading || (usernameStatus !== 'available' && formData.username.length > 0)}
             className={styles.submitButton}
           >
-            {isLoading ? 'Creating Account...' : 'Create Account'}
+            {isLoading 
+              ? (isGuestRequest ? 'Submitting Request...' : 'Creating Account...') 
+              : (isGuestRequest ? 'Submit Guest Access Request' : 'Create Account')
+            }
           </button>
+
+          {isGuestRequest && !isLoading && (
+            <div style={{marginTop: '16px', padding: '12px', background: '#f0f9ff', border: '1px solid #bae6fd', borderRadius: '8px'}}>
+              <p style={{margin: 0, fontSize: '14px', color: '#0c4a6e'}}>
+                ℹ️ After submission, your request will be reviewed within 24-48 hours. You'll receive an email notification about the decision.
+              </p>
+            </div>
+          )}
         </form>
 
         <div className={styles.authFooter}>
