@@ -10,6 +10,7 @@ import styles from '../dashboard.module.css'
 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
+  const [username, setUsername] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
@@ -24,6 +25,18 @@ export default function DashboardPage() {
       router.push('/academic-portal/login')
     } else {
       setUser(user)
+      
+      // Fetch username from ManaboodleUser table
+      const { data: userData } = await supabase
+        .from('ManaboodleUser')
+        .select('username')
+        .eq('email', user.email)
+        .single()
+      
+      if (userData?.username) {
+        setUsername(userData.username)
+      }
+      
       setIsLoading(false)
     }
   }
@@ -74,8 +87,7 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.welcome}>Welcome, {user.email}</span>
-            <span className={styles.classCode}>{user.user_metadata?.name || 'Student'}</span>
+            <span className={styles.welcome}>Welcome, {username || user.user_metadata?.name || 'Student'}</span>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
