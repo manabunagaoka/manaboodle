@@ -70,9 +70,21 @@ export default function AdminDashboard() {
     setProcessingId(requestId)
     
     try {
+      // Get the current session token
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        alert('Session expired. Please log in again.')
+        router.push('/academic-portal/admin/login')
+        return
+      }
+      
       const response = await fetch('/api/admin/guest-pass/approve', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
         body: JSON.stringify({ requestId, email })
       })
 
@@ -99,9 +111,21 @@ export default function AdminDashboard() {
     try {
       console.log('Sending deny request:', { requestId, email })
       
+      // Get the current session token
+      const { data: { session } } = await supabase.auth.getSession()
+      
+      if (!session) {
+        alert('Session expired. Please log in again.')
+        router.push('/academic-portal/admin/login')
+        return
+      }
+      
       const response = await fetch('/api/admin/guest-pass/deny', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
         body: JSON.stringify({ requestId, email })
       })
 

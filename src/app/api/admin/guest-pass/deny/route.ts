@@ -17,18 +17,32 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createClient()
-
-    // Verify admin access
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    console.log('Auth check:', { user: user?.email, authError: authError?.message })
+    // Try to get auth from Authorization header first, then fall back to cookies
+    const authHeader = request.headers.get('authorization')
+    let user: any = null
+    const serviceSupabase = createServiceClient()
     
-    if (authError || !user) {
-      console.error('Auth error:', authError)
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.substring(7)
+      const { data, error } = await serviceSupabase.auth.getUser(token)
+      console.log('Auth from bearer token:', { user: data.user?.email, error: error?.message })
+      if (data.user) user = data.user
+    }
+    
+    // If no bearer token, try cookies
+    if (!user) {
+      const supabase = createClient()
+      const { data: { user: cookieUser }, error: authError } = await supabase.auth.getUser()
+      console.log('Auth from cookies:', { user: cookieUser?.email, authError: authError?.message })
+      if (cookieUser) user = cookieUser
+    }
+    
+    if (!user) {
+      console.error('No valid authentication found')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: adminUser, error: adminError } = await supabase
+    const { data: adminUser, error: adminError } = await serviceSupabase
       .from('AdminUser')
       .select('email')
       .eq('email', user.email)
@@ -40,10 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Forbidden - Not an admin' }, { status: 403 })
     }
 
-    // Use service client for database updates (needs admin privileges)
-    const serviceSupabase = createServiceClient()
-
-    // Update guest pass status
+    // Update guest pass status (serviceSupabase already declared above)
     const { error: updateError } = await serviceSupabase
       .from('GuestPass')
       .update({ 
