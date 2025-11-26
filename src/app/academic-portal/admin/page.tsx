@@ -131,8 +131,17 @@ export default function AdminDashboard() {
 
       console.log('Response status:', response.status)
       
-      const result = await response.json()
-      console.log('Response body:', result)
+      let result
+      try {
+        result = await response.json()
+        console.log('Response body:', result)
+      } catch (parseError) {
+        console.error('Failed to parse response:', parseError)
+        const text = await response.text()
+        console.log('Response text:', text)
+        alert(`Server error: ${text.substring(0, 100)}`)
+        return
+      }
 
       if (response.ok) {
         alert('Guest pass request denied')
