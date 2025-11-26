@@ -236,6 +236,7 @@ export async function POST(request: NextRequest) {
 
           // Store verification token
           await supabase.from('EmailVerificationToken').insert({
+            id: randomUUID(),
             email: email.toLowerCase(),
             token: verificationToken,
             expires: verificationExpires.toISOString(),
