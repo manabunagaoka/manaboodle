@@ -27,11 +27,13 @@ export default function DashboardPage() {
       setUser(user)
       
       // Fetch username from ManaboodleUser table
-      const { data: userData } = await supabase
+      const { data: userData, error: userError } = await supabase
         .from('ManaboodleUser')
         .select('username')
         .eq('email', user.email)
         .single()
+      
+      console.log('Username fetch:', { userData, userError })
       
       if (userData?.username) {
         setUsername(userData.username)
@@ -87,7 +89,9 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className={styles.userInfo}>
-            <span className={styles.welcome}>Welcome, {username || user.user_metadata?.name || 'Student'}</span>
+            <span className={styles.welcome}>
+              Welcome, {username || '...'}
+            </span>
             <button onClick={handleLogout} className={styles.logoutButton}>
               Logout
             </button>
