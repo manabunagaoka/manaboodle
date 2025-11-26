@@ -17,6 +17,8 @@
   position: relative;
   z-index: 1;
   flex-shrink: 0;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .header h1 {
@@ -32,7 +34,9 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 0.9rem;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .header button:hover {
@@ -100,6 +104,7 @@
   margin: 0;
   color: #333;
   font-size: 1.1rem;
+  word-break: break-word;
 }
 
 .statusBadge {
@@ -110,6 +115,8 @@
   text-transform: uppercase;
   background: #fbbf24;
   color: #92400e;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .statusBadge.approved {
@@ -151,16 +158,20 @@
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
 }
 
 .actions button {
   flex: 1;
+  min-width: 120px;
   padding: 0.75rem;
   border: none;
   border-radius: 6px;
   font-weight: 600;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .actions button:disabled {
@@ -208,4 +219,58 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .adminPage {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header > div {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .header button {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .section {
+    padding: 1rem;
+  }
+
+  .requestCard {
+    padding: 1rem;
+  }
+
+  .requestHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .reason {
+    font-size: 0.9rem;
+  }
 }
