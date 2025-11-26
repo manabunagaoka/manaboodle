@@ -87,11 +87,11 @@ export async function POST(request: NextRequest) {
       }
     }
     
-    // Check if username already exists
+    // Check if username already exists (case-insensitive)
     const { data: existingUsername } = await supabase
       .from('ManaboodleUser')
       .select('username')
-      .eq('username', username.toLowerCase())
+      .ilike('username', username)
       .single()
     
     if (existingUsername) {
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
             .insert({
               id: randomUUID(),
               authUserId: data.user.id,
-              username: username.toLowerCase(),
+              username: username,
               email: email.toLowerCase(),
               name,
               classCode: classCode || null,
@@ -234,7 +234,7 @@ export async function POST(request: NextRequest) {
           .insert({
             id: randomUUID(),
             authUserId: data.user.id,
-            username: username.toLowerCase(),
+            username: username,
             email: email.toLowerCase(),
             name,
             classCode: classCode || null,

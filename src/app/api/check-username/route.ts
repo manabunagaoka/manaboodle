@@ -27,11 +27,11 @@ export async function GET(request: NextRequest) {
 
     const supabase = createServiceClient()
     
-    // Check if username exists
+    // Check if username exists (case-insensitive)
     const { data, error } = await supabase
       .from('ManaboodleUser')
       .select('username')
-      .eq('username', username.toLowerCase())
+      .ilike('username', username)
       .single()
 
     if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       { 
         available,
-        username: username.toLowerCase(),
+        username: username,
         message: available ? 'Username is available' : 'Username is already taken'
       },
       { status: 200 }
