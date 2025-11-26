@@ -30,13 +30,13 @@ export default function AdminDashboard() {
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      router.push('/academic-portal/login')
+      router.push('/academic-portal/admin/login')
       return
     }
 
     setUser(user)
 
-    // Check if user is admin
+    // Check if user is admin (direct check, no need for ManaboodleUser)
     const { data: adminData } = await supabase
       .from('AdminUser')
       .select('email')
@@ -44,6 +44,7 @@ export default function AdminDashboard() {
       .single()
 
     if (!adminData) {
+      // Not an admin - redirect to regular portal
       router.push('/academic-portal/dashboard')
       return
     }
