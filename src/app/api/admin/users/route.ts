@@ -13,8 +13,8 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Fetch all Harvard users (excluding password)
-    const users = await prisma.harvardUser.findMany({
+    // Fetch all users (excluding password)
+    const users = await prisma.manaboodleUser.findMany({
       select: {
         id: true,
         email: true,
@@ -62,7 +62,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Delete the user
-    await prisma.harvardUser.delete({
+    await prisma.manaboodleUser.delete({
       where: { id: userId },
     })
 
