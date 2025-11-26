@@ -97,22 +97,29 @@ export default function AdminDashboard() {
     setProcessingId(requestId)
     
     try {
+      console.log('Sending deny request:', { requestId, email })
+      
       const response = await fetch('/api/admin/guest-pass/deny', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ requestId, email })
       })
 
+      console.log('Response status:', response.status)
+      
       const result = await response.json()
+      console.log('Response body:', result)
 
       if (response.ok) {
         alert('Guest pass request denied')
         loadRequests()
       } else {
+        console.error('Error response:', result)
         alert(`Error: ${result.error}`)
       }
     } catch (error) {
-      alert('Failed to deny request')
+      console.error('Catch error:', error)
+      alert(`Failed to deny request: ${error}`)
     } finally {
       setProcessingId(null)
     }

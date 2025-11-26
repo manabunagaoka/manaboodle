@@ -2,6 +2,8 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -9,10 +11,12 @@
   justify-content: space-between;
   align-items: center;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto 2rem;
   color: white;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .header h1 {
@@ -38,7 +42,9 @@
 
 .main {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  flex: 1;
 }
 
 .section {
