@@ -138,13 +138,6 @@ function LoginForm() {
 
     console.log('📝 Login form submitted')
 
-    // Validate .edu email
-    if (!formData.email.endsWith('.edu')) {
-      setError('Please use a valid .edu email address')
-      setIsLoading(false)
-      return
-    }
-
     if (!formData.password) {
       setError('Please enter your password')
       setIsLoading(false)

@@ -16,12 +16,6 @@ export default function ForgotPasswordPage() {
     setIsLoading(true)
     setError('')
 
-    if (!email.endsWith('.edu')) {
-      setError('Please use a valid .edu email address')
-      setIsLoading(false)
-      return
-    }
-
     try {
       const response = await fetch('/api/forgot-password', {
         method: 'POST',
