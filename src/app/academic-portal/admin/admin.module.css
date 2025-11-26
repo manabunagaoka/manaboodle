@@ -11,6 +11,8 @@
   max-width: 1200px;
   margin: 0 auto 2rem;
   color: white;
+  position: relative;
+  z-index: 1;
 }
 
 .header h1 {

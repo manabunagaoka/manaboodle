@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase-server'
+import { createClient, createServiceClient } from '@/lib/supabase-server'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
@@ -7,6 +7,8 @@ const resend = new Resend(process.env.RESEND_API_KEY)
 export async function POST(request: NextRequest) {
   try {
     const { requestId, email } = await request.json()
+
+    console.log('Deny request received:', { requestId, email })
 
     if (!requestId || !email) {
       return NextResponse.json(
@@ -19,23 +21,30 @@ export async function POST(request: NextRequest) {
 
     // Verify admin access
     const { data: { user }, error: authError } = await supabase.auth.getUser()
+    console.log('Auth check:', { user: user?.email, authError: authError?.message })
+    
     if (authError || !user) {
       console.error('Auth error:', authError)
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: adminUser } = await supabase
+    const { data: adminUser, error: adminError } = await supabase
       .from('AdminUser')
       .select('email')
       .eq('email', user.email)
       .single()
 
+    console.log('Admin check:', { adminUser, adminError: adminError?.message })
+
     if (!adminUser) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+      return NextResponse.json({ error: 'Forbidden - Not an admin' }, { status: 403 })
     }
 
+    // Use service client for database updates (needs admin privileges)
+    const serviceSupabase = createServiceClient()
+
     // Update guest pass status
-    const { error: updateError } = await supabase
+    const { error: updateError } = await serviceSupabase
       .from('GuestPass')
       .update({ 
         status: 'denied',
@@ -43,6 +52,8 @@ export async function POST(request: NextRequest) {
         deniedBy: user.email
       })
       .eq('id', requestId)
+
+    console.log('Update result:', { updateError: updateError?.message })
 
     if (updateError) {
       console.error('Error updating guest pass:', updateError)
