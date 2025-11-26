@@ -31,17 +31,17 @@ export async function POST(request: Request) {
       );
     }
     
-    // Verify user is in HarvardUser table
-    const { data: harvardUser, error: userError } = await supabase
-      .from('HarvardUser')
+    // Verify user is in ManaboodleUser table
+    const { data: portalUser, error: userError } = await supabase
+      .from('ManaboodleUser')
       .select('id, email, name, classCode, createdAt')
       .eq('email', email)
       .single();
       
-    if (userError || !harvardUser) {
+    if (userError || !portalUser) {
       console.error('SSO user lookup error:', userError);
       return NextResponse.json(
-        { error: 'Not a Harvard Academic Portal user' }, 
+        { error: 'Not a portal user' }, 
         { status: 403 }
       );
     }
@@ -54,10 +54,10 @@ export async function POST(request: Request) {
       refresh_token: session.refresh_token,
       expires_at: session.expires_at,
       user: {
-        id: harvardUser.id,
-        email: harvardUser.email,
-        name: harvardUser.name,
-        classCode: harvardUser.classCode
+        id: portalUser.id,
+        email: portalUser.email,
+        name: portalUser.name,
+        classCode: portalUser.classCode
       }
     });
     

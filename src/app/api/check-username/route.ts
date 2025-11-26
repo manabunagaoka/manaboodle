@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     
     // Check if username exists
     const { data, error } = await supabase
-      .from('HarvardUser')
+      .from('ManaboodleUser')
       .select('username')
       .eq('username', username.toLowerCase())
       .single()

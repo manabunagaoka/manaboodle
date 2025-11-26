@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     
     // Check if username already exists
     const { data: existingUsername } = await supabase
-      .from('HarvardUser')
+      .from('ManaboodleUser')
       .select('username')
       .eq('username', username.toLowerCase())
       .single()
@@ -135,11 +135,11 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: error.message }, { status: 400 })
       }
 
-      // Create Harvard user profile with guest status
+      // Create user profile with guest status
       if (data.user) {
         try {
           const { error: dbError } = await supabase
-            .from('HarvardUser')
+            .from('ManaboodleUser')
             .insert({
               id: randomUUID(),
               authUserId: data.user.id,
@@ -200,11 +200,11 @@ export async function POST(request: NextRequest) {
 
     console.log('Supabase user created:', data.user?.id)
 
-    // Create Harvard user profile
+    // Create user profile
     if (data.user) {
       try {
         const { error: dbError } = await supabase
-          .from('HarvardUser')
+          .from('ManaboodleUser')
           .insert({
             id: randomUUID(),
             authUserId: data.user.id,

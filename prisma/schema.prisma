@@ -10,7 +10,7 @@ datasource db {
   url       = env("DATABASE_URL")
 }
 
-model HarvardUser {
+model ManaboodleUser {
   id               String    @id @default(uuid())
   authUserId       String    @unique // References Supabase auth.users.id
   username         String    @unique // Public identifier (e.g., @john_smith)
@@ -34,6 +34,8 @@ model HarvardUser {
   @@index([username])
   @@index([accessType])
   @@index([emailVerified])
+  
+  @@map("ManaboodleUser")
 }
 
 model GuestPass {
@@ -50,7 +52,7 @@ model GuestPass {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   
-  users          HarvardUser[]
+  users          ManaboodleUser[]
   
   @@index([email])
   @@index([status])

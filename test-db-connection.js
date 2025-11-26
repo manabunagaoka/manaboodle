@@ -14,9 +14,9 @@ async function testConnection() {
     await prisma.$connect()
     console.log('✓ Database connection successful!')
     
-    // Try to query HarvardUser table
-    const userCount = await prisma.harvardUser.count()
-    console.log(`✓ HarvardUser table accessible. Current count: ${userCount}`)
+    // Try to query ManaboodleUser table
+    const userCount = await prisma.manaboodleUser.count()
+    console.log(`✓ ManaboodleUser table accessible. Current count: ${userCount}`)
     
     // List all tables
     const tables = await prisma.$queryRaw`

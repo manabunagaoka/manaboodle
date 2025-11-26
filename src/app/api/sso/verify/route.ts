@@ -30,31 +30,31 @@ export async function GET(request: Request) {
       );
     }
     
-    // Get Harvard user details
-    const { data: harvardUser, error: userError } = await supabase
-      .from('HarvardUser')
+    // Get user details
+    const { data: portalUser, error: userError } = await supabase
+      .from('ManaboodleUser')
       .select('id, email, name, classCode, createdAt')
       .eq('email', user.email)
       .single();
       
-    if (userError || !harvardUser) {
-      console.error('SSO user not found in HarvardUser:', userError);
+    if (userError || !portalUser) {
+      console.error('SSO user not found in ManaboodleUser:', userError);
       return NextResponse.json(
-        { valid: false, error: 'Not a Harvard user' }, 
+        { valid: false, error: 'Not a portal user' }, 
         { status: 403 }
       );
     }
     
-    console.log('SSO token verified for:', harvardUser.email);
+    console.log('SSO token verified for:', portalUser.email);
     
     return NextResponse.json({
       valid: true,
       user: {
-        id: harvardUser.id,
-        email: harvardUser.email,
-        name: harvardUser.name,
-        classCode: harvardUser.classCode,
-        createdAt: harvardUser.createdAt
+        id: portalUser.id,
+        email: portalUser.email,
+        name: portalUser.name,
+        classCode: portalUser.classCode,
+        createdAt: portalUser.createdAt
       }
     });
     

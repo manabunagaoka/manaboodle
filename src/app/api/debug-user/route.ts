@@ -19,15 +19,15 @@ export async function GET(request: Request) {
     const { data: authUsers, error: authError } = await supabase.auth.admin.listUsers();
     const matchingAuthUser = authUsers?.users.find(u => u.email === email);
 
-    // Check HarvardUser table - get ALL matching records
-    const { data: harvardUsers, error: harvardError } = await supabase
-      .from('HarvardUser')
+    // Check ManaboodleUser table - get ALL matching records
+    const { data: portalUsers, error: portalError } = await supabase
+      .from('ManaboodleUser')
       .select('*')
       .eq('email', email);
 
     // Try case-insensitive search too
-    const { data: harvardUsersIlike, error: harvardErrorIlike } = await supabase
-      .from('HarvardUser')
+    const { data: portalUsersIlike, error: portalErrorIlike } = await supabase
+      .from('ManaboodleUser')
       .select('*')
       .ilike('email', email);
 
@@ -42,15 +42,15 @@ export async function GET(request: Request) {
         } : null,
         error: authError?.message
       },
-      harvardUser: {
-        count: harvardUsers?.length || 0,
-        users: harvardUsers,
-        error: harvardError?.message
+      portalUser: {
+        count: portalUsers?.length || 0,
+        users: portalUsers,
+        error: portalError?.message
       },
-      harvardUserCaseInsensitive: {
-        count: harvardUsersIlike?.length || 0,
-        users: harvardUsersIlike,
-        error: harvardErrorIlike?.message
+      portalUserCaseInsensitive: {
+        count: portalUsersIlike?.length || 0,
+        users: portalUsersIlike,
+        error: portalErrorIlike?.message
       }
     });
   } catch (error: any) {
