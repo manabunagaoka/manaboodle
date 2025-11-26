@@ -26,6 +26,19 @@ function LoginForm() {
     if (searchParams.get('registered') === 'true') {
       setSuccess('Account created successfully! Please check your email to verify your address before signing in.')
     }
+    // Check if email was just verified
+    if (searchParams.get('verified') === 'true') {
+      setSuccess('Email verified successfully! You can now sign in to your account.')
+    }
+    // Check for verification errors
+    const verifyError = searchParams.get('error')
+    if (verifyError === 'invalid_token') {
+      setError('Invalid verification link. Please try registering again.')
+    } else if (verifyError === 'expired_token') {
+      setError('Verification link has expired. Please register again to receive a new verification email.')
+    } else if (verifyError === 'token_already_used') {
+      setError('This verification link has already been used. Please try signing in.')
+    }
     // Check if guest request was submitted
     if (searchParams.get('guest_request') === 'true') {
       setSuccess('Guest access request submitted! You will receive an email when your request is reviewed (usually within 24-48 hours).')

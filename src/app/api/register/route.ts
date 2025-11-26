@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 import { randomUUID } from 'crypto'
+import { Resend } from 'resend'
+import crypto from 'crypto'
+import VerificationEmailTemplate from '@/components/email/VerificationEmailTemplate'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Helper function to check if email is auto-approved
 function isAutoApprovedEmail(email: string): { approved: boolean; type: 'harvard' | 'sesame' | 'guest' } {
@@ -223,6 +228,37 @@ export async function POST(request: NextRequest) {
         }
         
         console.log('User profile created successfully')
+
+        // Send verification email
+        try {
+          const verificationToken = crypto.randomBytes(32).toString('hex')
+          const verificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
+
+          // Store verification token
+          await supabase.from('EmailVerificationToken').insert({
+            email: email.toLowerCase(),
+            token: verificationToken,
+            expires: verificationExpires.toISOString(),
+          })
+
+          const verificationUrl = `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.manaboodle.com'}/api/verify-email?token=${verificationToken}`
+
+          // Send email with Resend
+          await resend.emails.send({
+            from: 'Manaboodle Academic Portal <registration@manaboodle.com>',
+            to: email,
+            subject: 'Verify your email address - Manaboodle Academic Portal',
+            react: VerificationEmailTemplate({ 
+              username: username, 
+              verificationUrl 
+            }),
+          })
+
+          console.log('Verification email sent to:', email)
+        } catch (emailError) {
+          console.error('Error sending verification email:', emailError)
+          // Don't fail the registration if email fails
+        }
       } catch (dbError) {
         console.error('Database error:', dbError)
         await supabase.auth.admin.deleteUser(data.user.id)
