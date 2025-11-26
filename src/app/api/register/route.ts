@@ -66,6 +66,27 @@ export async function POST(request: NextRequest) {
     // Use service role client (bypasses RLS)
     const supabase = createServiceClient()
     
+    // Check if user already exists with this email
+    const { data: existingUser } = await supabase
+      .from('ManaboodleUser')
+      .select('email, emailVerified')
+      .eq('email', email.toLowerCase())
+      .single()
+    
+    if (existingUser) {
+      if (existingUser.emailVerified) {
+        return NextResponse.json(
+          { error: 'An account with this email already exists. Please login instead.' },
+          { status: 400 }
+        )
+      } else {
+        return NextResponse.json(
+          { error: 'An account with this email already exists but is not verified. Please check your email for the verification link.' },
+          { status: 400 }
+        )
+      }
+    }
+    
     // Check if username already exists
     const { data: existingUsername } = await supabase
       .from('ManaboodleUser')
