@@ -44,8 +44,8 @@ export default function AdminDashboard() {
       .single()
 
     if (!adminData) {
-      // Not an admin - redirect to regular portal
-      router.push('/academic-portal/dashboard')
+      // Not an admin - redirect to admin login
+      router.push('/academic-portal/admin/login')
       return
     }
 
