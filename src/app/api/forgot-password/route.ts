@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user exists
-    const user = await prisma.harvardUser.findUnique({
+    const user = await prisma.manaboodleUser.findUnique({
       where: { email },
     })
 
