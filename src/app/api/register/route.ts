@@ -148,6 +148,32 @@ export async function POST(request: NextRequest) {
 
       console.log('Guest pass request created:', guestPass.id)
 
+      // Send notification email to admin about new guest request
+      try {
+        await resend.emails.send({
+          from: 'Manaboodle Academic Portal <registration@manaboodle.com>',
+          to: 'registration@manaboodle.com', // Admin email
+          subject: `New Guest Access Request - ${name}`,
+          html: `
+            <h2>New Guest Access Request</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Username:</strong> ${username}</p>
+            <p><strong>Institution:</strong> ${institution}</p>
+            <p><strong>Affiliation:</strong> ${affiliation}</p>
+            <p><strong>Reason:</strong></p>
+            <p>${requestReason}</p>
+            <hr>
+            <p><strong>Guest Pass ID:</strong> ${guestPass.id}</p>
+            <p><em>Please review this request in the admin dashboard.</em></p>
+          `,
+        })
+        console.log('Admin notification email sent for guest request:', guestPass.id)
+      } catch (emailError) {
+        console.error('Error sending admin notification:', emailError)
+        // Don't fail the registration if email fails
+      }
+
       // Create Supabase Auth user but DON'T confirm email yet
       const { data, error } = await supabase.auth.admin.createUser({
         email,
@@ -195,7 +221,39 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // TODO: Send notification email to admin about new guest request
+      // Send notification email to admins about new guest request
+      try {
+        // Fetch all admin emails
+        const { data: admins } = await supabase
+          .from('AdminUser')
+          .select('email')
+        
+        if (admins && admins.length > 0) {
+          const adminEmails = admins.map(admin => admin.email)
+          
+          await resend.emails.send({
+            from: 'Manaboodle Academic Portal <registration@manaboodle.com>',
+            to: adminEmails,
+            subject: 'New Guest Access Request - Manaboodle Portal',
+            html: `
+              <h2>New Guest Access Request</h2>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Username:</strong> ${username}</p>
+              <p><strong>Institution:</strong> ${institution}</p>
+              <p><strong>Affiliation:</strong> ${affiliation}</p>
+              <p><strong>Reason:</strong></p>
+              <p style="padding: 10px; background: #f3f4f6; border-left: 3px solid #667eea;">${requestReason}</p>
+              <p><a href="${process.env.NEXT_PUBLIC_SITE_URL}/academic-portal/admin">Review in Admin Dashboard</a></p>
+            `
+          })
+          
+          console.log('Admin notification sent for guest request')
+        }
+      } catch (emailError) {
+        console.error('Failed to send admin notification:', emailError)
+        // Don't fail registration if notification fails
+      }
       
       return NextResponse.json(
         {

@@ -48,6 +48,8 @@ model GuestPass {
   expiresAt      DateTime? // When access expires (if approved)
   approvedBy     String?   // Admin email who approved
   approvedAt     DateTime?
+  deniedBy       String?   // Admin email who denied
+  deniedAt       DateTime?
   deniedReason   String?   // Reason for denial (if denied)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt

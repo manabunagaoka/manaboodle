@@ -162,6 +162,36 @@ function LoginForm() {
 
       console.log('✅ Login successful, session created')
 
+      // Check if email is verified
+      const { data: userData } = await supabase
+        .from('ManaboodleUser')
+        .select('emailVerified, accessType, guestPassId')
+        .eq('email', formData.email)
+        .single()
+
+      if (userData && !userData.emailVerified) {
+        await supabase.auth.signOut()
+        setError('Please verify your email address before signing in. Check your inbox for the verification link.')
+        setIsLoading(false)
+        return
+      }
+
+      // Check if guest pass is approved (for guest users)
+      if (userData?.accessType === 'guest' && userData.guestPassId) {
+        const { data: guestPass } = await supabase
+          .from('GuestPass')
+          .select('status')
+          .eq('id', userData.guestPassId)
+          .single()
+
+        if (guestPass?.status !== 'approved') {
+          await supabase.auth.signOut()
+          setError('Your guest access request is pending approval. You will receive an email when approved.')
+          setIsLoading(false)
+          return
+        }
+      }
+
       if (data.session) {
         // If a return_url param was provided (SSO flow), redirect back to the
         // external app with the session tokens. Otherwise, go to dashboard.
