@@ -55,12 +55,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Update guest pass status (serviceSupabase already declared above)
+    // Only update status for now - deniedBy/deniedAt fields may not exist in DB yet
     const { error: updateError } = await serviceSupabase
       .from('GuestPass')
       .update({ 
-        status: 'denied',
-        deniedAt: new Date().toISOString(),
-        deniedBy: user.email
+        status: 'denied'
       })
       .eq('id', requestId)
 
@@ -68,8 +67,9 @@ export async function POST(request: NextRequest) {
 
     if (updateError) {
       console.error('Error updating guest pass:', updateError)
+      console.error('Full error details:', JSON.stringify(updateError, null, 2))
       return NextResponse.json(
-        { error: 'Failed to deny request' },
+        { error: `Failed to deny request: ${updateError.message || updateError}` },
         { status: 500 }
       )
     }

@@ -55,12 +55,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Update guest pass status (serviceSupabase already declared above)
+    // Only update status for now - approvedBy/approvedAt fields may not exist in DB yet
     const { error: updateError } = await serviceSupabase
       .from('GuestPass')
       .update({ 
-        status: 'approved',
-        approvedAt: new Date().toISOString(),
-        approvedBy: user.email
+        status: 'approved'
       })
       .eq('id', requestId)
 

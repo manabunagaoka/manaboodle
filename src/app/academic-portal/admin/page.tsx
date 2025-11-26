@@ -158,6 +158,11 @@ export default function AdminDashboard() {
     }
   }
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+    router.push('/academic-portal/admin/login')
+  }
+
   if (isLoading) {
     return (
       <div className={styles.loading}>
@@ -178,9 +183,14 @@ export default function AdminDashboard() {
     <div className={styles.adminPage}>
       <header className={styles.header}>
         <h1>Admin Dashboard</h1>
-        <button onClick={() => router.push('/academic-portal/dashboard')}>
-          Back to Portal
-        </button>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <button onClick={() => router.push('/academic-portal/dashboard')}>
+            Back to Portal
+          </button>
+          <button onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </header>
 
       <main className={styles.main}>
