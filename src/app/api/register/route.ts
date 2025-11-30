@@ -21,6 +21,11 @@ function isAutoApprovedEmail(email: string): { approved: boolean; type: 'harvard
     return { approved: true, type: 'sesame' }
   }
   
+  // Check for manaboodle.com (admin email)
+  if (lowerEmail.endsWith('@manaboodle.com')) {
+    return { approved: true, type: 'harvard' } // Treat as approved like harvard
+  }
+  
   // All others require guest pass
   return { approved: false, type: 'guest' }
 }
