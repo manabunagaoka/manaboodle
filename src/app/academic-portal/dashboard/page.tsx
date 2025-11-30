@@ -33,7 +33,7 @@ export default function DashboardPage() {
         .eq('email', user.email)
         .single()
       
-      console.log('Username fetch:', { userData, userError })
+      console.log('User data fetch:', { userData, userError })
       
       if (userData?.username) {
         setUsername(userData.username)
@@ -65,7 +65,7 @@ export default function DashboardPage() {
     <div className={styles.dashboardPage}>
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <div className={styles.logoSection}>
+          <Link href="/" className={styles.logoSection}>
             <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className={styles.logo}>
               <circle cx="6" cy="6" r="1.5" fill="currentColor"></circle>
               <circle cx="18" cy="6" r="1.5" fill="currentColor"></circle>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
               <span className={styles.brandName}>Manaboodle</span>
               <span className={styles.byline}>by Manabu Nagaoka</span>
             </div>
-          </div>
+          </Link>
           <div className={styles.userInfo}>
             <span className={styles.welcome}>
               Welcome, {username || '...'}
