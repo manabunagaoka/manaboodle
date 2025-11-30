@@ -68,6 +68,12 @@ export default function SignUpPage() {
       return
     }
     
+    // Check for manaboodle.com (admin email)
+    if (lowerEmail.endsWith('@manaboodle.com')) {
+      setEmailStatus('approved')
+      return
+    }
+    
     // Everything else requires guest pass
     setEmailStatus('guest')
   }
