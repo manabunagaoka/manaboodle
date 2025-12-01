@@ -85,7 +85,7 @@ export default function AcademicPortalPage() {
         <p className={styles.spacingParagraph}></p>
         
         <p>
-          This hit differently for me. I've spent my entire career in corporate America as what I call a "domestic foreigner"—someone who has lived most of his adult life in the U.S. but never quite fits the expected mold. I used to battle that label. Now I've made peace with it. It's simply who I am.
+          This hit differently for me. I used to fight the label—"domestic foreigner" (not an immigrant) in my adopted home. Now I've accepted it. It's simply who I am.
         </p>
         
         <p className={styles.spacingParagraph}></p>
