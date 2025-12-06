@@ -15,7 +15,7 @@ export interface ManaboodleUser {
  * Use this in Server Components and API Routes
  */
 export async function getUser(): Promise<ManaboodleUser | null> {
-  const headersList = headers();
+  const headersList = await headers();
   
   const id = headersList.get('x-user-id');
   const email = headersList.get('x-user-email');
