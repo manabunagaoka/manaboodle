@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     
     // If no bearer token, try cookies
     if (!user) {
-      const supabase = createClient()
+      const supabase = await createClient()
       const { data: { user: cookieUser }, error: authError } = await supabase.auth.getUser()
       console.log('Auth from cookies:', { user: cookieUser?.email, authError: authError?.message })
       if (cookieUser) user = cookieUser
