@@ -10,6 +10,7 @@ export default function ConceptsPage() {
   const getArticleUrl = (article: any) => {
     // Special URL mappings for concepts
     const urlMap: { [key: string]: string } = {
+      'flower': '/concepts/flower',
       'ai-nurturing-surrogate-caregivers': '/concepts/ai-nurturing',
       'synthetic-intelligence-truth': '/concepts/synthetic-intelligence-truth'
       // Add new concept URL mappings here as needed
@@ -21,6 +22,7 @@ export default function ConceptsPage() {
   const getMediaContent = (article: any) => {
     // Check if image exists, otherwise show placeholder
     const imageMap: { [key: string]: string } = {
+      'flower': '/images/flower.jpg',
       'ai-nurturing-surrogate-caregivers': '/images/mandela.jpg',
       'synthetic-intelligence-truth': '/images/hi.jpg'
       // Add new concept images here as needed

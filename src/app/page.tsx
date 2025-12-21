@@ -25,6 +25,9 @@ export default function HomePage() {
   };
 
   const getArticleUrl = (article: any) => {
+    if (article.id === 'flower') {
+      return '/concepts/flower';
+    }
     if (article.id === 'academic-portal') {
       return '/projects/academic-portal';
     }
@@ -63,6 +66,20 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'flower') {
+      return (
+        <Image
+          src="/images/flower.jpg"
+          alt="Flower - Closing the Gap Between Humans"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+    
     if (article.id === 'academic-portal') {
       return (
         <Image
@@ -202,7 +219,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list
