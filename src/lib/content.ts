@@ -16,7 +16,7 @@ export const articles: Article[] = [
   {
     id: 'flower',
     title: 'Flower: Closing the Gap Between Humans',
-    excerpt: 'The future of AI isn't making machines more human. It's making humanness more accessible.',
+    excerpt: 'The future of AI isn\'t making machines more human. It\'s making humanness more accessible.',
     category: 'concept',
     publishedAt: '2025-12-21',
     readTime: 2,

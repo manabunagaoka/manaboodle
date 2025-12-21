@@ -7,7 +7,7 @@ import styles from '../article.module.css';
 // Article metadata for Next.js
 export const metadata: Metadata = {
   title: 'Flower: Closing the Gap Between Humans',
-  description: 'The future of AI isn't making machines more human. It's making humanness more accessible.',
+  description: 'The future of AI isn\'t making machines more human. It\'s making humanness more accessible.',
 };
 
 // Main article component
