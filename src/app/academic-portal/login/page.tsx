@@ -74,20 +74,36 @@ function LoginForm() {
         if (session && session.user && session.user.email) {
           console.log('✅ Valid session found for:', session.user.email)
           
-          // Verify user exists in HarvardUser table (RLS policies handle permissions)
-          const { data: harvardUser, error: userError } = await supabase
-            .from('HarvardUser')
-            .select('id, email, name, classCode')
+          // Verify user exists in ManaboodleUser table (RLS policies handle permissions)
+          const { data: manaboodleUser, error: userError } = await supabase
+            .from('ManaboodleUser')
+            .select('id, email, name, classCode, emailVerified, accessType, guestPassId')
             .eq('email', session.user.email)
             .maybeSingle()
 
-          console.log('👤 HarvardUser lookup:', { 
-            found: !!harvardUser, 
+          console.log('👤 ManaboodleUser lookup:', { 
+            found: !!manaboodleUser, 
             error: userError?.message,
-            email: session.user.email
+            email: session.user.email,
+            emailVerified: manaboodleUser?.emailVerified
           })
 
-          if (harvardUser) {
+          if (manaboodleUser && manaboodleUser.emailVerified) {
+            // Check if guest pass is approved (for guest users)
+            if (manaboodleUser.accessType === 'guest' && manaboodleUser.guestPassId) {
+              const { data: guestPass } = await supabase
+                .from('GuestPass')
+                .select('status')
+                .eq('id', manaboodleUser.guestPassId)
+                .single()
+
+              if (guestPass?.status !== 'approved') {
+                console.log('⚠️ Guest access not approved, showing login form')
+                setIsChecking(false)
+                return
+              }
+            }
+
             if (returnUrl) {
               try {
                 const redirectUrl = new URL(returnUrl)
@@ -112,7 +128,11 @@ function LoginForm() {
               return
             }
           } else {
-            console.log('⚠️ Session exists but user not in HarvardUser table')
+            if (!manaboodleUser) {
+              console.log('⚠️ Session exists but user not found in ManaboodleUser table')
+            } else if (!manaboodleUser.emailVerified) {
+              console.log('⚠️ Session exists but email not verified')
+            }
           }
         } else {
           console.log('❌ No valid session found')
