@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../auth.module.css'
+import { supabase } from '@/lib/supabase'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -27,7 +28,31 @@ export default function SignUpPage() {
   const [emailStatus, setEmailStatus] = useState<'checking' | 'approved' | 'guest' | ''>('')
   const [usernameStatus, setUsernameStatus] = useState<'checking' | 'available' | 'taken' | 'invalid' | ''>('')
   const [usernameMessage, setUsernameMessage] = useState('')
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
   const router = useRouter()
+
+  // Check if user is already logged in on mount
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      try {
+        const { data } = await supabase.auth.getSession()
+        const session = (data as any)?.session
+        
+        if (session && session.user) {
+          // User already logged in, redirect to dashboard
+          console.log('User already authenticated, redirecting to dashboard')
+          router.push('/academic-portal/dashboard')
+          return
+        }
+      } catch (err) {
+        console.error('Error checking session:', err)
+      } finally {
+        setIsCheckingSession(false)
+      }
+    }
+
+    checkExistingSession()
+  }, [router])
 
   // Check email domain when email changes
   useEffect(() => {
@@ -210,6 +235,20 @@ export default function SignUpPage() {
       ...formData,
       [e.target.name]: e.target.value
     })
+  }
+
+  // Show loading state while checking session
+  if (isCheckingSession) {
+    return (
+      <div className={styles.authPage}>
+        <div className={styles.authContainer}>
+          <div style={{ textAlign: 'center', padding: '2rem' }}>
+            <div style={{ marginBottom: '1rem', fontSize: '1.5rem' }}>🔍</div>
+            <div style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Checking authentication...</div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

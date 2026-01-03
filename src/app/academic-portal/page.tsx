@@ -1,25 +1,37 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { supabase } from '@/lib/supabase'
 
 export default function AcademicPortal() {
   const router = useRouter()
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
-    // Check if user is already authenticated
-    const userData = localStorage.getItem('academicPortalUser')
-    if (userData) {
-      const parsedUser = JSON.parse(userData)
-      if (parsedUser.authenticated) {
-        // Redirect to dashboard if already logged in
-        router.push('/academic-portal/dashboard')
-        return
+    const checkAuth = async () => {
+      try {
+        // Check for Supabase session
+        const { data } = await supabase.auth.getSession()
+        const session = (data as any)?.session
+        
+        if (session && session.user) {
+          // User is authenticated, redirect to dashboard
+          router.push('/academic-portal/dashboard')
+        } else {
+          // Not authenticated, redirect to login page
+          router.push('/academic-portal/login')
+        }
+      } catch (err) {
+        console.error('Error checking session:', err)
+        // On error, redirect to login
+        router.push('/academic-portal/login')
+      } finally {
+        setIsChecking(false)
       }
     }
-    
-    // If not authenticated, redirect to signup page
-    router.push('/academic-portal/signup')
+
+    checkAuth()
   }, [router])
 
   // Show minimal loading state while redirecting
