@@ -66,6 +66,20 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'south-africa-to-new-york') {
+      return (
+        <Image
+          src="/images/south-africa-to-new-york.jpg"
+          alt="From South Africa to New York - a year of building Manaboodle"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+
     if (article.id === 'flower') {
       return (
         <Image
@@ -219,7 +233,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list

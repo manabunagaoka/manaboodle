@@ -123,6 +123,17 @@
     text-align: justify;
 }
 
+.sectionContent ul {
+    margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
+    list-style: disc;
+}
+
+.sectionContent li {
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+}
+
 .importantNote {
     background: #F9FAFB;
     border-left: 4px solid #7C3AED;

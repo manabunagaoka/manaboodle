@@ -10,7 +10,8 @@ export default function RandomPage() {
   const getMediaContent = (article: any) => {
     // Check if image exists, otherwise show placeholder
     const imageMap: { [key: string]: string } = {
-      'vibe-coding': '/images/vibe.jpg'
+      'vibe-coding': '/images/vibe.jpg',
+      'south-africa-to-new-york': '/images/south-africa-to-new-york.jpg'
       // Add new random post images here as needed
     };
 

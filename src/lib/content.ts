@@ -14,13 +14,25 @@ export interface Article {
 // Static article data with manual dates for now
 export const articles: Article[] = [
   {
+    id: 'south-africa-to-new-york',
+    title: 'From South Africa to New York',
+    excerpt: 'A year ago I flew home from Cape Town and started Manaboodle. To begin year two, I moved onto a boat for three weeks—one that, full disclosure, does not move.',
+    category: 'random',
+    publishedAt: '2026-06-21',
+    readTime: 2,
+    featured: true,
+    slug: 'south-africa-to-new-york',
+    author: 'Manabu Nagaoka',
+    content: `Last year, I traveled with Jenna Winocur to Cape Town for an ECD training program for nannies. The nannies' stories stayed with me — what they carried, what they hoped for the children in their care. Helping us run the training was a friend of ours, a genuine world traveler who had crossed oceans by boat to get where she was in life. Between the two, I came home changed, and I started building Manaboodle: a place to record and share everything I make — projects, half-formed concepts, the occasional random thought. Since then I've mostly learned by tinkering. Of everything I've built, I'm proudest of three: Clusters, a pattern-recognition tool built on the Jobs-to-be-Done framework; Atom Speaker, a kind of ChatGPT for people with vision impairment; and Hana and Flower, a synchronicity engine that measures how much two people connect — or drift — over the course of a conversation. To kick off the next year, I decided to give myself three weeks to do nothing but tinker. So I moved onto a boat. I should be honest: my boat sits in New York harbor and has never once left it. No oceans crossed. My world-traveler friend would not be impressed. But sitting still (or rocking constantly) on the water for three weeks turned out to be its own kind of journey — and a life-changing one at that. Cannot wait to share what I'm building. Manaboodle Cape Town South Africa New York Harvard Jenna Winocur ECD early childhood development nanny training world traveler ocean crossing boat harbor marina tinkering Clusters Jobs-to-be-Done JTBD pattern recognition Atom Speaker ChatGPT vision impairment accessibility Hana Flower synchronicity engine human connection build in public Manabu Nagaoka`
+  },
+  {
     id: 'flower',
     title: 'Flower: Closing the Gap Between Humans',
     excerpt: 'The future of AI isn\'t making machines more human. It\'s making humanness more accessible.',
     category: 'concept',
     publishedAt: '2025-12-21',
     readTime: 2,
-    featured: true,
+    featured: false,
     slug: 'flower',
     author: 'Manabu Nagaoka',
     content: `Two years at Harvard. Graduated in May, moved from Cambridge back to New York, and slowly adjusted to professional life again. What a ride it was — winning a few student competitions, working with colleagues who became lifelong friends, speaking at TEDx about synchronicity, building AI apps, making mistakes, pivoting more times than I can count. I loved being a student again. This fall, I found myself in reverse commute, back to Cambridge advising 30+ student startups. It still feels like it's going, and I'm loving it. Along the way, I kept writing about AI. This is the third and final piece of a trilogy. In Part 1, I wrote about AI Sibling — the idea that AI should amplify care, not replace it. I borrowed from ubuntu: I am because we are. In Part 2, I built Hi, my first synthetic companion, and discovered that language is the origin where human and machine meet. Now, Part 3. Flower. Here's what I've come to believe: we've been asking the wrong question. Everyone asks how to bridge the gap between humans and machines. But the gap that matters is between humans and humans. Flower is not a tool to bridge machine and human. It closes the gap between humans. The foundation is human universals — how we communicate, learn, feel, belong, play, seek meaning. Traits that are true across every culture, every era. These belong to all of us. They always have. The future of AI isn't making machines more human. It's making humanness more accessible. I'm planting a seed. Let's see what grows. If this resonates, DM me. I am because we are. — Manabu, December 2025 Flower AI human connection human universals ubuntu trilogy Harvard TEDx synchronicity synthetic companion Hi language communication learning belonging meaning human gap accessible seed planting Manabu Nagaoka`
