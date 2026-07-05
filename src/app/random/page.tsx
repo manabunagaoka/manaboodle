@@ -11,7 +11,8 @@ export default function RandomPage() {
     // Check if image exists, otherwise show placeholder
     const imageMap: { [key: string]: string } = {
       'vibe-coding': '/images/vibe.jpg',
-      'south-africa-to-new-york': '/images/south-africa-to-new-york.jpg'
+      'south-africa-to-new-york': '/images/south-africa-to-new-york.jpg',
+      'stories-training-grounds-ai': '/images/agent_chiks.png'
       // Add new random post images here as needed
     };
 
