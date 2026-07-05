@@ -56,7 +56,7 @@ export default function Footer() {
           <span className="footer-separator">•</span>
           <Link href="/terms">Terms of Service</Link>
         </div>
-        <p>&copy; 2025 Manaboodle by Manabu Nagaoka. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Manaboodle by Manabu Nagaoka. All rights reserved.</p>
       </div>
     </footer>
   );
