@@ -97,14 +97,6 @@ export default function Header() {
             Random
           </Link>
           <Link 
-            href="/tools"
-            className={styles.navLink}
-            data-active={pathname === '/tools' || pathname.startsWith('/tools/')}
-            onClick={closeMobileMenu}
-          >
-            Tools
-          </Link>
-          <Link 
             href="/contact"
             className={styles.navLink}
             data-active={pathname === '/contact'}

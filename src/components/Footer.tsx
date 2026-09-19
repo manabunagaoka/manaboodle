@@ -43,7 +43,6 @@ export default function Footer() {
             <Link href="/projects">Projects</Link>
             <Link href="/casestudies">Case Studies</Link>
             <Link href="/random">Random</Link>
-            <Link href="/tools">Tools</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/subscribe">Subscribe</Link>
           </div>
