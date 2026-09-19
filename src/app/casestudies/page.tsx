@@ -20,7 +20,8 @@ export default function CaseStudiesPage() {
   const getMediaContent = (article: any) => {
     // Check if image exists, otherwise show placeholder
     const imageMap: { [key: string]: string } = {
-      'mangrove-education': '/images/mangrove.jpg'
+      'mangrove-education': '/images/mangrove.jpg',
+      'my-first-english-word': '/images/this.jpg'
       // Add new case study images here as needed
     };
 

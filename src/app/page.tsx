@@ -66,6 +66,20 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'my-first-english-word') {
+      return (
+        <Image
+          src="/images/this.jpg"
+          alt="My first English word, This, drawn in chalk as a hammer, a chair and nails"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+
     if (article.id === 'stories-training-grounds-ai') {
       return (
         <Image
@@ -247,7 +261,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['my-first-english-word', 'stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list
