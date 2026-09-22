@@ -103,9 +103,15 @@ Manaboodle account. Any account holder can enter any connected app.
 ## Status
 
 Built on branch `auth-core-step-1`, not yet deployed (2026-09-22): Steps
-1, 3, 3b and 4. Before deploying, run in the Supabase SQL Editor, in this
-order: `prisma/migrations/add_app_table.sql`, then
-`prisma/migrations/add_app_access_and_organisers.sql`.
+1, 3, 3b and 4.
+
+The sign-in service moved to its own Supabase project, `manaboodle-auth`
+(ref `cwinczlfwrazgrgnltrm`, Singapore). The old project
+(`otxidzozhdnszvqbgzne`, us-east-1) is shared with an AI trading app, so
+it is left as it is. Set up the new one by running
+`prisma/migrations/setup_auth_core.sql` once in its SQL Editor, then point
+Manaboodle's Vercel settings at it. The newsletter tables (subscribers,
+notification_jobs) stay in the old project until Step 7 rebuilds them.
 
 Known gaps in what is built:
 
