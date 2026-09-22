@@ -31,14 +31,18 @@ your-ranking-tool/
 
 ### Step 2: Configure App Name
 
-Open `middleware.ts` and update the `APP_NAME` constant:
+Open `middleware.ts` and set `APP_SLUG` to your app's slug. The app must
+be listed in Manaboodle's `App` table, with every web address it sends
+people back to in `returnOrigins`, or sign-in is refused (see
+`AUTH_CORE_PLAN.md`, Step 1). The name shown on the sign-in page comes
+from that table.
 
 ```typescript
 // Line 10 in middleware.ts
-const APP_NAME = 'Ranking Tool'; // Change to your app name
+const APP_SLUG = 'forks'; // Change to your app's slug
 ```
 
-This name will appear on the SSO login page: "Sign in to **Ranking Tool**"
+The login page then shows the name from the table: "Sign in to **Forks**"
 
 ### Step 3: Copy Auth Utilities (Optional but Recommended)
 
@@ -114,7 +118,7 @@ export async function GET() {
 │  2. Middleware redirects to:                                │
 │     https://manaboodle.com/sso/login                       │
 │     ?return_url=https://ranking-tool.vercel.app            │
-│     &app_name=Ranking Tool                                 │
+│     &app=ranking-tool                                      │
 │                                                             │
 │  3. User logs in with Harvard credentials                   │
 │     └─> Manaboodle validates .edu email                   │
@@ -324,7 +328,7 @@ export default async function RankingsPage() {
 Use this checklist when integrating:
 
 - [ ] Copy `middleware.ts` to project root
-- [ ] Update `APP_NAME` in middleware
+- [ ] Set `APP_SLUG` in middleware, and list the app in the `App` table
 - [ ] Copy `utils/auth.ts` to project
 - [ ] Test authentication flow locally
 - [ ] Use `getUser()` in pages that need user data

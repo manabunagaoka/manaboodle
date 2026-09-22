@@ -8,7 +8,9 @@ import type { NextRequest } from 'next/server';
 // CONFIGURATION - UPDATE THESE VALUES
 // ============================================
 const MANABOODLE_SSO_URL = 'https://manaboodle.com';
-const APP_NAME = 'Ranking Tool'; // Change this to your app name
+// Your app's slug in Manaboodle's App table. The app, and every address it
+// sends people back to, must be listed there or sign-in is refused.
+const APP_SLUG = 'forks'; // Change this to your app's slug
 
 // Optional: Paths that don't require authentication
 const PUBLIC_PATHS = [
@@ -57,13 +59,13 @@ export async function middleware(request: NextRequest) {
   if (!token) {
     const loginUrl = new URL(`${MANABOODLE_SSO_URL}/sso/login`);
     loginUrl.searchParams.set('return_url', request.url);
-    loginUrl.searchParams.set('app_name', APP_NAME);
+    loginUrl.searchParams.set('app', APP_SLUG);
     return NextResponse.redirect(loginUrl);
   }
   
   // Verify token with Manaboodle
   try {
-    const verifyResponse = await fetch(`${MANABOODLE_SSO_URL}/api/sso/verify`, {
+    const verifyResponse = await fetch(`${MANABOODLE_SSO_URL}/api/sso/verify?app=${APP_SLUG}`, {
       headers: { 
         'Authorization': `Bearer ${token}`,
         'Cache-Control': 'no-cache'
@@ -75,7 +77,7 @@ export async function middleware(request: NextRequest) {
       // Token invalid, clear cookies and redirect to login
       const loginUrl = new URL(`${MANABOODLE_SSO_URL}/sso/login`);
       loginUrl.searchParams.set('return_url', request.url);
-      loginUrl.searchParams.set('app_name', APP_NAME);
+      loginUrl.searchParams.set('app', APP_SLUG);
       
       const response = NextResponse.redirect(loginUrl);
       response.cookies.delete('manaboodle_sso_token');
@@ -100,7 +102,7 @@ export async function middleware(request: NextRequest) {
     // On error, redirect to login
     const loginUrl = new URL(`${MANABOODLE_SSO_URL}/sso/login`);
     loginUrl.searchParams.set('return_url', request.url);
-    loginUrl.searchParams.set('app_name', APP_NAME);
+    loginUrl.searchParams.set('app', APP_SLUG);
     return NextResponse.redirect(loginUrl);
   }
 }
