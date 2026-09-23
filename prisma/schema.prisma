@@ -13,11 +13,11 @@ datasource db {
 model ManaboodleUser {
   id               String    @id @default(uuid())
   authUserId       String    @unique // References Supabase auth.users.id
-  username         String    @unique // Public identifier (e.g., @john_smith)
+  username         String?   @unique // Public identifier (e.g., @john_smith); not asked for by SSO registration
   email            String    @unique
   name             String    // Full name / Display name
   classCode        String?   // Optional course/class identifier
-  affiliation      String    // "student" | "faculty" | "staff"
+  affiliation      String?   // "student" | "faculty" | "staff"; not asked for by SSO registration
   accessType       String    @default("guest") // "harvard" | "sesame" | "guest"
   emailVerified    Boolean   @default(false)
   institution      String?   // Organization/institution name (required for guests)
@@ -61,6 +61,57 @@ model GuestPass {
   @@index([code])
 }
 
+// Apps allowed to sign people in through Manaboodle SSO (AUTH_CORE_PLAN.md)
+model App {
+  id                 String   @id @default(uuid())
+  slug               String   @unique // Used in sign-in links, e.g. "forks"
+  name               String   // Shown on the sign-in page
+  returnOrigins      String[] // Web addresses the app may send people back to
+  secretHash         String?  // For the code exchange in Step 2
+  signupOpen         Boolean  @default(false)
+  approvedDomains    String[] // Email domains let in without approval
+  active             Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now())
+}
+
+// Which person may use which app (AUTH_CORE_PLAN.md, Step 3)
+model AppAccess {
+  id         String    @id @default(uuid())
+  authUserId String    // Supabase auth.users.id
+  appId      String
+  role       String    @default("member") // "guest" | "member" | "admin"
+  status     String    @default("active") // "pending" | "active" | "revoked"
+  expiresAt  DateTime?
+  grantedBy  String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now())
+
+  @@unique([authUserId, appId])
+}
+
+// Organisations that bring people to an app (AUTH_CORE_PLAN.md, Step 3b)
+model Organiser {
+  id            String   @id @default(uuid())
+  slug          String   @unique
+  name          String
+  contactEmails String[]
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+}
+
+// Each registration for an app, with the organiser and the wording agreed to
+model Registration {
+  id          String   @id @default(uuid())
+  authUserId  String   // Supabase auth.users.id
+  appId       String
+  organiserId String?
+  agreedText  String
+  createdAt   DateTime @default(now())
+
+  @@index([organiserId])
+}
+
 model AdminUser {
   id        String   @id @default(uuid())
   email     String   @unique
@@ -87,6 +138,8 @@ model EmailVerificationToken {
   expires   DateTime
   used      Boolean   @default(false)
   usedAt    DateTime?
+  appSlug   String?   // SSO registration: the app to send them back to
+  returnUrl String?
   createdAt DateTime  @default(now())
 
   @@index([email])

@@ -1,0 +1,334 @@
+/* The neutral sign-in look shared by every app (AUTH_CORE_PLAN.md, Step 4).
+   Mockup: https://claude.ai/artifact/HUbrUvTXc1hjKi9HYrgSFi */
+
+.page {
+  --ground: #F6F4EF;
+  --surface: #FFFFFF;
+  --ink: #1C1B19;
+  --ink-soft: #5E5B55;
+  --ink-faint: #6B675F;
+  --line: #CFCAC0;
+  --line-soft: #DDD8CE;
+  --card-line: #E3DFD6;
+  --accent: #A51C30;
+  --accent-dark: #7F1524;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 40px 24px 32px;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-karla), system-ui, sans-serif;
+}
+
+.page a {
+  color: var(--accent);
+}
+
+.page a:hover {
+  color: var(--accent-dark);
+}
+
+.brand {
+  align-self: stretch;
+  max-width: 1184px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.notice {
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--card-line);
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.notice strong {
+  font-weight: 600;
+}
+
+.error {
+  padding: 12px 16px;
+  background: #FBEDEE;
+  border: 1px solid #E8C3C8;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #6E1220;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.smallLink {
+  font-size: 14px;
+}
+
+.input,
+.passwordBox {
+  height: 48px;
+  box-sizing: border-box;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.input {
+  width: 100%;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 16px;
+  color: var(--ink);
+}
+
+.input::placeholder {
+  color: #8A867E;
+}
+
+.input:focus,
+.passwordBox:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.passwordBox {
+  display: flex;
+  align-items: center;
+}
+
+.passwordBox .input {
+  flex-grow: 1;
+  min-width: 0;
+  height: 46px;
+  border: none;
+  background: transparent;
+  outline: none;
+}
+
+.showButton {
+  height: 44px;
+  padding: 0 14px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.agree {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+.agree input {
+  width: 22px;
+  height: 22px;
+  margin: 1px 0 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+}
+
+.agree label {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.primary {
+  height: 50px;
+  margin-top: 6px;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background: var(--accent-dark);
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* A link styled as the main button, for "Sign in to Forks" after confirming */
+.primaryLink {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #FFFFFF !important;
+}
+
+.primaryLink:hover {
+  background: var(--accent-dark);
+}
+
+.switch {
+  margin: 0;
+  font-size: 15px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+/* Hidden from people; bots that fill every field fill this one */
+.honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+
+.footerLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.page .footerLinks a {
+  color: var(--ink-soft);
+}
+
+.footer p {
+  margin: 0;
+  text-align: center;
+}
+
+.backLink {
+  align-self: flex-start;
+  padding: 8px 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.backLink:hover {
+  color: var(--accent-dark);
+}
+
+.prose {
+  width: 100%;
+  max-width: 640px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.prose .title {
+  margin-bottom: 16px;
+}
+
+.prose p {
+  margin: 0 0 14px;
+}
+
+/* On wider screens the form sits in a card */
+@media (min-width: 640px) {
+  .page {
+    padding: 40px 48px 32px;
+  }
+
+  .card {
+    padding: 40px;
+    background: var(--surface);
+    border: 1px solid var(--card-line);
+    border-radius: 16px;
+  }
+}

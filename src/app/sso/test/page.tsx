@@ -3,7 +3,7 @@
 export default function SSOTestPage() {
   const handleTestSSO = () => {
     const currentUrl = window.location.origin + '/sso/test/callback';
-    const ssoUrl = `/sso/login?return_url=${encodeURIComponent(currentUrl)}&app_name=SSO%20Test`;
+    const ssoUrl = `/sso/login?return_url=${encodeURIComponent(currentUrl)}&app=sso-test`;
     window.location.href = ssoUrl;
   };
 

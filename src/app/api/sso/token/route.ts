@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { resolveSsoRequest } from '@/lib/sso-apps';
+import { ensureAppAccess } from '@/lib/sso-access';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -8,11 +10,20 @@ const supabase = createClient(
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email, password, app: slug, return_url: returnUrl } = await request.json();
     
     if (!email || !password) {
       return NextResponse.json(
         { error: 'Email and password are required' }, 
+        { status: 400 }
+      );
+    }
+    
+    // Tokens are only issued for a listed app returning to one of its own addresses
+    const app = await resolveSsoRequest(slug, returnUrl);
+    if (!app) {
+      return NextResponse.json(
+        { error: 'This sign-in link does not work. Go back to the app and try again.' }, 
         { status: 400 }
       );
     }
@@ -46,7 +57,16 @@ export async function POST(request: Request) {
       );
     }
     
-    console.log('SSO token issued for:', email);
+    // An account alone is not enough: the person needs access to this app
+    const role = await ensureAppAccess(app, session.user.id);
+    if (!role) {
+      return NextResponse.json(
+        { error: `Your account does not have access to ${app.name}.` }, 
+        { status: 403 }
+      );
+    }
+    
+    console.log('SSO token issued for:', email, 'app:', app.slug);
     
     return NextResponse.json({
       success: true,
@@ -57,7 +77,8 @@ export async function POST(request: Request) {
         id: portalUser.id,
         email: portalUser.email,
         name: portalUser.name,
-        classCode: portalUser.classCode
+        classCode: portalUser.classCode,
+        role
       }
     });
     

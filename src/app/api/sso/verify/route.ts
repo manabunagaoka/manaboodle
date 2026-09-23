@@ -1,5 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
+import { getActiveApp } from '@/lib/sso-apps';
+import { ensureAppAccess } from '@/lib/sso-access';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -18,6 +20,15 @@ export async function GET(request: Request) {
     }
     
     const token = authHeader.substring(7);
+    
+    // Apps pass their slug (?app=forks); access is checked per app
+    const app = await getActiveApp(new URL(request.url).searchParams.get('app'));
+    if (!app) {
+      return NextResponse.json(
+        { valid: false, error: 'Unknown or missing app' }, 
+        { status: 400 }
+      );
+    }
     
     // Verify token with Supabase
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
@@ -45,7 +56,15 @@ export async function GET(request: Request) {
       );
     }
     
-    console.log('SSO token verified for:', portalUser.email);
+    const role = await ensureAppAccess(app, user.id);
+    if (!role) {
+      return NextResponse.json(
+        { valid: false, error: 'No access to this app' }, 
+        { status: 403 }
+      );
+    }
+    
+    console.log('SSO token verified for:', portalUser.email, 'app:', app.slug);
     
     return NextResponse.json({
       valid: true,
@@ -54,7 +73,8 @@ export async function GET(request: Request) {
         email: portalUser.email,
         name: portalUser.name,
         classCode: portalUser.classCode,
-        createdAt: portalUser.createdAt
+        createdAt: portalUser.createdAt,
+        role
       }
     });
     
