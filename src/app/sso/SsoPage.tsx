@@ -3,7 +3,18 @@ import styles from './sso.module.css'
 
 // The frame every SSO screen shares: the app's name at the top, the content,
 // and the footer with the Terms, Privacy Policy and copyright line.
-export default function SsoPage({ brand, children }: { brand: string; children: React.ReactNode }) {
+export default function SsoPage({
+  brand,
+  appSlug,
+  children,
+}: {
+  brand: string
+  // Carried into the Terms and Privacy links so those pages show the same
+  // app name as the rest of the journey
+  appSlug?: string
+  children: React.ReactNode
+}) {
+  const suffix = appSlug ? `?app=${encodeURIComponent(appSlug)}` : ''
   return (
     <main className={styles.page}>
       <div className={styles.brand}>{brand}</div>
@@ -11,8 +22,8 @@ export default function SsoPage({ brand, children }: { brand: string; children: 
       <div className={styles.spacer} />
       <footer className={styles.footer}>
         <div className={styles.footerLinks}>
-          <Link href="/sso/terms">Terms of Use</Link>
-          <Link href="/sso/privacy">Privacy Policy</Link>
+          <Link href={`/sso/terms${suffix}`}>Terms of Use</Link>
+          <Link href={`/sso/privacy${suffix}`}>Privacy Policy</Link>
         </div>
         <p>© 2026 Manaboodle | hana &amp; flower. All Rights Reserved.</p>
       </footer>

@@ -38,7 +38,7 @@ export default async function SSOConfirmed({ searchParams }: { searchParams: Sea
   const app = await resolveSsoRequest(first(params.app), returnUrl);
 
   return (
-    <SsoPage brand={app?.name ?? 'Manaboodle'}>
+    <SsoPage brand={app?.name ?? 'Manaboodle'} appSlug={app?.slug}>
       <div className={styles.card}>
         <div className={styles.intro}>
           <h1 className={styles.title}>Your email is confirmed</h1>

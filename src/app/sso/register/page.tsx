@@ -40,7 +40,7 @@ export default async function SSORegister({ searchParams }: { searchParams: Sear
 
   if (!app.signupOpen) {
     return (
-      <SsoPage brand={app.name}>
+      <SsoPage brand={app.name} appSlug={app.slug}>
         <div className={styles.card}>
           <div className={styles.intro}>
             <h1 className={styles.title}>Registration is by invitation</h1>
@@ -54,7 +54,7 @@ export default async function SSORegister({ searchParams }: { searchParams: Sear
   }
 
   return (
-    <SsoPage brand={app.name}>
+    <SsoPage brand={app.name} appSlug={app.slug}>
       <RegisterForm
         appSlug={app.slug}
         appName={app.name}

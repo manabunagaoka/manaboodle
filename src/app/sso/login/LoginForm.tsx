@@ -73,12 +73,15 @@ export default function LoginForm({ appSlug, appName, returnUrl, registerHref }:
       // next app this person opens does not ask again
       const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError || !data.session) {
-        const unconfirmed = signInError?.message?.toLowerCase().includes('not confirmed');
-        throw new Error(
-          unconfirmed
-            ? 'Please confirm your email first. Open the link in the email we sent you.'
-            : 'That email and password do not match. Please try again.'
-        );
+        const reason = signInError?.message?.toLowerCase() ?? '';
+        if (reason.includes('not confirmed')) {
+          throw new Error('Please confirm your email first. Open the link in the email we sent you.');
+        }
+        if (reason.includes('invalid login credentials')) {
+          throw new Error('That email and password do not match. Please try again.');
+        }
+        // Anything else is a problem with the setup, not with what was typed
+        throw new Error(signInError?.message || 'Sign-in failed. Please try again.');
       }
       await returnToApp(data.session);
     } catch (err: unknown) {

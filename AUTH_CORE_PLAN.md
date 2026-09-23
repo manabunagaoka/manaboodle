@@ -357,6 +357,15 @@ goes straight back to the app. The line under the heading says "Use your
 Manaboodle account or Google." so returning people know which password
 to use. *suggested*
 
+**Two levels of terms.** The Terms of Use and Privacy Policy on the sign-in
+pages cover the account: name, email, password, which apps a person may
+use, and which organiser they registered through. What an app does with
+the work kept inside it is that app's own business, with its own terms
+shown inside the app. For now one set of account documents serves every
+app, and each page carries the name of the app the person came from. When
+an app needs its own, the `App` table gains `termsUrl` and `privacyUrl`
+and the pages link to them. *decided 2026-09-23*
+
 **Keeping and deleting data.** A registered person can delete their
 account and their work at any time. Suggested rule for everything else:
 personal data is kept while the person uses it, and deleted after two

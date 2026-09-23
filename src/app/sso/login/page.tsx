@@ -29,7 +29,7 @@ export default async function SSOLogin({ searchParams }: { searchParams: SearchP
   if (org) registerParams.set('org', org);
 
   return (
-    <SsoPage brand={app.name}>
+    <SsoPage brand={app.name} appSlug={app.slug}>
       <LoginForm
         appSlug={app.slug}
         appName={app.name}
