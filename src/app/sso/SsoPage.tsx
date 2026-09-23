@@ -25,7 +25,7 @@ export default function SsoPage({
           <Link href={`/sso/terms${suffix}`}>Terms of Use</Link>
           <Link href={`/sso/privacy${suffix}`}>Privacy Policy</Link>
         </div>
-        <p>© 2026 Manaboodle | hana &amp; flower. All Rights Reserved.</p>
+        <p>© 2026 Manaboodle. All Rights Reserved.</p>
       </footer>
     </main>
   )
