@@ -178,6 +178,57 @@
   cursor: pointer;
 }
 
+.googleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.googleHolder {
+  display: flex;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.googleButton {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.googleButton:hover:not(:disabled) {
+  border-color: var(--ink-faint);
+}
+
+.googleButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ink-faint);
+}
+
+.dividerLine {
+  flex-grow: 1;
+  height: 1px;
+  background: var(--line-soft);
+}
+
 .agree {
   display: flex;
   gap: 12px;

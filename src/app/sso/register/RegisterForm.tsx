@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import GoogleButton, { OrDivider } from '../GoogleButton';
 import styles from '../sso.module.css';
 
 interface RegisterFormProps {
@@ -12,12 +13,15 @@ interface RegisterFormProps {
   // The exact sentence stored with the registration, built on the server
   agreement: string;
   loginHref: string;
+  // Set when Google has already signed the person in but they have no account
+  // here yet: all that is missing is the agreement
+  googleFinish?: boolean;
 }
 
 const POLICY = 'Privacy Policy';
 
 export default function RegisterForm(props: RegisterFormProps) {
-  const { appSlug, appName, returnUrl, organiserSlug, organiserName, agreement, loginHref } = props;
+  const { appSlug, appName, returnUrl, organiserSlug, organiserName, agreement, loginHref, googleFinish } = props;
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -84,8 +88,12 @@ export default function RegisterForm(props: RegisterFormProps) {
   return (
     <div className={styles.card}>
       <div className={styles.intro}>
-        <h1 className={styles.title}>Create your account</h1>
-        <p className={styles.subtitle}>You need an account to use {appName}.</p>
+        <h1 className={styles.title}>{googleFinish ? 'One more thing' : 'Create your account'}</h1>
+        <p className={styles.subtitle}>
+          {googleFinish
+            ? `Google has signed you in. Agree below to finish creating your account for ${appName}.`
+            : `${appName} sign-in is handled by Manaboodle. Create a Manaboodle account, or use Google.`}
+        </p>
       </div>
 
       {organiserName && (
@@ -173,6 +181,21 @@ export default function RegisterForm(props: RegisterFormProps) {
           {loading ? 'Creating your account…' : 'Create account'}
         </button>
       </form>
+
+      <OrDivider />
+
+      <GoogleButton
+        appSlug={appSlug}
+        returnUrl={returnUrl}
+        org={organiserSlug}
+        agreed={agree}
+        disabled={!agree}
+        onError={setError}
+      />
+
+      {!agree && (
+        <p className={styles.note}>Tick the box above before continuing with Google.</p>
+      )}
 
       <p className={styles.note}>We will send you an email to confirm your address before you can sign in.</p>
       <p className={styles.switch}>

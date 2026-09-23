@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
+import GoogleButton, { OrDivider } from '../GoogleButton';
 import styles from '../sso.module.css';
 
 // The server page has already checked that the app is listed and that
@@ -12,9 +13,10 @@ interface LoginFormProps {
   appName: string;
   returnUrl: string;
   registerHref: string | null;
+  org: string | null;
 }
 
-export default function LoginForm({ appSlug, appName, returnUrl, registerHref }: LoginFormProps) {
+export default function LoginForm({ appSlug, appName, returnUrl, registerHref, org }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -102,10 +104,19 @@ export default function LoginForm({ appSlug, appName, returnUrl, registerHref }:
     <div className={styles.card}>
       <div className={styles.intro}>
         <h1 className={styles.title}>Sign in to {appName}</h1>
-        <p className={styles.subtitle}>Use your Manaboodle account.</p>
+        <p className={styles.subtitle}>{appName} sign-in is handled by Manaboodle.</p>
       </div>
 
       {error && <div className={styles.error} role="alert">{error}</div>}
+
+      <GoogleButton
+        appSlug={appSlug}
+        returnUrl={returnUrl}
+        org={org}
+        onError={setError}
+      />
+
+      <OrDivider />
 
       <form onSubmit={handleLogin} className={styles.form}>
         <div className={styles.field}>

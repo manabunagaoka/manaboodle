@@ -35,6 +35,7 @@ export default async function SSOLogin({ searchParams }: { searchParams: SearchP
         appName={app.name}
         returnUrl={returnUrl}
         registerHref={app.signupOpen ? `/sso/register?${registerParams}` : null}
+        org={org ?? null}
       />
     </SsoPage>
   );

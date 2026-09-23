@@ -63,6 +63,7 @@ export default async function SSORegister({ searchParams }: { searchParams: Sear
         organiserName={organiser?.name ?? null}
         agreement={consentText(organiser)}
         loginHref={loginHref}
+        googleFinish={first(params.google) === '1'}
       />
     </SsoPage>
   );
