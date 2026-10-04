@@ -16,6 +16,13 @@ jobs:
             -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json"
         continue-on-error: true
-      
+
+      - name: Ping Auth Supabase Database
+        run: |
+          curl -X POST '${{ secrets.AUTH_SUPABASE_URL }}/rest/v1/rpc/ping' \
+            -H "apikey: ${{ secrets.AUTH_SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json"
+        continue-on-error: true
+
       - name: Health Check
         run: echo "Pinged Supabase to prevent inactivity pause"
