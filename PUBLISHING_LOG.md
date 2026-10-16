@@ -1,0 +1,63 @@
+# Publishing Log
+
+A running record of what gets written, posted or changed on manaboodle.com.
+Newest entry first. Add an entry whenever a post goes live or a section changes.
+
+Format for each entry: date, what happened, where it lives, and the commit.
+Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
+
+---
+
+## September 19, 2026 — "My First English Word" published
+
+- **Section:** Case Studies. Live at `/casestudies/my-first-english-word`.
+- **What it is:** Personal case study. Learning English from a drawing of the
+  word "This", working on Sesame Street English, and returning to HGSE for a
+  session in Professor Amin Marei's course Learning Design for All. Ends with
+  three questions about who learning technology reaches.
+- **Framing decision:** The underlying teaching case is not published, because
+  it covers the business of a current employer. The article keeps the personal
+  story and the general funding tension, names no business results, and closes
+  with "The views in this article are my own and do not represent Sesame
+  Workshop."
+- **Site changes:** Set as homepage featured post, demoting "The Stories We
+  Produce Are Becoming Training Grounds for AI". Hero image `public/images/this.jpg`.
+- **Commits:** 6665692, ae9c998 (hero image).
+
+## September 19, 2026 — Tools section and Academic Portal hidden
+
+- **Why:** Hosting tools inside Manaboodle added complexity, and the Academic
+  Portal experiment drew no users. Tools comes back only when it can feature
+  live tools, linked out to where they actually run, with room for a store or
+  subscription layer later.
+- **What changed:** `/tools/*` and the browsable Academic Portal pages redirect
+  home via `next.config.js`. Tools links removed from header and footer.
+  `/api/runway/chat` returns 410 instead of calling OpenAI. Portal login,
+  signup, password reset and admin stay up, because SSO for external apps and
+  the account emails use them.
+- **Article edit:** "Building Tools That Actually Matter" lost its links to the
+  hidden tools and gained a closing note pointing readers to `/contact`.
+- **Still open:** Whether any external app still needs Manaboodle login. If
+  not, portal signup can be closed too. The subscribe form remains disabled
+  because of spam; rebuilding it needs Cloudflare Turnstile plus a confirmation
+  email before the closing note can offer signup.
+- **Commits:** 685bdd9, 35e330e.
+
+## July 5, 2026 — "The Stories We Produce Are Becoming Training Grounds for AI"
+
+- **Section:** Random. Live at `/random/stories-training-grounds-ai`.
+- Storytelling as reinforcement-learning environments for AI. Hero image
+  `agent_chiks.png`. Set as featured post, demoting "From South Africa to New York".
+- Same day: footer copyright year made dynamic.
+- **Commits:** 850727a, 48c24ee.
+
+## June 21, 2026 — "From South Africa to New York"
+
+- **Section:** Random. Live at `/random/south-africa-to-new-york`.
+- One-year reflection on starting Manaboodle. Set as featured post at the time.
+- **Commit:** 2a86d39.
+
+---
+
+Earlier posts predate this log. Their history is in git:
+`git log --oneline -- src/lib/content.ts`.
