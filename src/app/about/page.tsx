@@ -18,7 +18,7 @@ export default function AboutPage() {
           </p>
 
           <p>
-            As a first-generation graduate student, I had just finished at Harvard and decided to join my dear friend on an MVP testing adventure in South Africa—bringing along a tool I had frantically vibe-coded during those chaotic final days before graduation.
+            As a first-generation graduate student, I had just finished at Harvard and decided to join my dear friend on an MVP testing adventure in South Africa—bringing along a tool I had frantically built during those chaotic final days before graduation.
           </p>
 
           <p>
@@ -26,7 +26,7 @@ export default function AboutPage() {
           </p>
 
           <p className={styles.highlightParagraph}>
-            That's when I decided to vibe-code this magazine-style app.
+            That's when I decided to build this information-sharing platform.
           </p>
 
           <p>

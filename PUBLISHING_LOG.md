@@ -8,6 +8,23 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
 
 ---
 
+## October 24, 2026 — About page wording and synthetic-truth search text
+
+- **About page:** "vibe-code" removed from both places it appeared. The
+  highlighted line now reads "That's when I decided to build this
+  information-sharing platform," and the Cape Town paragraph says "a tool I
+  had frantically built."
+- **"Helping Kids Nurture Synthetic Intelligence to Form 'Truth'":** The
+  hidden search text still held the original draft, with Elmo, Smarty, "my
+  job at Sesame Street" and "Smarty-AI." Search results show excerpts of that
+  text, so it could surface on the site. It now matches the published article.
+  The #SesameStreet tag is removed from the page.
+- **Reviewed and kept:** Mangrove keeps Yuta's Sesame Workshop background and
+  the budget-cut line (written with his permission, and about him only). "My
+  First English Word" and the karaokeGoGo line about working for Sesame Street
+  are public career facts and stay as they are.
+- **Commit:** the commit that adds this entry.
+
 ## October 24, 2026 — "Slurping Manaboodle" published
 
 - **Section:** Random. Live at `/random/slurping-manaboodle`.

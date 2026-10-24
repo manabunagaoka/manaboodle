@@ -91,7 +91,6 @@ export default function SyntheticIntelligenceTruthPage() {
           <span className={styles.tag}>#KPopDemonHunters</span>
           <span className={styles.tag}>#SyntheticIntelligence</span>
           <span className={styles.tag}>#AICompanion</span>
-          <span className={styles.tag}>#SesameStreet</span>
           <span className={styles.tag}>#EducationTechnology</span>
           <span className={styles.tag}>#AIEthics</span>
           <span className={styles.tag}>#ChildDevelopment</span>
