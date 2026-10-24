@@ -26,11 +26,6 @@
   color: inherit;
 }
 
-.logoContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
 
 .logoText {
   font-family: 'Playfair Display', serif;
@@ -42,26 +37,8 @@
   letter-spacing: -0.025em;
 }
 
-.logoWithIcon {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
 
-.logoIcon {
-  flex-shrink: 0;
-  width: 28px;  /* Smaller by default */
-  height: 28px;
-  color: #111827; /* Match the logo text color */
-}
 
-.byline {
-  font-size: 0.7rem;  /* Smaller by default */
-  color: #6B7280; /* Medium gray for subtitle */
-  font-weight: 400;
-  margin-top: 2px;
-  letter-spacing: 0.025em;
-}
 
 .navMenu {
   display: flex;
@@ -236,26 +213,13 @@
     padding: 0 1rem;
   }
   
-  .logoIcon {
-    width: 24px; /* Smaller for mobile proportions */
-    height: 24px;
-  }
   
   .logoText {
     font-size: 1.3rem; /* Proportionally smaller */
   }
   
-  .byline {
-    font-size: 0.65rem; /* Slightly smaller */
-  }
   
-  .logoContainer {
-    justify-content: center; /* Center vertically in shorter header */
-  }
   
-  .logoWithIcon {
-    gap: 8px; /* Reduced gap for mobile */
-  }
   
   /* Hide desktop search on mobile */
   .desktopSearch {
@@ -350,11 +314,6 @@
 /* Logo hover effect */
 .logo:hover .logoText {
   color: #374151;
-  transition: color 0.3s ease;
-}
-
-.logo:hover .byline {
-  color: #4B5563;
   transition: color 0.3s ease;
 }
 

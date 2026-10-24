@@ -46,8 +46,8 @@ export default function AboutPage() {
         <div className={styles.authorBio}>
           <div className={styles.authorImageContainer}>
             <Image
-              src="/images/manabu-grover.jpg"
-              alt="Manabu Nagaoka with Grover from Sesame Street"
+              src="/images/manabu-mana.jpg"
+              alt="Manabu Nagaoka with Mana, the Manaboodle mascot"
               width={200}
               height={200}
               className={styles.authorImage}

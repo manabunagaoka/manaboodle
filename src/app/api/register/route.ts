@@ -4,30 +4,14 @@ import { randomUUID } from 'crypto'
 import { Resend } from 'resend'
 import crypto from 'crypto'
 import VerificationEmailTemplate from '@/components/email/VerificationEmailTemplate'
+import { autoApprovedAccessType } from '@/lib/approved-domains'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-// Helper function to check if email is auto-approved
-function isAutoApprovedEmail(email: string): { approved: boolean; type: 'harvard' | 'sesame' | 'guest' } {
-  const lowerEmail = email.toLowerCase()
-  
-  // Check for harvard.edu patterns: name@harvard.edu or name@school.harvard.edu
-  if (lowerEmail.endsWith('@harvard.edu') || lowerEmail.includes('@') && lowerEmail.split('@')[1].endsWith('.harvard.edu')) {
-    return { approved: true, type: 'harvard' }
-  }
-  
-  // Check for sesame.org
-  if (lowerEmail.endsWith('@sesame.org')) {
-    return { approved: true, type: 'sesame' }
-  }
-  
-  // Check for manaboodle.com (admin email)
-  if (lowerEmail.endsWith('@manaboodle.com')) {
-    return { approved: true, type: 'harvard' } // Treat as approved like harvard
-  }
-  
-  // All others require guest pass
-  return { approved: false, type: 'guest' }
+// Helper function to check if email is auto-approved (domains live in lib/approved-domains)
+function isAutoApprovedEmail(email: string): { approved: boolean; type: string } {
+  const accessType = autoApprovedAccessType(email)
+  return accessType ? { approved: true, type: accessType } : { approved: false, type: 'guest' }
 }
 
 // Helper function to validate username format
@@ -271,7 +255,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Auto-approved users (Harvard or Sesame)
+    // Auto-approved users (domains in lib/approved-domains)
     console.log('Auto-approved user, creating account...', emailCheck.type)
     
     // Create Supabase Auth user with email verification required

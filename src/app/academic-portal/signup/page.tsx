@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from '../auth.module.css'
 import { supabase } from '@/lib/supabase'
+import { autoApprovedAccessType } from '@/lib/approved-domains'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -80,21 +81,8 @@ export default function SignUpPage() {
   const checkEmailDomain = (email: string) => {
     const lowerEmail = email.toLowerCase()
     
-    // Check for harvard.edu (including school.harvard.edu patterns)
-    if (lowerEmail.endsWith('@harvard.edu') || 
-        (lowerEmail.includes('@') && lowerEmail.split('@')[1].endsWith('.harvard.edu'))) {
-      setEmailStatus('approved')
-      return
-    }
-    
-    // Check for sesame.org
-    if (lowerEmail.endsWith('@sesame.org')) {
-      setEmailStatus('approved')
-      return
-    }
-    
-    // Check for manaboodle.com (admin email)
-    if (lowerEmail.endsWith('@manaboodle.com')) {
+    // Domains approved without a guest pass live in lib/approved-domains
+    if (autoApprovedAccessType(lowerEmail)) {
       setEmailStatus('approved')
       return
     }

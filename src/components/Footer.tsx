@@ -8,7 +8,6 @@ export default function Footer() {
         <div className="footer-section">
           <div className="footer-logo-container">
             <h4>Manaboodle</h4>
-            <div className="footer-byline">by Manabu Nagaoka</div>
           </div>
           {/* Social links commented out until service launch
           <div className="social-links">
@@ -55,7 +54,7 @@ export default function Footer() {
           <span className="footer-separator">•</span>
           <Link href="/terms">Terms of Service</Link>
         </div>
-        <p>&copy; {new Date().getFullYear()} Manaboodle by Manabu Nagaoka. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Manaboodle. All rights reserved.</p>
       </div>
     </footer>
   );

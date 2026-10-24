@@ -8,6 +8,26 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
 
 ---
 
+## October 24, 2026 — Site-wide name and Sesame cleanup
+
+- **Why:** The line between work at Sesame Workshop and personal projects was
+  getting blurry. The site should read as Manaboodle, a personal project, with
+  no suggestion that Sesame is behind it.
+- **Header:** Dotted logo symbol and "by Manabu Nagaoka" byline removed. The
+  header now shows only "Manaboodle".
+- **Footer:** "by Manabu Nagaoka" removed under the logo. Copyright reads
+  "© Manaboodle. All rights reserved."
+- **About page:** Photo with Grover replaced by a photo with Mana, the new
+  Manaboodle mascot (`public/images/manabu-mana.jpg`). Old Grover file deleted.
+- **Sign-up:** @sesame.org addresses are no longer approved without a guest
+  pass. Approved domains now live in one list, `src/lib/approved-domains.ts`
+  (harvard.edu and manaboodle.com).
+- **Kept on purpose:** Name in the Terms ownership clause, the signatures on
+  the contact and welcome emails, and author fields in the search data.
+- **Still open:** Article-by-article review of Sesame mentions. Existing
+  database rows with access type "sesame" are unchanged.
+- **Commit:** the commit that adds this entry.
+
 ## September 19, 2026 — "My First English Word" published
 
 - **Section:** Case Studies. Live at `/casestudies/my-first-english-word`.

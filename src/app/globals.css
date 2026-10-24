@@ -330,13 +330,6 @@ body {
     line-height: 1.2;
 }
 
-.footer-byline {
-    font-size: 0.75rem;
-    color: var(--gray-400);
-    font-weight: 400;
-    font-style: normal;
-    margin-top: 0.125rem;
-}
 
 /* Footer legal links styling */
 .footer-legal-links {
@@ -498,9 +491,6 @@ body {
         min-width: 200px;
     }
 
-    .footer-byline {
-        font-size: 0.8rem;
-    }
 }
 
 @media (min-width: 1024px) {
@@ -516,9 +506,6 @@ body {
         font-size: 0.85rem;
     }
 
-    .footer-byline {
-        font-size: 0.85rem;
-    }
 }
 
 /* Mobile specific fixes - temporarily using larger breakpoint */
