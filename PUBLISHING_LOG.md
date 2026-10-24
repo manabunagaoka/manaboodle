@@ -8,6 +8,22 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
 
 ---
 
+## October 24, 2026 — karaokeGoGo audience changed to young adults and students
+
+- **Why:** The page said the platform served children ages 8 to 16. Describing
+  a service where minors upload and share content carries legal risk, so the
+  page no longer presents children as users.
+- **What changed:** Target Audience now reads "karaokeGoGo is built for young
+  adults and students, along with the educators who work with them." Every
+  sentence describing children or kids as users now says young people,
+  students or users, including the image caption, the Projects card excerpt
+  and the #Children tag (now #Students). The search text, an older
+  child-focused draft, was replaced with a summary of the current page.
+- **Kept:** The UNESCO opening and "The Global Education Challenge" section
+  still say "children," since they describe the problem rather than the users.
+  The line about producing children's media and songs stays as career history.
+- **Commit:** the commit that adds this entry.
+
 ## October 24, 2026 — About page wording and synthetic-truth search text
 
 - **About page:** "vibe-code" removed from both places it appeared. The

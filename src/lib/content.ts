@@ -172,14 +172,14 @@ export const articles: Article[] = [
   {
     id: 'karaokegogo',
     title: 'karaokeGoGo',
-    excerpt: 'A music-sharing platform designed to empower children globally through joyful, creative singing experiences.',
+    excerpt: 'A music-sharing platform designed to empower young people globally through joyful, creative singing experiences.',
     category: 'project',
     publishedAt: '2025-07-20',
     readTime: 8,
     featured: false,
     slug: 'karaokegogo',
     author: 'Manabu Nagaoka',
-    content: `karaokeGoGo is a music-sharing platform designed to empower children globally through joyful, creative singing experiences. Imagine a world where every child can express themselves through music, where cultural barriers dissolve through the universal language of song, and where creativity knows no bounds. That's the vision behind karaokeGoGo. This platform combines the joy of karaoke with the power of global connection, allowing children to share their musical creations, learn from each other, and celebrate diversity through song. Whether it's a lullaby from grandmother in rural Kenya, a pop song from a teenager in Tokyo, or an original composition from a young songwriter in São Paulo, karaokeGoGo creates a safe, supportive environment for musical expression. The platform features age-appropriate content, multilingual support, and tools that help children develop confidence, creativity, and cultural awareness. Through music, we're building bridges between communities, fostering empathy, and nurturing the next generation of global citizens. karaokeGoGo music sharing platform children global joyful creative singing experiences cultural barriers universal language song creativity karaoke global connection musical creations diversity lullaby Kenya pop song Tokyo original composition São Paulo safe supportive environment musical expression age-appropriate multilingual confidence cultural awareness bridges communities empathy global citizens`
+    content: `karaokeGoGo is a music-sharing platform designed to empower young people globally through joyful, creative singing experiences. Singing is universally accessible, free, and deeply human, making it ideal for fostering meaningful connections across cultures and languages. The platform allows users to upload music tracks, sing along, and share their songs with peers around the world, creating a supportive community where every voice matters. karaokeGoGo uses auto-tuning and lyric-generation tools to help users overcome shyness, build confidence, and explore their musical creativity, with human and AI-driven moderation keeping the community safe and respectful. karaokeGoGo is built for young adults and students, along with the educators who work with them. I was born and raised in a small fishing village in Japan, the birthplace of karaoke, where my mother ran a karaoke bar. Looking back, owning a karaoke bar was my mother's dream and way of saving money to send me to college. karaokeGoGo will carry her torch, helping students and teachers everywhere teach and learn from each other. karaokeGoGo music sharing platform young adults students educators global singing karaoke creativity confidence auto-tuning lyric generation moderation community cultures languages empathy global citizenship Japan fishing village mother karaoke bar Harvard MIT`
   }
 ];
 
