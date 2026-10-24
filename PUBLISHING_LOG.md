@@ -26,7 +26,9 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
   the contact and welcome emails, and author fields in the search data.
 - **Still open:** Article-by-article review of Sesame mentions. Existing
   database rows with access type "sesame" are unchanged.
-- **Commit:** the commit that adds this entry.
+- **Favicon:** Mana's face is the site favicon (`src/app/icon.png`) and
+  home-screen icon (`src/app/apple-icon.png`). The site had none before.
+- **Commits:** 81fdbd9, plus the favicon commit that follows it.
 
 ## September 19, 2026 — "My First English Word" published
 
