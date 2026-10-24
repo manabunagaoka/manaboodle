@@ -8,6 +8,24 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
 
 ---
 
+## October 24, 2026 — "Slurping Manaboodle" published
+
+- **Section:** Random. Live at `/random/slurping-manaboodle`.
+- **What it is:** Origin story for the name Manaboodle and for Mana, the new
+  mascot. Late nights in Owada Yokocho, Tokyo, designing an adaptive learning
+  model in Moodle before the AI era. Moodle, noodles and doodling become the
+  name, and Mana becomes its face.
+- **Framing decisions:** No mention of Sesame or of the platform the Moodle
+  work fed into. Mana is a mascot for doodling and exploring, with no gender
+  and no tutor or agent role. The last line, "Come back to see how Mana grows
+  while learning adaptive learning," is a deliberate nod to Mitch Resnick's
+  MIT course Learning Creative Learning and is left unexplained.
+- **Site changes:** Set as homepage featured post, demoting "My First English
+  Word". Hero and thumbnail image `public/images/slurping-manaboodle.jpg`.
+- **Still open:** Spelling of "Owada Yokocho" not yet confirmed. More photos
+  and videos may be added later.
+- **Commit:** the commit that adds this entry.
+
 ## October 24, 2026 — Site-wide name and Sesame cleanup
 
 - **Why:** The line between work at Sesame Workshop and personal projects was

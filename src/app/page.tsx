@@ -66,6 +66,20 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'slurping-manaboodle') {
+      return (
+        <Image
+          src="/images/slurping-manaboodle.jpg"
+          alt="Mana, a pink fuzzy character, slurping ramen in a Tokyo noodle shop"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
+          priority
+        />
+      );
+    }
+
     if (article.id === 'my-first-english-word') {
       return (
         <Image
@@ -261,7 +275,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['my-first-english-word', 'stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['slurping-manaboodle', 'my-first-english-word', 'stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list

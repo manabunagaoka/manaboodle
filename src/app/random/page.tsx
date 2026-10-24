@@ -12,7 +12,8 @@ export default function RandomPage() {
     const imageMap: { [key: string]: string } = {
       'vibe-coding': '/images/vibe.jpg',
       'south-africa-to-new-york': '/images/south-africa-to-new-york.jpg',
-      'stories-training-grounds-ai': '/images/agent_chiks.png'
+      'stories-training-grounds-ai': '/images/agent_chiks.png',
+      'slurping-manaboodle': '/images/slurping-manaboodle.jpg'
       // Add new random post images here as needed
     };
 

@@ -14,13 +14,25 @@ export interface Article {
 // Static article data with manual dates for now
 export const articles: Article[] = [
   {
+    id: 'slurping-manaboodle',
+    title: 'Slurping Manaboodle',
+    excerpt: 'Before AI, I spent nights in Tokyo working on adaptive learning and slurping ramen. Moodle, noodles and doodling all went into a name, and the name got a face. Meet Mana.',
+    category: 'random',
+    publishedAt: '2026-10-24',
+    readTime: 2,
+    featured: true,
+    slug: 'slurping-manaboodle',
+    author: 'Manabu Nagaoka',
+    content: `I remember the nights I spent slurping noodles in Owada Yokocho, Tokyo. This was before the AI era, and I was designing an adaptive learning model, a way for a learning platform to adjust to each learner. I mapped out the steps in Moodle, the free, open-source learning management system that many schools use. I lived in a high-rise hotel nearby. At night I would look down over the lights of Tokyo, and when I got stuck, the ramen shops were a few blocks away. There was no chatbot to talk to and no tool to help me build the thing. To me, an algorithm was no different from a bowl of ramen. The noodles stay the same, and what changes is the ingredients and the broth. Years later, I'm at a different stage of life, and I still think about adaptive learning the same way. I don't think anyone has cracked it yet. Khan Academy gave its platform a face with Khanmigo, and Duolingo did the same with Duo. Watching them, I started doodling ideas for a face for Manaboodle. Doodling, Moodle and slurping noodles all went into the name, and the face that came out of it is Mana. Mana's job is to doodle and explore alongside me while I keep working on adaptive learning. Apart from the favorite food, which is noodles, I don't know much else about Mana yet. Come back to see how Mana grows while learning adaptive learning. Manaboodle Mana mascot noodles ramen Tokyo Owada Yokocho adaptive learning personalized learning Moodle LMS learning management system algorithm Khanmigo Khan Academy Duolingo Duo doodling exploring Learning Creative Learning Manabu Nagaoka`
+  },
+  {
     id: 'my-first-english-word',
     title: 'My First English Word',
     excerpt: 'A hammer, a chair and a nail taught me my first English word. Back at Harvard, I shared that journey from Japan to the US and the question that still follows it: who does learning technology reach?',
     category: 'casestudy',
     publishedAt: '2026-09-19',
     readTime: 3,
-    featured: true,
+    featured: false,
     slug: 'my-first-english-word',
     author: 'Manabu Nagaoka',
     content: `Like millions of children around the world, I grew up watching Sesame Street. I was frightened of the monsters. My first English word came from an afterschool class: a hammer, a chair, a nail and a bent nail spelled This. That drawing made me want to learn English, and learning English brought me to America. Years later I joined Sesame Workshop and became executive producer of Sesame Street English. This semester I was back at the Harvard Graduate School of Education in Professor Amin Marei's course, Learning Design for All, with the Class of 2027, sharing my path from Japan to the US. The hard question is still equity and access: who the technology reaches, and who it quietly passes by. Funding shapes which children a program reaches. Which children would you serve, how would you fund it for fifteen years, and what would technology help you prove about a child by graduation? Learning software reports lessons completed and answers right or wrong, but not whether a child started wanting something new. Manaboodle Sesame Street Sesame Workshop Sesame Street English English language learning ESL EFL Japan America HGSE Harvard Graduate School of Education Amin Marei Learning Design for All equity access British Council Future of English edtech learning management system measurement aspiration Manabu Nagaoka`
