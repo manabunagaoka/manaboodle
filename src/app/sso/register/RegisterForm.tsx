@@ -104,7 +104,18 @@ export default function RegisterForm(props: RegisterFormProps) {
         </div>
       )}
 
-      {error && <div className={styles.error} role="alert">{error}</div>}
+      {error && (
+        <div className={styles.error} role="alert">
+          {/* An existing account: the way to sign in, right there */}
+          {error.includes('already exists') ? (
+            <>
+              An account with this email already exists. <a href={loginHref}>Sign in instead</a>.
+            </>
+          ) : (
+            error
+          )}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.field}>
