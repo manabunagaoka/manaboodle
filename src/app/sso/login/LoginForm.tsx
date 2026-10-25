@@ -138,7 +138,7 @@ export default function LoginForm({ appSlug, appName, returnUrl, registerHref, o
         <div className={styles.field}>
           <div className={styles.labelRow}>
             <label htmlFor="password" className={styles.label}>Password</label>
-            <a href="/academic-portal/forgot-password" className={styles.smallLink}>Forgot password?</a>
+            <a href={`/sso/forgot?${new URLSearchParams({ app: appSlug, return_url: returnUrl })}`} className={styles.smallLink}>Forgot password?</a>
           </div>
           <div className={styles.passwordBox}>
             <input
