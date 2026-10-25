@@ -204,15 +204,19 @@
 }
 
 .showButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 44px;
   padding: 0 14px;
   background: transparent;
   border: none;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent);
+  color: var(--ink-soft);
   cursor: pointer;
+}
+
+.showButton:hover {
+  color: var(--ink);
 }
 
 .googleBlock {

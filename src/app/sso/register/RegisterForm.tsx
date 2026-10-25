@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import EyeIcon from '../EyeIcon';
 import GoogleButton, { OrDivider } from '../GoogleButton';
 import styles from '../sso.module.css';
 
@@ -26,6 +27,7 @@ export default function RegisterForm(props: RegisterFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [agree, setAgree] = useState(false);
   const [website, setWebsite] = useState('');
   const [error, setError] = useState('');
@@ -137,18 +139,29 @@ export default function RegisterForm(props: RegisterFormProps) {
 
         <div className={styles.field}>
           <label htmlFor="password" className={styles.label}>Password</label>
-          <input
-            id="password"
-            type="password"
-            autoComplete="new-password"
-            minLength={8}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={styles.input}
-            placeholder="At least 8 characters"
-            required
-            disabled={loading}
-          />
+          <div className={styles.passwordBox}>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              autoComplete="new-password"
+              minLength={8}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className={styles.input}
+              placeholder="At least 8 characters"
+              required
+              disabled={loading}
+            />
+            {/* To check what was typed before creating the account */}
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className={styles.showButton}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+            >
+              <EyeIcon shown={showPassword} />
+            </button>
+          </div>
         </div>
 
         <div className={styles.honeypot} aria-hidden="true">

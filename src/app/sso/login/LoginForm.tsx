@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import EyeIcon from '../EyeIcon';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 import GoogleButton, { OrDivider } from '../GoogleButton';
@@ -157,7 +158,7 @@ export default function LoginForm({ appSlug, appName, returnUrl, registerHref, o
               className={styles.showButton}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
-              {showPassword ? 'Hide' : 'Show'}
+              <EyeIcon shown={showPassword} />
             </button>
           </div>
         </div>
