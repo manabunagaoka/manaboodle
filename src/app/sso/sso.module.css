@@ -39,10 +39,47 @@
   max-width: 1184px;
   width: 100%;
   margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
   font-family: var(--font-newsreader), Georgia, serif;
   font-size: 22px;
   font-weight: 500;
   letter-spacing: -0.01em;
+}
+
+/* The app's name, a link to its home page that still looks like a name */
+.page .brandLink {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* "× Back to Forks", opposite the name: the way out to the app */
+.page .backToApp {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px 6px 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: var(--font-karla), system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-decoration: none;
+}
+
+.page .backToApp:hover {
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.backX {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .card {

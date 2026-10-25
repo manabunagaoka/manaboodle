@@ -1,5 +1,5 @@
 import { resolveSsoRequest } from '@/lib/sso-apps';
-import SsoPage, { LinkProblem, first } from '../SsoPage';
+import SsoPage, { LinkProblem, first, homeOf } from '../SsoPage';
 import LoginForm from './LoginForm';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -29,7 +29,7 @@ export default async function SSOLogin({ searchParams }: { searchParams: SearchP
   if (org) registerParams.set('org', org);
 
   return (
-    <SsoPage brand={app.name} appSlug={app.slug}>
+    <SsoPage brand={app.name} appSlug={app.slug} home={homeOf(returnUrl)}>
       <LoginForm
         appSlug={app.slug}
         appName={app.name}

@@ -1,23 +1,37 @@
 import Link from 'next/link'
+import BackToApp from './BackToApp'
 import styles from './sso.module.css'
 
 // The frame every SSO screen shares: the app's name at the top, the content,
-// and the footer with the Terms, Privacy Policy and copyright line.
+// and the footer with the Terms, Privacy Policy and copyright line. Given the
+// app's home page, the name links to it and a "Back to" link sits opposite.
 export default function SsoPage({
   brand,
   appSlug,
+  home,
   children,
 }: {
   brand: string
   // Carried into the Terms and Privacy links so those pages show the same
   // app name as the rest of the journey
   appSlug?: string
+  // The app's home page, from its checked return address
+  home?: string
   children: React.ReactNode
 }) {
   const suffix = appSlug ? `?app=${encodeURIComponent(appSlug)}` : ''
   return (
     <main className={styles.page}>
-      <div className={styles.brand}>{brand}</div>
+      <div className={styles.brand}>
+        {home ? (
+          <a href={home} className={styles.brandLink}>
+            {brand}
+          </a>
+        ) : (
+          brand
+        )}
+        {home && <BackToApp home={home} appName={brand} />}
+      </div>
       {children}
       <div className={styles.spacer} />
       <footer className={styles.footer}>
@@ -44,6 +58,11 @@ export function LinkProblem({ title, message }: { title: string; message: string
       </div>
     </SsoPage>
   )
+}
+
+// An app's home page, from a return address already checked against its list
+export function homeOf(returnUrl: string) {
+  return new URL('/', returnUrl).toString()
 }
 
 export function first(value: string | string[] | undefined): string | undefined {

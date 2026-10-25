@@ -1,6 +1,6 @@
 import { resolveSsoRequest } from '@/lib/sso-apps';
 import { consentText, getActiveOrganiser } from '@/lib/sso-access';
-import SsoPage, { LinkProblem, first } from '../SsoPage';
+import SsoPage, { LinkProblem, first, homeOf } from '../SsoPage';
 import RegisterForm from './RegisterForm';
 import styles from '../sso.module.css';
 
@@ -40,7 +40,7 @@ export default async function SSORegister({ searchParams }: { searchParams: Sear
 
   if (!app.signupOpen) {
     return (
-      <SsoPage brand={app.name} appSlug={app.slug}>
+      <SsoPage brand={app.name} appSlug={app.slug} home={homeOf(returnUrl)}>
         <div className={styles.card}>
           <div className={styles.intro}>
             <h1 className={styles.title}>Registration is by invitation</h1>
@@ -54,7 +54,7 @@ export default async function SSORegister({ searchParams }: { searchParams: Sear
   }
 
   return (
-    <SsoPage brand={app.name} appSlug={app.slug}>
+    <SsoPage brand={app.name} appSlug={app.slug} home={homeOf(returnUrl)}>
       <RegisterForm
         appSlug={app.slug}
         appName={app.name}
