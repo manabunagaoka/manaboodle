@@ -8,8 +8,12 @@ import styles from './sso.module.css'
 // from a link in an email, it goes to the app's home page. A page of its own
 // rather than a box over the app: browsers and Google refuse sign-in forms
 // shown inside another site's page.
-export default function BackToApp({ home, appName }: { home: string; appName: string }) {
+//
+// After signing out, it always goes to the home page: the page they left is
+// usually one that needs them signed in.
+export default function BackToApp({ home, appName, toHome = false }: { home: string; appName: string; toHome?: boolean }) {
   const back = (event: React.MouseEvent) => {
+    if (toHome) return
     try {
       const cameFromApp = document.referrer && new URL(document.referrer).origin === new URL(home).origin
       if (cameFromApp && window.history.length > 1) {

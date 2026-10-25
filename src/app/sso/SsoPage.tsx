@@ -9,6 +9,7 @@ export default function SsoPage({
   brand,
   appSlug,
   home,
+  homeOnly = false,
   children,
 }: {
   brand: string
@@ -17,6 +18,8 @@ export default function SsoPage({
   appSlug?: string
   // The app's home page, from its checked return address
   home?: string
+  // "Back to" goes to that home page, not one step back (after signing out)
+  homeOnly?: boolean
   children: React.ReactNode
 }) {
   const suffix = appSlug ? `?app=${encodeURIComponent(appSlug)}` : ''
@@ -30,7 +33,7 @@ export default function SsoPage({
         ) : (
           brand
         )}
-        {home && <BackToApp home={home} appName={brand} />}
+        {home && <BackToApp home={home} appName={brand} toHome={homeOnly} />}
       </div>
       {children}
       <div className={styles.spacer} />

@@ -1,5 +1,5 @@
 import { resolveSsoRequest } from '@/lib/sso-apps';
-import SsoPage, { first } from '../SsoPage';
+import SsoPage, { first, homeOf } from '../SsoPage';
 import SignOut from './SignOut';
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -18,7 +18,12 @@ export default async function SignedOut({ searchParams }: { searchParams: Search
       : null;
 
   return (
-    <SsoPage brand={app?.name ?? 'Manaboodle'} appSlug={app?.slug}>
+    <SsoPage
+      brand={app?.name ?? 'Manaboodle'}
+      appSlug={app?.slug}
+      home={app && returnUrl ? homeOf(returnUrl) : undefined}
+      homeOnly
+    >
       <SignOut appName={app?.name ?? null} signInHref={signInHref} />
     </SsoPage>
   );
