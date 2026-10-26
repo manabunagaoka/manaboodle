@@ -16,3 +16,13 @@ jobs:
           curl -fsS -X POST '${{ secrets.AUTH_SUPABASE_URL }}/rest/v1/rpc/ping' \
             -H "apikey: ${{ secrets.AUTH_SUPABASE_ANON_KEY }}" \
             -H "Content-Type: application/json"
+
+      # manaboodleapps holds the apps' own tables (Forks, Prosody), so it has
+      # to stay awake too. Same ping, same kind of key, different project.
+      # always(): if the first ping fails, still try this one.
+      - name: Ping Apps Supabase Database
+        if: always()
+        run: |
+          curl -fsS -X POST '${{ secrets.APPS_SUPABASE_URL }}/rest/v1/rpc/ping' \
+            -H "apikey: ${{ secrets.APPS_SUPABASE_ANON_KEY }}" \
+            -H "Content-Type: application/json"
