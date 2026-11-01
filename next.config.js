@@ -2,10 +2,11 @@
 const nextConfig = {
   async redirects() {
     return [
-      // Tools section is hidden until it can feature live tools again.
-      // Code under src/app/tools is kept; remove these to bring it back.
-      { source: '/tools', destination: '/', permanent: false },
-      { source: '/tools/:path*', destination: '/', permanent: false },
+      // The Tools section was replaced by Apps (/apps), which features apps
+      // hosted at their own addresses. Old Tools links land there.
+      // The old code under src/app/tools is kept for reference.
+      { source: '/tools', destination: '/apps', permanent: false },
+      { source: '/tools/:path*', destination: '/apps', permanent: false },
       // Academic Portal is retired. Login, signup, password reset and admin
       // stay reachable because SSO for external apps and emails use them.
       { source: '/academic-portal', destination: '/', permanent: false },

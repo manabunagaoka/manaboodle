@@ -42,7 +42,15 @@ export default function Header() {
           >
             About
           </Link>
-          <Link 
+          <Link
+            href="/apps"
+            className={styles.navLink}
+            data-active={pathname === '/apps' || pathname.startsWith('/apps/')}
+            onClick={closeMobileMenu}
+          >
+            Apps
+          </Link>
+          <Link
             href="/concepts"
             className={styles.navLink}
             data-active={pathname === '/concepts'}

@@ -8,6 +8,27 @@ Engineering debugging notes stay in the `SESSION_NOTES_*.md` files instead.
 
 ---
 
+## October 31, 2026 — Apps section replaces Tools; Forks and Prosody articles
+
+- **Why:** Manaboodle is becoming the home for the apps I release, and later
+  for consulting work. Apps holds things a visitor can open and use. Projects
+  keeps the stories of what I built and learned.
+- **How an app is released:** write an article about it, feature it on the
+  home page, and list it in Apps. The article ends with a button that opens
+  the app at its own address.
+- **What's new:** /apps uses the same card layout as Projects, in Mana pink.
+  Two articles: "Forks" at /apps/forks (opens forks.manaboodle.com), now the
+  featured article on the home page, and "Prosody" at /apps/prosody (opens
+  prosody-8xnp.onrender.com, marked as still being tested). Slurping
+  Manaboodle moves from the featured slot into the grid. Apps is in the
+  header after About, in the footer, and in site search.
+- **Redirects:** /tools and /tools/* now go to /apps instead of the home
+  page. The old Tools code under src/app/tools is kept for reference.
+- **Next in line:** ToddlerLM stays out of Apps until it runs on data cleared
+  for commercial use; its write-up belongs in Projects. hana and flower comes
+  after prosody.
+- **Commit:** the commit that adds this entry.
+
 ## October 24, 2026 — karaokeGoGo audience changed to young adults and students
 
 - **Why:** The page said the platform served children ages 8 to 16. Describing

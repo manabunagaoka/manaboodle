@@ -20,11 +20,15 @@ export default function HomePage() {
       case 'project': return 'Project';
       case 'casestudy': return 'Case Study';
       case 'random': return 'Random';
+      case 'app': return 'App';
       default: return category.charAt(0).toUpperCase() + category.slice(1);
     }
   };
 
   const getArticleUrl = (article: any) => {
+    if (article.category === 'app') {
+      return `/apps/${article.id}`;
+    }
     if (article.id === 'flower') {
       return '/concepts/flower';
     }
@@ -66,6 +70,34 @@ export default function HomePage() {
   };
 
   const getMediaContent = (article: any, featured: boolean) => {
+    if (article.id === 'forks') {
+      return (
+        <Image
+          src="/images/apps/forks.png"
+          alt="Six crowds of people joined by lines, with two people choosing the same path through all of them"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+
+    if (article.id === 'prosody') {
+      return (
+        <Image
+          src="/images/apps/prosody.jpg"
+          alt="A small flower with rainbow petals growing from a crack in an old stone wall"
+          width={featured ? 1200 : 400}
+          height={featured ? 400 : 200}
+          className={featured ? styles.featuredImage : styles.cardImage}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          priority
+        />
+      );
+    }
+
     if (article.id === 'slurping-manaboodle') {
       return (
         <Image
@@ -275,7 +307,7 @@ export default function HomePage() {
   };
 
   // Filter articles to only include the ones you want
-  const allowedArticleIds = ['slurping-manaboodle', 'my-first-english-word', 'stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
+  const allowedArticleIds = ['forks', 'prosody', 'slurping-manaboodle', 'my-first-english-word', 'stories-training-grounds-ai', 'south-africa-to-new-york', 'flower', 'academic-portal', 'synthetic-intelligence-truth', 'childcare-startup-journey', 'ai-nurturing-surrogate-caregivers', 'mangrove-education', 'nanny', 'vibe-coding', 'karaokegogo', 'tools'];
   const filteredArticles = articles.filter(article => allowedArticleIds.includes(article.id));
   
   // Find featured article from the full list first, then check if it's in allowed list

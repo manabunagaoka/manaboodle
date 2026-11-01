@@ -2,7 +2,7 @@ export interface Article {
   id: string;
   title: string;
   excerpt: string;
-  category: 'concept' | 'project' | 'casestudy' | 'random';
+  category: 'concept' | 'project' | 'casestudy' | 'random' | 'app';
   publishedAt: string;
   readTime: number;
   featured: boolean;
@@ -14,13 +14,37 @@ export interface Article {
 // Static article data with manual dates for now
 export const articles: Article[] = [
   {
+    id: 'forks',
+    title: 'Forks',
+    excerpt: 'Six choices, and the people who made them with you. Forks takes a group through six decisions, then shows who walked the same path.',
+    category: 'app',
+    publishedAt: '2026-10-31',
+    readTime: 3,
+    featured: true,
+    slug: 'forks',
+    author: 'Manabu Nagaoka',
+    content: `You make decisions all day, about your career, about the people you care about, or about what to eat for lunch. Then one day, usually when you aren't expecting it, you meet someone or walk into something that changes your life. Forks takes a group of people through a few of those moments together, in a room or on a video call. A session has six forks. Each fork is a question with three choices. Every choice costs something, so none of them is the right answer, and none of them sorts you into a type of person. The choice you make draws a line to the next fork. At the end of the session you see who in the group made the same choices you did. Forks calls that a rhyme. A rhyme lasts as long as two people keep choosing alike, and it ends at the fork where their paths split. Forks is built for people who run group sessions, such as networking events, classes and workshops. Forks app human connection decisions choices rhyme networking workshops classes facilitator organizer group session video call Manaboodle Manabu Nagaoka`
+  },
+  {
+    id: 'prosody',
+    title: 'Prosody',
+    excerpt: 'Everything in a voice except the words. Talk for a minute about someone who changed your life, and get back a ring of petals and a short piece of music.',
+    category: 'app',
+    publishedAt: '2026-10-31',
+    readTime: 2,
+    featured: false,
+    slug: 'prosody',
+    author: 'Manabu Nagaoka',
+    content: `Prosody asks you about someone, or something, that changed your life, and you answer out loud. What comes back is a ring of petals and a short piece of music. Both are made only from how you sounded, so nobody who hears your song can hear what you said. Prosody measures where your voice sits, how far it moves, how fast you speak, how loud, and the pauses between your phrases. The Japanese word ma means the space between. Your recording is measured in memory and then dropped. It is never saved. Prosody is open to try while it is still being tested. Prosody app voice pitch rhythm loudness pauses ma silence music song petals ring story microphone phone Manaboodle Manabu Nagaoka`
+  },
+  {
     id: 'slurping-manaboodle',
     title: 'Slurping Manaboodle',
     excerpt: 'Before AI, I spent nights in Tokyo working on adaptive learning and slurping ramen. Moodle, noodles and doodling all went into a name, and the name got a face. Meet Mana.',
     category: 'random',
     publishedAt: '2026-10-24',
     readTime: 2,
-    featured: true,
+    featured: false,
     slug: 'slurping-manaboodle',
     author: 'Manabu Nagaoka',
     content: `I remember the nights I spent slurping noodles in Owada Yokocho, Tokyo. This was before the AI era, and I was designing an adaptive learning model, a way for a learning platform to adjust to each learner. I mapped out the steps in Moodle, the free, open-source learning management system that many schools use. I lived in a high-rise hotel nearby. At night I would look down over the lights of Tokyo, and when I got stuck, the ramen shops were a few blocks away. There was no chatbot to talk to and no tool to help me build the thing. To me, an algorithm was no different from a bowl of ramen. The noodles stay the same, and what changes is the ingredients and the broth. Years later, I'm at a different stage of life, and I still think about adaptive learning the same way. I don't think anyone has cracked it yet. Khan Academy gave its platform a face with Khanmigo, and Duolingo did the same with Duo. Watching them, I started doodling ideas for a face for Manaboodle. Doodling, Moodle and slurping noodles all went into the name, and the face that came out of it is Mana. Mana's job is to doodle and explore alongside me while I keep working on adaptive learning. Apart from the favorite food, which is noodles, I don't know much else about Mana yet. Come back to see how Mana grows while learning adaptive learning. Manaboodle Mana mascot noodles ramen Tokyo Owada Yokocho adaptive learning personalized learning Moodle LMS learning management system algorithm Khanmigo Khan Academy Duolingo Duo doodling exploring Learning Creative Learning Manabu Nagaoka`

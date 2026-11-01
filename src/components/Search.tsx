@@ -13,6 +13,9 @@ export default function Search() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getArticleUrl = (article: any) => {
+    if (article.category === 'app') {
+      return `/apps/${article.id}`;
+    }
     if (article.id === 'ai-nurturing-surrogate-caregivers') {
       return '/concepts/ai-nurturing';
     }
@@ -46,6 +49,7 @@ export default function Search() {
       case 'project': return 'Project';
       case 'casestudy': return 'Case Study';
       case 'random': return 'Random';
+      case 'app': return 'App';
       default: return category.charAt(0).toUpperCase() + category.slice(1);
     }
   };

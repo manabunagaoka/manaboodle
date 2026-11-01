@@ -141,6 +141,11 @@
   color: white;
 }
 
+.cardCategory[data-category="app"] {
+  background: linear-gradient(135deg, #DB2777, #EC4899);
+  color: white;
+}
+
 .cardCategory[data-category="random"] {
   background: linear-gradient(135deg, #7C3AED, #8B5CF6);
   color: white;
@@ -243,6 +248,11 @@
 
 .readButton[data-category="project"] {
   background: linear-gradient(135deg, #059669, #10B981);
+  color: white;
+}
+
+.readButton[data-category="app"] {
+  background: linear-gradient(135deg, #DB2777, #EC4899);
   color: white;
 }
 
